@@ -1,8 +1,13 @@
+import java.awt.*;
+import java.io.IOException;
+
 public class Main{
 
-    public static void main(String[] args) {
+    public static Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
-        System.out.println("asdf");
+    public static void main(String[] args) throws IOException {
+
+        new Login();
 
     }
 
