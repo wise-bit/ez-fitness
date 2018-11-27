@@ -7,7 +7,8 @@ public class Main{
 
     public static void main(String[] args) throws IOException {
 
-        new Login();
+        // new Login();
+        new Activity();
 
     }
 
