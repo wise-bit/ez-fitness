@@ -1,33 +1,96 @@
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.Line2D;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
-public class Activity extends JFrame{
+public class Activity extends JFrame implements MouseListener, ActionListener {
 
     private JLabel appTitle = new JLabel("Activity Page", SwingConstants.CENTER);
-    private Font font = new Font("Sylfaen", Font.BOLD, 80); // Freestyle Script, Matura MT Script Capitals, French Script MT
+    private String codedName = "";
 
-    public Activity() throws IOException {
+    private Font font = new Font("Consolas", Font.BOLD, 80); // Freestyle Script, Matura MT Script Capitals, French Script MT
+    private JLabel clockface;
+
+    private long start = System.currentTimeMillis();
+    private long temp = start;
+    private long restingTime = 0;
+
+    private Timer timer=new Timer(250, this);
+
+    private boolean clockRunning = false;
+
+    int clock_x = 800;
+    int clock_y = 900-5*900/6;
+    int clock_width = 500;
+    int clock_height = 900 - 2*900/5;
+
+    public Activity(String exerciseName) throws IOException {
+
+        codedName = String.join("-", exerciseName.toLowerCase().split(" "));
+        System.out.println(codedName);
+        timer.start();
 
         setLayout(null);
         setBounds(0, 0, 1440, 900);
+
+        this.getContentPane().setBackground(Color.WHITE);
+
         this.setTitle("EZFitness Pro");
         // setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("EZFitness/res/background.jpg")))));
-        setBackground(Color.RED);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        appTitle.setForeground(Color.BLUE);
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 5);
+        Border titleBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
+
+        appTitle.setForeground(Color.BLACK);
         appTitle.setFont(font);
-        appTitle.setSize(800,(int) (900/5));
+        appTitle.setSize(this.getWidth()-20,(int) (900/10));
+        appTitle.setBorder(titleBorder);
         add(appTitle);
         appTitle.setVisible(true);
 
+//        JPanel middlePanel = new JPanel();
+//        middlePanel.setBorder(new TitledBorder(new EtchedBorder(), "Display Area"));
+//        JTextArea display = new JTextArea(16, 58);
+//        display.setEditable(false); // set textArea non-editable
+//        JScrollPane scroll = new JScrollPane(display);
+//        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//        display.setLineWrap(true);
+//        display.setWrapStyleWord(true);
+//        middlePanel.add(display);
+//        middlePanel.add(scroll);
+//        add(middlePanel);
+
+        JTextArea edit = new JTextArea(10, 100);
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new FileReader(new File("res/descriptions/" + codedName + ".txt")));
+            String str;
+            while ((str = in.readLine()) != null) {
+                edit.append("\n"+str);
+            }
+        } catch (IOException e) {
+        } finally {
+            try { in.close(); } catch (Exception ex) { }
+        }
+        // JScrollPane desc = new JScrollPane(edit);
+        edit.setBounds(100,200,300,300);
+        edit.setEditable(false);
+        edit.setFont(edit.getFont().deriveFont(18f));
+        edit.setBorder(border);
+        getContentPane().add(edit);
 
         // Desktop.getDesktop().open(new File("the.mp4"));
-
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 5);
 
         JLabel gif = new JLabel(new ImageIcon("res/bench-press.gif"));
         gif.setBounds(1440/5, 900-900/4, 1440 - 4*1440/5, 900 - 4*900/5); // migrate to layoutManager
@@ -35,12 +98,16 @@ public class Activity extends JFrame{
         add(gif);
 
         JLabel group = new JLabel(new ImageIcon("res/muscleGroups/chest.jpg"));
-        group.setBounds(20, 900-900/3, 1440 - 4*1440/5, 900 - 5*900/8); // migrate to layoutManager
+        group.setBounds(20, 5*900/8 - 30, 1440 - 4*1440/5, 900 - 5*900/8); // migrate to layoutManager
         add(group);
 
 
-        JLabel clockface = new JLabel(new ImageIcon("res/clockface.jpg"));
-        clockface.setBounds(3*1440/7, 900-5*900/6, 1440 - 2*1440/5, 900 - 2*900/5);
+        clockface = new JLabel(new ImageIcon("res/clockface.jpg"));
+        clockface.setBounds(clock_x, clock_y, clock_width, clock_height);
+        clockface.addMouseListener(this);
+        clockface.setBorder(border);
+        clockface.setOpaque(true);
+        clockface.setBackground(Color.LIGHT_GRAY);
         add(clockface);
 
 
@@ -52,4 +119,88 @@ public class Activity extends JFrame{
 
     }
 
+    public void paint(Graphics g) {
+        super.paint(g);  // fixes the immediate problem.
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(4));
+
+        g.setColor(Color.RED);
+        int secondHand_x = clock_x + clock_width/2 + 5;
+        int secondHand_y = clock_y + clock_height/2 + 30;
+        long later_x = (long) (secondHand_x + 150 * Math.sin(((System.currentTimeMillis() - start - restingTime)*Math.PI/30000)));
+        long later_y = (long) (secondHand_y - 150 * Math.cos(((System.currentTimeMillis() - start - restingTime)*Math.PI/30000)));
+        Line2D lin = new Line2D.Float(secondHand_x, secondHand_y, later_x, later_y);
+        g2.draw(lin);
+
+        g.setColor(Color.BLUE);
+        int hourHand_x = clock_x + clock_width/2 + 5;
+        int hourHand_y = clock_y + clock_height/2 + 30;
+        long later_x2 = (long) (secondHand_x + 100 * Math.sin(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
+        long later_y2 = (long) (secondHand_y - 100 * Math.cos(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
+        Line2D lin2 = new Line2D.Float(hourHand_x, hourHand_y, later_x2, later_y2);
+        g2.draw(lin2);
+
+        System.out.println(restingTime);
+
+        // System.out.println(Math.sin((System.currentTimeMillis() - start)*Math.PI/30000) + ": (" + later_x + "," + later_y + ")" + " --> " + (System.currentTimeMillis() - start)/1000);
+
+
+
+//        Thread background = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i = 0; i <= 50; i++) {
+//                    try {
+//                        Thread.sleep(1000);
+//                    } catch(InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    System.out.println(i);
+//                    // count.setText(Integer.toString(i));
+//                }
+//                // button.setEnabled(true); //click-able after the counter ends
+//            }
+//        });
+//        background.start();
+
+    }
+
+    public void actionPerformed(ActionEvent ev) {
+        if (ev.getSource() == timer && clockRunning) {
+            repaint(); // this will call at every 1 second
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (e.getSource() == clockface) {
+            // JOptionPane.showMessageDialog(null, "\"Stop hittin' me\" - Mr. Clock", "Info", JOptionPane.INFORMATION_MESSAGE);
+            if (clockRunning) {
+                temp = System.currentTimeMillis();
+            } else {
+                restingTime += System.currentTimeMillis() - temp;
+            }
+            clockRunning = !clockRunning;
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }
