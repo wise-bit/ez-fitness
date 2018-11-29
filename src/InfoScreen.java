@@ -32,6 +32,12 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
     private JLabel upLeg = new JLabel();
     private JLabel lowLeg = new JLabel();
 
+    private JLabel armInfo = new JLabel();
+    private JLabel chestInfo = new JLabel();
+    private JLabel absInfo = new JLabel();
+    private JLabel upLegInfo = new JLabel();
+    private JLabel lowLegInfo = new JLabel();
+
     private JButton showHistory = new JButton("Show History");
 
     public static int width = (int) dim.getWidth();
@@ -42,9 +48,11 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
 
     int y = MouseInfo.getPointerInfo().getLocation().y;
 
-    public InfoScreen() {
+    boolean inside = false;
 
-        Border border = BorderFactory.createLineBorder(Color.BLACK, 5);
+    Border border = BorderFactory.createLineBorder(Color.BLACK, 5);
+
+    public InfoScreen() {
 
         setBackground(new Color(57, 173, 189));
         setSize(width, height);
@@ -62,11 +70,11 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
 
         // change location to match image
 
-        arm.setBounds(((width / 2) - 270) + 150, ((height / 2) - 400) + 300, 75, 75);
-        chest.setBounds(((width / 2) - 270) + 250, ((height / 2) - 400) + 300, 75, 75);
-        abs.setBounds(((width / 2) - 270) + 200, ((height / 2) - 400) + 400, 150, 100);
-        upLeg.setBounds(((width / 2) - 270) + 200, ((height / 2) - 400) + 500, 150, 75);
-        lowLeg.setBounds(((width / 2) - 270) + 200, ((height / 2) - 400) + 600, 150, 75);
+        arm.setBounds(((width / 2) - 270) + 60, ((height / 2) - 400) + 180, 120, 225);
+        chest.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 130, 180, 100);
+        abs.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 250, 180, 100);
+        upLeg.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 380, 190, 185);
+        lowLeg.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 580, 190, 165);
 
         arm.setForeground(Color.RED);
         chest.setForeground(Color.RED);
@@ -92,6 +100,21 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         panel.add(upLeg);
         panel.add(lowLeg);
 
+        /*armInfo.setBounds(((width / 2) - 270) + 60, ((height / 2) - 400) + 180, 120, 225);
+        chestInfo.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 130, 180, 100);
+        absInfo.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 250, 180, 100);
+        upLegInfo.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 380, 190, 185);
+        lowLegInfo.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 580, 190, 165);
+        */
+
+
+        armInfo.setBorder(border);
+        chestInfo.setBorder(border);
+        absInfo.setBorder(border);
+
+        lowLegInfo.setBorder(border);
+
+
         showHistory.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
         showHistory.setBounds((width / 10) * 8, (height / 10) * 8, width / 9, height / 11);
         showHistory.addActionListener(this);
@@ -101,7 +124,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
 
         setVisible(true);
 
-        System.out.println("hi");
+        System.out.println("screen built");
 
     }
 
@@ -130,6 +153,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         //code for mouse entering
 
         if (e.getSource() == arm) {
+            arm.setBounds(((width / 2) - 270) - (3 * (width / 10)) - 20, ((height / 2) - 400) - (2 * (height / 10)), 180 + (3 * (width / 10)), 300 + (3 * (height / 10)));
             System.out.println("hi");
 
         }
@@ -142,7 +166,19 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
 
         }
         if (e.getSource() == upLeg) {
-            System.out.println("hi");
+            upLegInfo.setBounds(((width / 2) - 270) - (3 * (width / 10))+ 20, ((height / 2) - 400) + (3 * (height / 10)), 180 + (3 * (width / 10)), 300 + (3 * (height / 10)));
+                    //.setBounds(((width / 2) - 270) - (3 * (width / 10)), ((height / 2) - 400) + (5 * (height / 10)), 180 + (3 * (width / 10)) + 10, 300 + (3 * (height / 10)));
+            upLegInfo.setBorder(border);
+            upLegInfo.setVisible(true);
+            upLegInfo.addMouseListener(this);
+            panel.add(upLegInfo);
+            inside = true;
+            revalidate();
+            repaint();
+
+
+
+            System.out.println("upLeg");
 
         }
         if (e.getSource() == lowLeg) {
@@ -158,6 +194,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         //code for mouse exiting
 
         if (e.getSource() == arm) {
+            arm.setBounds(((width / 2) - 270) + 60, ((height / 2) - 400) + 180, 120, 225);
 
         }
         if (e.getSource() == chest) {
@@ -167,11 +204,30 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
 
         }
         if (e.getSource() == upLeg) {
+            if (inside) {
+
+
+            }else {
+                panel.remove(upLegInfo);
+                revalidate();
+                repaint();
+            }
+
 
         }
         if (e.getSource() == lowLeg) {
 
         }
+
+        if (e.getSource() == upLegInfo) {
+            panel.remove(upLegInfo);
+            inside = false;
+            revalidate();
+            repaint();
+
+
+        }
+
 
     }
 
