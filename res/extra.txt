@@ -1,0 +1,13 @@
+
+
+//        JPanel middlePanel = new JPanel();
+//        middlePanel.setBorder(new TitledBorder(new EtchedBorder(), "Display Area"));
+//        JTextArea display = new JTextArea(16, 58);
+//        display.setEditable(false); // set textArea non-editable
+//        JScrollPane scroll = new JScrollPane(display);
+//        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//        display.setLineWrap(true);
+//        display.setWrapStyleWord(true);
+//        middlePanel.add(display);
+//        middlePanel.add(scroll);
+//        add(middlePanel);
