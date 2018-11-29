@@ -8,7 +8,10 @@ public class Main{
     public static void main(String[] args) throws IOException {
 
         // new Login();
-        new Activity("Bench Press");
+        // new Activity("Bench Press");
+        new InfoScreen();
+
+
 
     }
 
