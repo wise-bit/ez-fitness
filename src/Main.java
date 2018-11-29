@@ -13,6 +13,7 @@ public class Main{
 //        PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
 //        demo.pack();
 //        demo.setVisible(true);
+//       new InfoScreen();
 
     }
 
