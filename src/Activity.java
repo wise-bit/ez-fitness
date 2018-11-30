@@ -12,7 +12,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.concurrent.Flow;
+// import java.util.concurrent.Flow;
 
 public class Activity extends JFrame implements MouseListener, ActionListener {
 
@@ -47,6 +47,8 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         codedName = String.join("-", exerciseName.toLowerCase().split(" "));
         System.out.println(codedName);
         timer.start();
+
+        appTitle.setText(appTitle.getText() + " : " + exerciseName);
 
         setLayout(new java.awt.BorderLayout());
         setBounds(0, 0, (int) Main.dim.getWidth(), (int) Main.dim.getHeight());
