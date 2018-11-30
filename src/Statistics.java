@@ -25,6 +25,14 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
     private Font font = new Font("Consolas", Font.BOLD, 80); // Freestyle Script, Matura MT Script Capitals, French Script MT
     private JComboBox<String> cb;
     String currentExercise = "Overall";
+    String currentOption = "Reps";
+    JFreeChart lineChart;
+    JPanel chartArea;
+
+    private JButton exercise_button;
+    private JButton time_button;
+    private JButton reps_button;
+    private JButton weight_button;
 
     public Statistics() throws IOException {
 
@@ -46,7 +54,7 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         add(appTitle, BorderLayout.PAGE_START);
         //////////////////////////////////////////////////////
 
-        JPanel chartArea = new JPanel();
+        chartArea = new JPanel();
         chartArea.setLayout(new BorderLayout());
 
         PieDataset dataSet = createExerciseDataSet();
@@ -55,16 +63,12 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         myChart.setMouseWheelEnabled(true);
         chartArea.add(myChart, BorderLayout.NORTH);
 
-        JFreeChart lineChart = ChartFactory.createLineChart("Line Graph For Specific Exercise", "Years","Number of Schools", createDataset(), PlotOrientation.VERTICAL, true,true,false);
-        ChartPanel chartPanel = new ChartPanel( lineChart );
-        // chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
-        // setContentPane(chartPanel);
-        chartArea.add(chartPanel);
+        lineChartMaker(currentOption);
 
         add(chartArea, BorderLayout.EAST);
         validate(); // TODO: UPDATE
 
-
+        JPanel leftPanel = new JPanel(new BorderLayout());
 
         // chartArea.setBackground(new Color(255, 243, 160));
 
@@ -74,15 +78,60 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         cb.setVisible(true);
         cb.setSize(2000, cb.getPreferredSize().height);
         userOptions.add(cb);
-        add(userOptions);
-
         cb.addActionListener(this);
+        leftPanel.add(userOptions, BorderLayout.NORTH);
+
+
+        /////////////////////////////////////////////
+
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 10));
+
+        exercise_button = new JButton("EXERCISE");
+        exercise_button.addActionListener(this);
+        exercise_button.setBackground(Color.WHITE);
+        exercise_button.setBorderPainted(false);
+        buttonsPanel.add(exercise_button);
+
+        time_button = new JButton("TIME");
+        time_button.addActionListener(this);
+        time_button.setBackground(Color.WHITE);
+        time_button.setBorderPainted(false);
+        buttonsPanel.add(time_button);
+
+        reps_button = new JButton("REPS");
+        reps_button.addActionListener(this);
+        reps_button.setBackground(Color.WHITE);
+        reps_button.setBorderPainted(false);
+        buttonsPanel.add(reps_button);
+
+        weight_button = new JButton("WEIGHT");
+        weight_button.addActionListener(this);
+        weight_button.setBackground(Color.WHITE);
+        weight_button.setBorderPainted(false);
+        buttonsPanel.add(weight_button);
+
+        /////////////////////////////////////////////
+
+        leftPanel.add(buttonsPanel, BorderLayout.PAGE_END);
+        add(leftPanel, BorderLayout.CENTER);
+        buttonsPanel.setBackground(Color.red);
+
+        /////////////////////////////////////////////
 
         setVisible(true);
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 //        this.setLocation(Main.dim.width/2-this.getSize().width/2, Main.dim.height/2-this.getSize().height/2);
         repaint();
 
+    }
+
+    public void lineChartMaker(String yAxis) {
+        lineChart = ChartFactory.createLineChart("Line Graph For Specific Exercise", "Date", yAxis , createDataset(), PlotOrientation.VERTICAL, true,true,false);
+        ChartPanel chartPanel = new ChartPanel( lineChart );
+        // chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
+        // setContentPane(chartPanel);
+        chartArea.add(chartPanel);
     }
 
 
@@ -190,10 +239,33 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == cb){
             currentExercise = cb.getEditor().getItem().toString();
             System.out.println(currentExercise);
             validate();
         }
+
+        if (e.getSource() == time_button) {
+            currentOption = "Time";
+            validate();
+        }
+        if (e.getSource() == reps_button) {
+            currentOption = "Reps";
+            validate();
+        }
+        if (e.getSource() == weight_button) {
+            currentOption = "Weight";
+            lineChartMaker(currentOption);
+        }
+
     }
+
+    public void refresh() {
+        invalidate();
+        validate();
+        repaint();
+    }
+
+
 }
