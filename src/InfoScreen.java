@@ -9,6 +9,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -73,7 +75,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         arm.setBounds(((width / 2) - 270) + 60, ((height / 2) - 400) + 180, 120, 225);
         chest.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 130, 180, 100);
         abs.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 250, 180, 100);
-        upLeg.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 380, 190, 185);
+        upLeg.setBounds(((width / 2) - 270) + 130, ((height / 2) - 400) + 380, 190, 185);
         lowLeg.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 580, 190, 165);
 
         arm.setForeground(Color.RED);
@@ -158,24 +160,30 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
 
         }
         if (e.getSource() == chest) {
+            chest.setBounds(((width / 2) - 270) + (1 * (width / 10)) - 20, ((height / 2) - 400) - (2 * (height / 10) ), 180 + (3 * (width / 10)), 250 + (3 * (height / 10)));
             System.out.println("hi");
 
         }
         if (e.getSource() == abs) {
             System.out.println("hi");
+            abs.setBounds(((width / 2) - 270) + (1 * (width / 10)) - 20, ((height / 2) - 400) - (2 * (height / 10) - 250), 180 + (3 * (width / 10)), 250 + (3 * (height / 10)));
+
 
         }
         if (e.getSource() == upLeg) {
+
+            upLeg.setBounds(((width / 2) - 270) - 420, ((height / 2) - 400) + 380,280 + (2 * (width / 10)), 270 + (2 * (height / 10)));
+
+            /*
             upLegInfo.setBounds(((width / 2) - 270) - (3 * (width / 10))+ 20, ((height / 2) - 400) + (3 * (height / 10)), 180 + (3 * (width / 10)), 300 + (3 * (height / 10)));
                     //.setBounds(((width / 2) - 270) - (3 * (width / 10)), ((height / 2) - 400) + (5 * (height / 10)), 180 + (3 * (width / 10)) + 10, 300 + (3 * (height / 10)));
             upLegInfo.setBorder(border);
             upLegInfo.setVisible(true);
             upLegInfo.addMouseListener(this);
             panel.add(upLegInfo);
-            inside = true;
             revalidate();
             repaint();
-
+            */
 
 
             System.out.println("upLeg");
@@ -184,7 +192,12 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         if (e.getSource() == lowLeg) {
             System.out.println("hi");
 
-        }
+            lowLeg.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 580,190 + (2 * (width / 10)), 150 + (2 * (height / 10)));
+
+
+        }/*if (e.getSource() == upLegInfo){
+            inside = true;
+        }*/
 
     }
 
@@ -198,37 +211,57 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
 
         }
         if (e.getSource() == chest) {
-
+            chest.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 130, 180, 100);
         }
         if (e.getSource() == abs) {
+            abs.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 250, 180, 100);
 
         }
         if (e.getSource() == upLeg) {
-            if (inside) {
+
+            upLeg.setBounds(((width / 2) - 270) + 130, ((height / 2) - 400) + 380, 190, 185);
+
+            /*if (inside) {
 
 
             }else {
+                inside = false;
                 panel.remove(upLegInfo);
                 revalidate();
                 repaint();
-            }
+            }*/
 
 
         }
         if (e.getSource() == lowLeg) {
 
+            lowLeg.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 580, 190, 165);
+
         }
 
-        if (e.getSource() == upLegInfo) {
+        /*if (e.getSource() == upLegInfo) {
             panel.remove(upLegInfo);
             inside = false;
             revalidate();
             repaint();
 
 
-        }
+        }*/
 
 
     }
+
+
+
+    //https://www.youtube.com/watch?v=DVWpgrCaAjA
+
+    public void paint(Graphics g) {
+
+        super.paint(g);
+
+
+
+    }
+
 
 }
