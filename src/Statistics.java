@@ -11,10 +11,7 @@ import org.jfree.util.Rotation;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -28,11 +25,14 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
     String currentOption = "Reps";
     JFreeChart lineChart;
     JPanel chartArea;
+    ChartPanel chartPanel;
+    JList list;
 
     private JButton exercise_button;
     private JButton time_button;
     private JButton reps_button;
     private JButton weight_button;
+    private JButton back;
 
     public Statistics() throws IOException {
 
@@ -58,40 +58,54 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         chartArea.setLayout(new BorderLayout());
 
         PieDataset dataSet = createExerciseDataSet();
-        JFreeChart chart = createChart(dataSet, "Pie Chart!"); // TODO: UPDATE
+        JFreeChart chart = createChart(dataSet, "Part Of Body Involved"); // TODO: UPDATE
         ChartPanel myChart = new ChartPanel(chart);
         myChart.setMouseWheelEnabled(true);
         chartArea.add(myChart, BorderLayout.NORTH);
 
-        lineChartMaker(currentOption);
+        lineChartMaker();
 
         add(chartArea, BorderLayout.EAST);
         validate(); // TODO: UPDATE
 
         JPanel leftPanel = new JPanel(new BorderLayout());
+        JLabel question = new JLabel("Please select an optiton to show its graph:", SwingConstants.CENTER);
+        question.setFont(new Font("Arial",Font.BOLD,18));
 
         // chartArea.setBackground(new Color(255, 243, 160));
 
-        JPanel userOptions = new JPanel();
-        String[] choices =  generateChoices();
-        cb = new JComboBox<String>(choices);
-        cb.setVisible(true);
-        cb.setSize(2000, cb.getPreferredSize().height);
-        userOptions.add(cb);
-        cb.addActionListener(this);
-        leftPanel.add(userOptions, BorderLayout.NORTH);
+//        JPanel userOptions = new JPanel();
+//        cb = new JComboBox<String>(choices);
+//        cb.setBounds(30, 20, 500, 15);
+//        cb.setSize(2000, cb.getPreferredSize().height);
+//        userOptions.add(cb, BorderLayout.CENTER);
+//        cb.setVisible(true);
+//        cb.addActionListener(this);
+//        leftPanel.add(userOptions, BorderLayout.CENTER);
 
+        String[] choices =  generateChoices();
+        list = new JList(choices);
+        list.addMouseListener(this);
+        list.setFont(new Font("Arial",Font.BOLD,18));
+        // JScrollPane scrollableList = new JScrollPane(list);
+        // scrollableList.getViewport().addChangeListener();
+        list.setVisible(true);
+
+        leftPanel.setBackground(new Color(255, 243, 160));
+
+        leftPanel.add(question, BorderLayout.NORTH);
+        leftPanel.add(list, BorderLayout.CENTER);
 
         /////////////////////////////////////////////
 
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 10));
 
-        exercise_button = new JButton("EXERCISE");
-        exercise_button.addActionListener(this);
-        exercise_button.setBackground(Color.WHITE);
-        exercise_button.setBorderPainted(false);
-        buttonsPanel.add(exercise_button);
+//        exercise_button = new JButton("EXERCISE");
+//        exercise_button.addActionListener(this);
+//        exercise_button.setBackground(Color.WHITE);
+//        exercise_button.setBorderPainted(false);
+//        buttonsPanel.add(exercise_button);
 
         time_button = new JButton("TIME");
         time_button.addActionListener(this);
@@ -111,6 +125,15 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         weight_button.setBorderPainted(false);
         buttonsPanel.add(weight_button);
 
+        buttonsPanel.add(Box.createRigidArea(new Dimension(20,0)));
+
+        back = new JButton("BACK");
+        back.addActionListener(this);
+        back.setBackground(Color.BLACK);
+        back.setForeground(Color.WHITE);
+        back.setBorderPainted(false);
+        buttonsPanel.add(back);
+
         /////////////////////////////////////////////
 
         leftPanel.add(buttonsPanel, BorderLayout.PAGE_END);
@@ -126,9 +149,14 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
 
     }
 
-    public void lineChartMaker(String yAxis) {
-        lineChart = ChartFactory.createLineChart("Line Graph For Specific Exercise", "Date", yAxis , createDataset(), PlotOrientation.VERTICAL, true,true,false);
-        ChartPanel chartPanel = new ChartPanel( lineChart );
+    public void lineChartMaker() {
+        try {
+            chartArea.remove(chartPanel);
+        } catch (Exception e) {
+
+        }
+        lineChart = ChartFactory.createLineChart("Line Graph For: " + currentExercise, "Date", currentOption , createDataset(), PlotOrientation.VERTICAL, true,true,false);
+        chartPanel = new ChartPanel( lineChart );
         // chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
         // setContentPane(chartPanel);
         chartArea.add(chartPanel);
@@ -138,13 +166,13 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
     //// Helper classes
 
     public String[] generateChoices() throws IOException {
-        String[] list = new String[countLines("res/exercises.txt")];
-        File exerciseList = new File("res/exercises.txt");
+        String[] list = new String[countLines("res/database/exercises.csv")];
+        File exerciseList = new File("res/database/exercises.csv");
         Scanner reader = new Scanner(exerciseList);
         int pos = 0;
         while (reader.hasNextLine()){
-            String current = reader.nextLine();
-            list[pos] = current;
+            String[] current = reader.nextLine().split(",");
+            list[pos] = current[0];
             pos++;
         }
         return list;
@@ -214,7 +242,11 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if (e.getSource() == list) {
+            currentExercise = list.getSelectedValue().toString();
+            lineChartMaker();
+            chartArea.validate();
+        }
     }
 
     @Override
@@ -248,15 +280,23 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
 
         if (e.getSource() == time_button) {
             currentOption = "Time";
-            validate();
+            lineChartMaker();
+            chartArea.validate();
         }
         if (e.getSource() == reps_button) {
             currentOption = "Reps";
-            validate();
+            lineChartMaker();
+            chartArea.validate();
         }
         if (e.getSource() == weight_button) {
             currentOption = "Weight";
-            lineChartMaker(currentOption);
+            lineChartMaker();
+            chartArea.validate();
+        }
+
+        if (e.getSource() == back) {
+            this.setVisible(false);
+            new InfoScreen();
         }
 
     }

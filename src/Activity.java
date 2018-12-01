@@ -12,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 // import java.util.concurrent.Flow;
 
 public class Activity extends JFrame implements MouseListener, ActionListener {
@@ -25,6 +27,8 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private long start = System.currentTimeMillis();
     private long temp = start;
     private long restingTime = 0;
+
+    private String date;
 
     private Timer timer=new Timer(1000, this);
     private int extraTimer = 0;
@@ -46,6 +50,13 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         codedName = String.join("-", exerciseName.toLowerCase().split(" "));
         System.out.println(codedName);
+
+        String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        date = simpleDateFormat.format(new Date());
+
+        System.out.println(date);
+
         timer.start();
 
         appTitle.setText(appTitle.getText() + " : " + exerciseName);

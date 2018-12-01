@@ -1,23 +1,13 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.MouseInfo;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.io.IOException;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.Border;
 
 public class InfoScreen extends JFrame implements ActionListener, MouseListener {
@@ -41,6 +31,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
     private JLabel lowLegInfo = new JLabel();
 
     private JButton showHistory = new JButton("Show History");
+    private JButton exit = new JButton("EXIT");
 
     public static int width = (int) dim.getWidth();
 
@@ -59,7 +50,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         setBackground(new Color(57, 173, 189));
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null);
+        // setLayout(null);
 
         panel.setBounds(0, 0, width, height);
         panel.setBackground(Color.WHITE);
@@ -116,21 +107,57 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
 
         lowLegInfo.setBorder(border);
 
+        // TODO: Backup
+
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (Main.dim.getWidth()/2-300), 0));
+        buttons.setBackground(Color.WHITE);
+
+        exit.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        exit.setPreferredSize(new Dimension(220, 50));
+        exit.setMinimumSize(new Dimension(220, 50));
+        exit.setMaximumSize(new Dimension(220, 50));
+        exit.setBackground(Color.BLUE);
+        exit.setForeground(Color.WHITE);
+        exit.setBorderPainted(false);
+        exit.addActionListener(this);
+        buttons.add(exit);
 
         showHistory.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
-        showHistory.setBounds((width / 10) * 8, (height / 10) * 8, width / 9, height / 11);
+        showHistory.setPreferredSize(new Dimension(220, 50));
+        showHistory.setMinimumSize(new Dimension(220, 50));
+        showHistory.setMaximumSize(new Dimension(220, 50));
+        showHistory.setBackground(Color.BLUE);
+        showHistory.setForeground(Color.WHITE);
+        showHistory.setBorderPainted(false);
         showHistory.addActionListener(this);
-        add(showHistory);
+        buttons.add(showHistory);
 
-        // .addMouseListener(this);
+        add(buttons, BorderLayout.PAGE_END);
 
         setVisible(true);
+        setVisible(true);
+        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        repaint();
 
         System.out.println("screen built");
 
     }
 
     public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == showHistory) {
+            try {
+                this.setVisible(false);
+                new Statistics();
+            } catch (IOException e1) { e1.printStackTrace(); }
+        }
+        if (e.getSource() == exit) {
+            try {
+                this.setVisible(false);
+                new Login();
+            } catch (IOException e1) { e1.printStackTrace(); }
+        }
 
     }
 
