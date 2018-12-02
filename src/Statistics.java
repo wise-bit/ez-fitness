@@ -87,14 +87,14 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         list = new JList(choices);
         list.addMouseListener(this);
         list.setFont(new Font("Arial",Font.BOLD,18));
-        // JScrollPane scrollableList = new JScrollPane(list);
+        JScrollPane scrollableList = new JScrollPane(list);
         // scrollableList.getViewport().addChangeListener();
-        list.setVisible(true);
+        scrollableList.setVisible(true);
 
         leftPanel.setBackground(new Color(255, 243, 160));
 
         leftPanel.add(question, BorderLayout.NORTH);
-        leftPanel.add(list, BorderLayout.CENTER);
+        leftPanel.add(scrollableList, BorderLayout.CENTER);
 
         /////////////////////////////////////////////
 

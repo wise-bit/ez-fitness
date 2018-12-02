@@ -11,6 +11,7 @@ public class Main{
 
     public static Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     public static String currentUser = "";
+    public static String[] currentInformation;
     public static String date;
     public static ArrayList<String> nameList = new ArrayList<String>();
 
@@ -19,7 +20,7 @@ public class Main{
         init();
 
         // new Login();
-        new Activity("Barbell Curls");
+        new Activity("Incline Dumbbell Skullcrushers");
         // new Statistics();
         // new NewUser(nameList).setVisible(true);
         // new InfoScreen();

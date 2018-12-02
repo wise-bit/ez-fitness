@@ -9,8 +9,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 // import java.util.concurrent.Flow;
 
 public class Activity extends JFrame implements MouseListener, ActionListener {
@@ -34,12 +37,21 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private JButton sec60;
     private JButton reset;
 
+    private JButton link;
+
+    private JPanel inputPlace;
+    private JTextField reps = new JTextField();
+    private JTextField timeInput = new JTextField();
+    public JLabel repsq=new JLabel("Reps:");
+    public JLabel timeInputq=new JLabel("Time:");
+    public JButton enter = new JButton("Enter");
+
     private boolean clockRunning = false;
 
     int clock_x = 800;
     int clock_y = 900-5*900/6;
     int clock_width = 500;
-    int clock_height = 900 - 2*900/5;
+    int clock_height = 540;
 
     public Activity(String exerciseName) throws IOException {
 
@@ -75,10 +87,22 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         // appTitle.setVisible(true);
         ///////////////////////////////////////////////////////////////////////////////////
 
+        JPanel elements = new JPanel();
+        elements.setLayout(new BorderLayout());
+
         ///////////////////////////////////////////////////////////////////////////////////
+
+        JPanel description_parts = new JPanel();
+        description_parts.setLayout(new BoxLayout(description_parts, BoxLayout.PAGE_AXIS));
+
+        JLabel description = new JLabel("Description:", SwingConstants.CENTER);
+        description.setFont(new Font("Arial",Font.BOLD,18));
+        description_parts.add(description);
+
         JTextArea edit = new JTextArea(10, 100);
         edit.setLineWrap(true);
         edit.setWrapStyleWord(true);
+        // edit.setSize(new Dimension(200, edit.getHeight()));
         BufferedReader in = null;
         try {
             in = new BufferedReader(new FileReader(new File("res/descriptions/" + exerciseName + ".txt")));
@@ -87,38 +111,69 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
                 edit.append("\n"+str);
             }
         } catch (IOException e) {
+            edit.append("No description listed, please refer to the video.");
         } finally {
-            try { in.close(); } catch (Exception ex) { }
+            try {
+                in.close();
+            } catch (Exception ex) {
+
+            }
         }
-        JScrollPane desc = new JScrollPane(edit);
-        desc.setBounds(100,200,600,300);
         edit.setEditable(false);
         edit.setFont(edit.getFont().deriveFont(18f));
+        JScrollPane desc = new JScrollPane(edit);
+        desc.setPreferredSize(new Dimension(640, 200));
+        desc.setMinimumSize(new Dimension(640, 200));
+        desc.setMaximumSize(new Dimension(640, 200));
+        // desc.setBounds(100,200,600,300);
         desc.setBorder(border);
-        getContentPane().add(desc);
+        description_parts.add(desc);
+
+        description_parts.add(Box.createRigidArea(new Dimension(20,50)));
         ///////////////////////////////////////////////////////////////////////////////////
 
+        elements.add(description_parts, BorderLayout.NORTH);
+
         ///////////////////////////////////////////////////////////////////////////////////
+
+        JPanel exerciseMedia = new JPanel();
+        exerciseMedia.setLayout(new FlowLayout(FlowLayout.CENTER, Main.dim.width/85, 0));
+
         // Desktop.getDesktop().open(new File("the.mp4"));
         if (new File("res/GIFs/" + exerciseName + ".gif").exists()) {
             JLabel gif = new JLabel(new ImageIcon("res/GIFs/" + exerciseName + ".gif"));
-            gif.setBounds(1440 / 5, 900 - 900 / 4, 1440 - 4 * 1440 / 5, 900 - 4 * 900 / 5); // migrate to layoutManager
+            // gif.setBounds(1440 / 5, 900 - 900 / 4, 1440 - 4 * 1440 / 5, 900 - 4 * 900 / 5); // migrate to layoutManager
             gif.setBorder(border);
-            add(gif);
+            exerciseMedia.add(gif);
         } else {
             System.out.println("No file");
-
             String s = null;
-
             try {
                 Process p = Runtime.getRuntime().exec("lib/python/pythonw.exe src/main.py \"" + exerciseName + "\"");
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
-                // System.out.println("Here is the standard output of the command:\n");
+                String x = "";
                 while ((s = stdInput.readLine()) != null) {
-                    System.out.println(s);
+                    x = s;
                 }
+                System.out.println(x);
+
+                JPanel linkystuff = new JPanel(new BorderLayout());
+
+                JLabel linkInfo = new JLabel("Here's a helpful link!", SwingConstants.CENTER);
+                linkInfo.setVisible(true);
+                linkystuff.add(linkInfo, BorderLayout.NORTH);
+
+                link = new JButton(x);
+                link.setVisible(true);
+                link.setBorderPainted( false );
+                link.setBackground(Color.WHITE);
+                link.setBorder(border);
+                link.addActionListener(this);
+                linkystuff.add(link, BorderLayout.SOUTH);
+
+                exerciseMedia.add(linkystuff);
 
 //                System.out.println("Here is the standard error of the command (if any):\n");
 //                while ((s = stdError.readLine()) != null) {
@@ -134,12 +189,46 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         }
         ///////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////
+        JLabel group = new JLabel(new ImageIcon("res/muscleGroups/" + getBodypart(exerciseName) + ".jpg"));
+        exerciseMedia.add(group);
+        ///////////////////////////////////////////////////////////////////////////////////
+        elements.add(exerciseMedia, BorderLayout.CENTER);
 
-        ///////////////////////////////////////////////////////////////////////////////////
-        JLabel group = new JLabel(new ImageIcon("res/muscleGroups/chest.jpg"));
-        group.setBounds(20, 5*900/8 - 30, 1440 - 4*1440/5, 900 - 5*900/8); // migrate to layoutManager
-        add(group);
-        ///////////////////////////////////////////////////////////////////////////////////
+        inputPlace = new JPanel();
+        // inputPlace.setLayout(new BoxLayout(inputPlace, BoxLayout.PAGE_AXIS));
+        inputPlace.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
+
+        inputPlace.add(repsq);
+        reps.setPreferredSize(new Dimension(220, 30));
+        reps.setMinimumSize(new Dimension(220, 30));
+        reps.setMaximumSize(new Dimension(220, 30));
+        reps.setMaximumSize( reps.getPreferredSize() );
+        inputPlace.add(reps);
+
+        inputPlace.add(timeInputq);
+        timeInput.setPreferredSize(new Dimension(220, 30));
+        timeInput.setMinimumSize(new Dimension(220, 30));
+        timeInput.setMaximumSize(new Dimension(220, 30));
+        timeInput.setMaximumSize( timeInput.getPreferredSize() );
+        inputPlace.add(timeInput);
+
+        inputPlace.add(Box.createRigidArea(new Dimension(20,10)));
+
+        enter.setPreferredSize(new Dimension(100, 25));
+        enter.setMinimumSize(new Dimension(100, 25));
+        enter.setMaximumSize(new Dimension(100, 25));
+        enter.setBackground(Color.WHITE);
+        enter.setBorderPainted(false);
+        enter.addActionListener(this);
+        inputPlace.add(enter);
+
+        inputPlace.setBackground(Color.ORANGE);
+        elements.add(inputPlace, BorderLayout.PAGE_END);
+
+
+        add(elements, BorderLayout.CENTER);
+
 
         ///////////////////////////////////////////////////////////////////////////////////
         clockface = new JLabel(new ImageIcon("res/clockface.jpg"));
@@ -214,6 +303,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         g.setColor(Color.BLUE);
         int hourHand_x = clockface.getX() + clock_width/2 + 10;
+        System.out.println(clockface.getY());
         int hourHand_y = clockface.getY() + clock_height/2 + 145;
         long later_x2 = (long) (secondHand_x + 150 * Math.sin(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
         long later_y2 = (long) (secondHand_y - 150 * Math.cos(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
@@ -242,6 +332,26 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         }
         if (ev.getSource() == reset) {
             extraTimer = 0;
+        }
+
+        if (ev.getSource() == link) {
+            try {
+                Desktop.getDesktop().browse(new URI(link.getText()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (ev.getSource() == enter) {
+            String reps_string = reps.getText();
+            String time_string = timeInput.getText();
+
+            if (!reps_string.equals("") && !time_string.equals("")) {
+                System.out.println(reps_string + " " + time_string);
+            } else {
+                JOptionPane.showMessageDialog(null, "Please input all fields!");
+            }
+
         }
     }
 
@@ -276,5 +386,22 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public static String getBodypart(String exerciseName) {
+        File file = new File("res/database/exercises.csv");
+        try {
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String[] line = reader.nextLine().split(",");
+                if (line[0].equals(exerciseName)) {
+                    return line[1];
+                }
+            }
+        } catch (FileNotFoundException e) {
+            // e.printStackTrace();
+            System.out.println("Userinfo file not found!");
+        }
+        return null;
     }
 }

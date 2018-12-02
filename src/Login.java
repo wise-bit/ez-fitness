@@ -35,6 +35,7 @@ public class Login extends JFrame implements ActionListener {
     public ArrayList<String> heightlist = new ArrayList<String>();
     public ArrayList<String> weightlist = new ArrayList<String>();
     public ArrayList<String> agelist = new ArrayList<String>();
+    public ArrayList<String> intensitylist = new ArrayList<String>();
     public JLabel userq=new JLabel("Username:");
     public JLabel passq=new JLabel("Password:");
     public int playerno;
@@ -153,7 +154,6 @@ public class Login extends JFrame implements ActionListener {
         try {
             data = new Scanner(new File("res/database/userInfo.csv"));
             data.useDelimiter(",");
-            data.nextLine();
             while (data.hasNext()) {
                 a=data.next().replace("\n","");
                 a=a.replace("\r","");
@@ -162,6 +162,7 @@ public class Login extends JFrame implements ActionListener {
                 heightlist.add(data.next());
                 weightlist.add(data.next());
                 agelist.add(data.next());
+                intensitylist.add(data.next());
 
 
             }
@@ -186,7 +187,8 @@ public class Login extends JFrame implements ActionListener {
                         playerno=i;
 
                         Main.currentUser = username.getText();
-                        System.out.println(Main.currentUser);
+                        Main.currentInformation = fetchUserInformation();
+                        System.out.println(Arrays.toString(Main.currentInformation));
 
                         information.add(enter);
                         validate();
@@ -215,4 +217,22 @@ public class Login extends JFrame implements ActionListener {
         }
 
     }
+
+    public static String[] fetchUserInformation() {
+        File file = new File("res/database/userInfo.csv");
+        try {
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String[] line = reader.nextLine().split(",");
+                if (line[0].equals(Main.currentUser)) {
+                    return line;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            // e.printStackTrace();
+            System.out.println("Userinfo file not found!");
+        }
+        return null;
+    }
+
 }
