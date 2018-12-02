@@ -1,9 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.MouseInfo;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -12,11 +7,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -221,6 +215,20 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         backBox.setBorder(border);
         arm2Box.setBorder(border);
         legBox.setBorder(border);
+
+        JPanel buttons = new JPanel();
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (Main.dim.getWidth()/2-300), 10));
+        buttons.setBackground(Color.WHITE);
+
+        exit.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        exit.setPreferredSize(new Dimension(220, 50));
+        exit.setMinimumSize(new Dimension(220, 50));
+        exit.setMaximumSize(new Dimension(220, 50));
+        exit.setBackground(Color.RED);
+        exit.setForeground(Color.WHITE);
+        exit.setBorderPainted(false);
+        exit.addActionListener(this);
+        buttons.add(exit);
 
         showHistory.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
         showHistory.setPreferredSize(new Dimension(220, 50));
@@ -466,7 +474,6 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
              * if (inside) { }else { inside = false; panel.remove(arm2Box); revalidate();
              * repaint(); }
              */
-    }
 
         }
         if (e.getSource() == leg) {

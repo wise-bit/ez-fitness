@@ -207,7 +207,7 @@ public class Login extends JFrame implements ActionListener {
         }
         if (arg0.getSource() == enter) {
             this.setVisible(false);
-            new InfoScreen().setVisible(true);
+            new InfoScreen2().setVisible(true);
             // dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
         if (arg0.getSource() == newusers){
