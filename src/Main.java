@@ -20,7 +20,7 @@ public class Main{
         init();
 
         new Login();
-        // new Activity("Incline Dumbbell Skullcrushers");
+        new Activity("Incline Dumbbell Skullcrushers");
         // new Statistics();
         // new NewUser(nameList).setVisible(true);
         // new InfoScreen();

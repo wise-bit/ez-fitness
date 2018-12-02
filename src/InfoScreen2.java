@@ -84,7 +84,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
     private JButton showHistory = new JButton("Show History");
 
-    public static int width = (int) dim.getWidth() - 400;
+    public static int width = (int) dim.getWidth() - 200;
 
     public static int height = (int) dim.getHeight();
 
@@ -102,7 +102,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     public InfoScreen2() {
 
         try {
-            Scanner input = new Scanner(new File("res/exersises.csv"));
+            Scanner input = new Scanner(new File("res/database/exercises.csv"));
             // input.useDelimiter(",");
 
             while (input.hasNextLine()) {
@@ -110,40 +110,28 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
                 String[] temp = input.nextLine().split(",");
 
                 if (temp[1].equals("legs")) {
-
                     legsList.add(temp[0]);
                     System.out.println("legs added " + temp[0]);
-
                 }
                 if (temp[1].equals("back")) {
-
                     backList.add(temp[0]);
                     System.out.println("back added " + temp[0]);
-
                 }
                 if (temp[1].equals("shoulders")) {
-
                     shouldersList.add(temp[0]);
                     System.out.println("shoulders added " + temp[0]);
-
                 }
                 if (temp[1].equals("chest")) {
-
                     chestList.add(temp[0]);
                     System.out.println("chest added " + temp[0]);
-
                 }
                 if (temp[1].equals("biceps")) {
-
                     bicepsList.add(temp[0]);
                     System.out.println("bisceps added " + temp[0]);
-
                 }
                 if (temp[1].equals("triceps")) {
-
                     tricepsList.add(temp[0]);
                     System.out.println("triceps added " + temp[0]);
-
                 }
 
             }
@@ -161,13 +149,13 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
 
-        panel.setBounds(0, 0, width1 - 400, height);
+        panel.setBounds(0, 0, width1 - 200, height);
         panel.setBackground(Color.WHITE);
         panel.setLayout(null);
         panel.setBorder(border);
         add(panel);
 
-        panel2.setBounds(width1 - 400, 0, 390, height - 400);
+        panel2.setBounds(width1 - 200, 0, 390, height);
         panel2.setBackground(Color.WHITE);
         panel2.setLayout(new BorderLayout());
         panel2.setBorder(border);
@@ -175,16 +163,16 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
 
         body.setIcon(new ImageIcon(new ImageIcon("res/FitBody.png").getImage().getScaledInstance(543, 800, 0)));
-        body.setBounds((width / 2) - 270, (height / 2) - 400, 543, 800);
+        body.setBounds((width / 2) - 270, (height / 2) - 200, 543, 800);
         panel.add(body);
 
         // change location to match image
 
-        arm.setBounds(((width / 2) - 270) + 60, ((height / 2) - 400) + 180, 120, 225);
-        chest.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 130, 180, 100);
-        back.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 250, 180, 100);
-        arm2.setBounds(((width / 2) - 270) + 360, ((height / 2) - 400) + 180, 120, 225);
-        leg.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) + 420, 190, 165);
+        arm.setBounds(((width / 2) - 270) + 60, ((height / 2) - 200) + 180, 120, 225);
+        chest.setBounds(((width / 2) - 270) + 180, ((height / 2) - 200) + 130, 180, 100);
+        back.setBounds(((width / 2) - 270) + 180, ((height / 2) - 200) + 250, 180, 100);
+        arm2.setBounds(((width / 2) - 270) + 360, ((height / 2) - 200) + 180, 120, 225);
+        leg.setBounds(((width / 2) - 270) + 180, ((height / 2) - 200) + 420, 190, 165);
 
 //		chest.setLayout(new BorderLayout());
 //		JPanel chestRight = new JPanel();
@@ -219,12 +207,12 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         panel.add(leg);
 
         /*
-         * armBox.setBounds(((width / 2) - 270) + 60, ((height / 2) - 400) + 180, 120,
-         * 225); chestBox.setBounds(((width / 2) - 270) + 180, ((height / 2) - 400) +
+         * armBox.setBounds(((width / 2) - 270) + 60, ((height / 2) - 200) + 180, 120,
+         * 225); chestBox.setBounds(((width / 2) - 270) + 180, ((height / 2) - 200) +
          * 130, 180, 100); backBox.setBounds(((width / 2) - 270) + 180, ((height / 2) -
-         * 400) + 250, 180, 100); arm2Box.setBounds(((width / 2) - 270) + 180, ((height
-         * / 2) - 400) + 380, 190, 185); legBox.setBounds(((width / 2) - 270) + 180,
-         * ((height / 2) - 400) + 580, 190, 165);
+         * 200) + 250, 180, 100); arm2Box.setBounds(((width / 2) - 270) + 180, ((height
+         * / 2) - 200) + 380, 190, 185); legBox.setBounds(((width / 2) - 270) + 180,
+         * ((height / 2) - 200) + 580, 190, 165);
          */
 
         armBox.setBorder(border);
@@ -254,6 +242,9 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
         System.out.println("screen built");
 
+        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        repaint();
+
     }
 
 
@@ -268,9 +259,9 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             panel2.removeAll();
 
-            armText.setFont(new Font("Arial",Font.BOLD,40));
+            armText.setFont(new Font("Arial",Font.BOLD,20));
             armText.setVisible(true);
-            armTitle.setFont(new Font("Arial",Font.BOLD,40));
+            armTitle.setFont(new Font("Arial",Font.BOLD,20));
             armTitle.setVisible(true);
             panel2.add(armTitle, BorderLayout.NORTH);
             panel2.add(armText, BorderLayout.CENTER);
@@ -286,11 +277,11 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             System.out.println("in chest");
 
-            chestText.setFont(new Font("Arial",Font.BOLD,40));
+            chestText.setFont(new Font("Arial",Font.BOLD,20));
             chestText.setVisible(true);
-            shouldersText.setFont(new Font("Arial",Font.BOLD,40));
+            shouldersText.setFont(new Font("Arial",Font.BOLD,20));
             shouldersText.setVisible(true);
-            chestTitle.setFont(new Font("Arial",Font.BOLD,40));
+            chestTitle.setFont(new Font("Arial",Font.BOLD,20));
             chestTitle.setVisible(true);
 
             panel2.add(chestTitle, BorderLayout.NORTH);
@@ -307,9 +298,9 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             panel2.removeAll();
             System.out.println("in back");
 
-            backText.setFont(new Font("Arial",Font.BOLD,40));
+            backText.setFont(new Font("Arial",Font.BOLD,20));
             backText.setVisible(true);
-            backTitle.setFont(new Font("Arial",Font.BOLD,40));
+            backTitle.setFont(new Font("Arial",Font.BOLD,20));
             backTitle.setVisible(true);
             panel2.add(backTitle, BorderLayout.NORTH);
             panel2.add(backText, BorderLayout.CENTER);
@@ -323,28 +314,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             panel2.removeAll();
             System.out.println("in arm2");
 
-
-            arm2Text.setFont(new Font("Arial",Font.BOLD,40));
+            arm2Text.setFont(new Font("Arial",Font.BOLD,20));
             arm2Text.setVisible(true);
-            arm2Title.setFont(new Font("Arial",Font.BOLD,40));
+            arm2Title.setFont(new Font("Arial",Font.BOLD,20));
             arm2Title.setVisible(true);
             panel2.add(arm2Title, BorderLayout.NORTH);
             panel2.add(arm2Text, BorderLayout.CENTER);
             panel2.revalidate();
             panel2.repaint();
-
-            //arm2Text.setBounds( 0, 0, 200, 200);
-
-            /*
-             * arm2Box.setBounds(((width / 2) - 270) - (3 * (width / 10))+ 20, ((height / 2)
-             * - 400) + (3 * (height / 10)), 180 + (3 * (width / 10)), 300 + (3 * (height /
-             * 10))); //.setBounds(((width / 2) - 270) - (3 * (width / 10)), ((height / 2) -
-             * 400) + (5 * (height / 10)), 180 + (3 * (width / 10)) + 10, 300 + (3 * (height
-             * / 10))); arm2Box.setBorder(border); arm2Box.setVisible(true);
-             * arm2Box.addMouseListener(this); panel.add(arm2Box); revalidate(); repaint();
-             */
-
-
 
         }
         if (e.getSource() == leg) {
@@ -354,9 +331,9 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             System.out.println("in leg");
 
             legText.setBounds( 0, 0, 200, 200);
-            legText.setFont(new Font("Arial",Font.BOLD,40));
+            legText.setFont(new Font("Arial",Font.BOLD,20));
             legText.setVisible(true);
-            legTitle.setFont(new Font("Arial",Font.BOLD,40));
+            legTitle.setFont(new Font("Arial",Font.BOLD,20));
             legTitle.setVisible(true);
             panel2.add(legTitle, BorderLayout.NORTH);
             panel2.add(legText, BorderLayout.CENTER);
@@ -368,9 +345,9 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
         if (e.getSource() == armText) {
 
-            armText.setFont(new Font("Arial",Font.BOLD,40));
+            armText.setFont(new Font("Arial",Font.BOLD,20));
             armText.setVisible(true);
-            armTitle.setFont(new Font("Arial",Font.BOLD,40));
+            armTitle.setFont(new Font("Arial",Font.BOLD,20));
             armTitle.setVisible(true);
             arm.add(armTitle, BorderLayout.PAGE_START);
             arm.add(armText, BorderLayout.CENTER);
