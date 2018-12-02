@@ -84,7 +84,8 @@ public class Login extends JFrame implements ActionListener {
 
         username.setPreferredSize(new Dimension(220, 50));
         username.setMinimumSize(new Dimension(220, 50));
-        username.setMaximumSize(new Dimension(220, 50));        username.setFont(font);
+        username.setMaximumSize(new Dimension(220, 50));
+        username.setFont(font);
         username.setAlignmentX(Component.CENTER_ALIGNMENT);
         username.setMaximumSize( username.getPreferredSize() );
         information.add(username);

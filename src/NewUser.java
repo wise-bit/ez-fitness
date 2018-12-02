@@ -42,7 +42,9 @@ public class NewUser extends JFrame implements ActionListener {
     JButton start = new JButton("Start");
     boolean levelpass = false;
     boolean pass = true;
+    String username = "";
     ArrayList<String> same=new ArrayList<String>();
+    int intensity = 1;
 
 
     public NewUser(ArrayList z) {
@@ -128,6 +130,7 @@ public class NewUser extends JFrame implements ActionListener {
             level[1].setForeground(Color.BLACK);
             level[2].setBackground(Color.WHITE);
             level[2].setForeground(Color.BLACK);
+            intensity = 1;
             levelpass = true;
         }
         if (arg0.getSource() == level[1]) {
@@ -137,6 +140,7 @@ public class NewUser extends JFrame implements ActionListener {
             level[0].setForeground(Color.BLACK);
             level[2].setBackground(Color.WHITE);
             level[2].setForeground(Color.BLACK);
+            intensity = 50;
             levelpass = true;
         }
         if (arg0.getSource() == level[2]) {
@@ -146,6 +150,7 @@ public class NewUser extends JFrame implements ActionListener {
             level[1].setForeground(Color.BLACK);
             level[0].setBackground(Color.WHITE);
             level[0].setForeground(Color.BLACK);
+            intensity = 100;
             levelpass = true;
         }
 
@@ -195,7 +200,8 @@ public class NewUser extends JFrame implements ActionListener {
                 try {
                     FileWriter ab = new FileWriter("res/database/userInfo.csv", true);
                     ab.append("\r");
-                    ab.append(name.getText());
+                    username = name.getText();
+                    ab.append(username);
                     ab.append(",");
                     ab.append(String.valueOf(pw.getPassword()));
                     ab.append(",");
@@ -205,6 +211,15 @@ public class NewUser extends JFrame implements ActionListener {
                     ab.append(",");
                     ab.append(age.getText());
                     ab.append(",");
+                    ab.append(Integer.toString(intensity));
+                    ab.append(",");
+
+                    /// Creating the user in the database
+
+                    createFiles();
+
+                    //////
+
                     ab.flush();
                     ab.close();
                 } catch (Exception e) {
@@ -239,6 +254,24 @@ public class NewUser extends JFrame implements ActionListener {
         return true;
     }
 
+    public void createFiles() throws FileNotFoundException, UnsupportedEncodingException {
+        String path =  "res/users/" + username;
+        new File(path).mkdirs();
+
+        File exerciseList = new File("res/database/exercises.csv");
+        Scanner reader = new Scanner(exerciseList);
+        while (reader.hasNextLine()) {
+
+            String[] current = reader.nextLine().split(",");
+            PrintWriter writer = new PrintWriter(path + "/" + current[0] + ".txt", "UTF-8");
+
+            // time, reps, weight
+            writer.println(Main.date + "," + 0 + "," + 0 + "," + 0 + ",");
+            writer.close();
+
+        }
+
+    }
 
 
 }

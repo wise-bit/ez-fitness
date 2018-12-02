@@ -21,14 +21,12 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private JLabel appTitle = new JLabel("Activity Page", SwingConstants.CENTER);
     private String codedName = "";
 
-    private Font font = new Font("Consolas", Font.BOLD, 80); // Freestyle Script, Matura MT Script Capitals, French Script MT
+    private Font font = new Font("Consolas", Font.BOLD, 60); // Freestyle Script, Matura MT Script Capitals, French Script MT
     private JLabel clockface;
 
     private long start = System.currentTimeMillis();
     private long temp = start;
     private long restingTime = 0;
-
-    private String date;
 
     private Timer timer=new Timer(1000, this);
     private int extraTimer = 0;
@@ -51,11 +49,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         codedName = String.join("-", exerciseName.toLowerCase().split(" "));
         System.out.println(codedName);
 
-        String pattern = "yyyy-MM-dd";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        date = simpleDateFormat.format(new Date());
-
-        System.out.println(date);
+        System.out.println(Main.date);
 
         timer.start();
 
@@ -86,9 +80,11 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         ///////////////////////////////////////////////////////////////////////////////////
         JTextArea edit = new JTextArea(10, 100);
+        edit.setLineWrap(true);
+        edit.setWrapStyleWord(true);
         BufferedReader in = null;
         try {
-            in = new BufferedReader(new FileReader(new File("res/descriptions/" + codedName + ".txt")));
+            in = new BufferedReader(new FileReader(new File("res/descriptions/" + exerciseName + ".txt")));
             String str;
             while ((str = in.readLine()) != null) {
                 edit.append("\n"+str);
@@ -97,12 +93,12 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         } finally {
             try { in.close(); } catch (Exception ex) { }
         }
-        // JScrollPane desc = new JScrollPane(edit);
-        edit.setBounds(100,200,300,300);
+        JScrollPane desc = new JScrollPane(edit);
+        desc.setBounds(100,200,600,300);
         edit.setEditable(false);
         edit.setFont(edit.getFont().deriveFont(18f));
-        edit.setBorder(border);
-        getContentPane().add(edit);
+        desc.setBorder(border);
+        getContentPane().add(desc);
         ///////////////////////////////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////////////////////////////////
@@ -177,13 +173,14 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     }
 
     public void paint(Graphics g) {
+
         super.paint(g);  // fixes the immediate problem.
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(4));
 
         g.setColor(Color.RED);
         int secondHand_x = clockface.getX() + clock_width/2 + 10;
-        int secondHand_y = clockface.getY() + clock_height/2 + 135;
+        int secondHand_y = clockface.getY() + clock_height/2 + 145;
         long later_x = (long) (secondHand_x + 200 * Math.sin(((System.currentTimeMillis() - start - restingTime)*Math.PI/30000)));
         long later_y = (long) (secondHand_y - 200 * Math.cos(((System.currentTimeMillis() - start - restingTime)*Math.PI/30000)));
         Line2D lin = new Line2D.Float(secondHand_x, secondHand_y, later_x, later_y);
@@ -191,34 +188,13 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         g.setColor(Color.BLUE);
         int hourHand_x = clockface.getX() + clock_width/2 + 10;
-        int hourHand_y = clockface.getY() + clock_height/2 + 135;
+        int hourHand_y = clockface.getY() + clock_height/2 + 145;
         long later_x2 = (long) (secondHand_x + 150 * Math.sin(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
         long later_y2 = (long) (secondHand_y - 150 * Math.cos(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
         Line2D lin2 = new Line2D.Float(hourHand_x, hourHand_y, later_x2, later_y2);
         g2.draw(lin2);
 
         System.out.println(restingTime);
-
-        // System.out.println(Math.sin((System.currentTimeMillis() - start)*Math.PI/30000) + ": (" + later_x + "," + later_y + ")" + " --> " + (System.currentTimeMillis() - start)/1000);
-
-
-
-//        Thread background = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                for (int i = 0; i <= 50; i++) {
-//                    try {
-//                        Thread.sleep(1000);
-//                    } catch(InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    System.out.println(i);
-//                    // count.setText(Integer.toString(i));
-//                }
-//                // button.setEnabled(true); //click-able after the counter ends
-//            }
-//        });
-//        background.start();
 
     }
 

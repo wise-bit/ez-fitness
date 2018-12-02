@@ -6,6 +6,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -110,14 +112,14 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         // TODO: Backup
 
         JPanel buttons = new JPanel();
-        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (Main.dim.getWidth()/2-300), 0));
+        buttons.setLayout(new FlowLayout(FlowLayout.CENTER, (int) (Main.dim.getWidth()/2-300), 10));
         buttons.setBackground(Color.WHITE);
 
         exit.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
         exit.setPreferredSize(new Dimension(220, 50));
         exit.setMinimumSize(new Dimension(220, 50));
         exit.setMaximumSize(new Dimension(220, 50));
-        exit.setBackground(Color.BLUE);
+        exit.setBackground(Color.RED);
         exit.setForeground(Color.WHITE);
         exit.setBorderPainted(false);
         exit.addActionListener(this);
@@ -127,7 +129,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         showHistory.setPreferredSize(new Dimension(220, 50));
         showHistory.setMinimumSize(new Dimension(220, 50));
         showHistory.setMaximumSize(new Dimension(220, 50));
-        showHistory.setBackground(Color.BLUE);
+        showHistory.setBackground(Color.RED);
         showHistory.setForeground(Color.WHITE);
         showHistory.setBorderPainted(false);
         showHistory.addActionListener(this);
@@ -276,6 +278,20 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         }*/
 
 
+    }
+
+    public String[] toNormalArray(ArrayList<String> list) {
+        String[] arr = new String[list.size()];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = list.get(i);
+        }
+
+
+        System.out.println("string is " + Arrays.toString(toNormalArray(new ArrayList<>())));
+
+
+
+        return arr;
     }
 
 
