@@ -8,10 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Line2D;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 // import java.util.concurrent.Flow;
@@ -103,10 +100,39 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         ///////////////////////////////////////////////////////////////////////////////////
         // Desktop.getDesktop().open(new File("the.mp4"));
-        JLabel gif = new JLabel(new ImageIcon("res/bench-press.gif"));
-        gif.setBounds(1440/5, 900-900/4, 1440 - 4*1440/5, 900 - 4*900/5); // migrate to layoutManager
-        gif.setBorder(border);
-        add(gif);
+        if (new File("res/GIFs/" + exerciseName + ".gif").exists()) {
+            JLabel gif = new JLabel(new ImageIcon("res/GIFs/" + exerciseName + ".gif"));
+            gif.setBounds(1440 / 5, 900 - 900 / 4, 1440 - 4 * 1440 / 5, 900 - 4 * 900 / 5); // migrate to layoutManager
+            gif.setBorder(border);
+            add(gif);
+        } else {
+            System.out.println("No file");
+
+            String s = null;
+
+            try {
+                Process p = Runtime.getRuntime().exec("lib/python/pythonw.exe src/main.py \"" + exerciseName + "\"");
+                BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+                // System.out.println("Here is the standard output of the command:\n");
+                while ((s = stdInput.readLine()) != null) {
+                    System.out.println(s);
+                }
+
+//                System.out.println("Here is the standard error of the command (if any):\n");
+//                while ((s = stdError.readLine()) != null) {
+//                    System.out.println(s);
+//                }
+                // System.exit(0);
+            }
+            catch (IOException e) {
+                System.out.print("GLITCH IN THE MATRIX: ");
+                e.printStackTrace();
+                System.exit(-1);
+            }
+
+        }
         ///////////////////////////////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////////////////////////////////

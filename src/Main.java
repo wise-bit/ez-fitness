@@ -19,7 +19,7 @@ public class Main{
         init();
 
         // new Login();
-        new Activity("Barbell Bench Press");
+        new Activity("Barbell Curls");
         // new Statistics();
         // new NewUser(nameList).setVisible(true);
         // new InfoScreen();
