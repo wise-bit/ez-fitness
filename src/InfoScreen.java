@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -27,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.Timer;
+
 import javax.swing.border.Border;
 
 public class InfoScreen extends JFrame implements ActionListener, MouseListener {
@@ -82,6 +82,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
     private JList<String> legText = new JList<String>();
 
     private JButton showHistory = new JButton("Show History");
+    private JButton exit = new JButton("EXIT");
 
     public static int width = (int) dim.getWidth();
 
@@ -155,7 +156,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         setBackground(new Color(57, 173, 189));
         setSize(width, height);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null);
+        // setLayout(null);
 
         panel.setBounds(0, 0, width, height);
         panel.setBackground(Color.WHITE);
@@ -222,13 +223,21 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         legBox.setBorder(border);
 
         showHistory.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
-        showHistory.setBounds((width / 10) * 8, (height / 10) * 8, width / 9, height / 11);
+        showHistory.setPreferredSize(new Dimension(220, 50));
+        showHistory.setMinimumSize(new Dimension(220, 50));
+        showHistory.setMaximumSize(new Dimension(220, 50));
+        showHistory.setBackground(Color.RED);
+        showHistory.setForeground(Color.WHITE);
+        showHistory.setBorderPainted(false);
         showHistory.addActionListener(this);
-        add(showHistory);
+        buttons.add(showHistory);
 
-        // .addMouseListener(this);
+        add(buttons, BorderLayout.PAGE_END);
 
         setVisible(true);
+        setVisible(true);
+        setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        repaint();
 
         armText = new JList<String>(toNormalArray(bicepsList));
         shouldersText = new JList<String>(toNormalArray(shouldersList));
@@ -263,6 +272,19 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         //
         // }
         // }
+
+        if (e.getSource() == showHistory) {
+            try {
+                this.setVisible(false);
+                new Statistics();
+            } catch (IOException e1) { e1.printStackTrace(); }
+        }
+        if (e.getSource() == exit) {
+            try {
+                this.setVisible(false);
+                new Login();
+            } catch (IOException e1) { e1.printStackTrace(); }
+        }
 
     }
 
@@ -444,6 +466,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
              * if (inside) { }else { inside = false; panel.remove(arm2Box); revalidate();
              * repaint(); }
              */
+    }
 
         }
         if (e.getSource() == leg) {
