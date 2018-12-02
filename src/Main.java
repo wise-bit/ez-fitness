@@ -10,7 +10,7 @@ public class Main{
         // new Login();
         // new Activity("Bench Press");
         //new Statistics();
-         new InfoScreen();
+         new InfoScreen2();
 
 //        PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
 //        demo.pack();
