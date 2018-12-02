@@ -9,8 +9,8 @@ public class Main{
 
         // new Login();
         // new Activity("Bench Press");
-        new Statistics();
-        // new InfoScreen();
+        //new Statistics();
+         new InfoScreen();
 
 //        PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
 //        demo.pack();
