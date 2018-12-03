@@ -1,7 +1,5 @@
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -192,6 +190,29 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         ///////////////////////////////////////////////////////////////////////////////////
         JLabel group = new JLabel(new ImageIcon("res/muscleGroups/" + getBodypart(exerciseName) + ".jpg"));
         exerciseMedia.add(group);
+
+        JPanel repsBar = new JPanel();
+        repsBar.setLayout(new BoxLayout(repsBar, BoxLayout.PAGE_AXIS));
+
+        String[] info = fetchExerciseInformation();
+        JLabel repsBar0 = new JLabel("Reps count information");
+        JLabel extraSpace = new JLabel("----");
+        JLabel repsBar1 = new JLabel("Set 1: " + info[2]);
+        JLabel repsBar2 = new JLabel("Set 2: " + info[3]);
+        JLabel repsBar3 = new JLabel("Set 3: " + info[4]);
+        repsBar0.setFont(new Font("Courier New", Font.BOLD, 20));
+        extraSpace.setFont(new Font("Courier New", Font.BOLD, 20));
+        repsBar1.setFont(new Font("Courier New", Font.BOLD, 20));
+        repsBar2.setFont(new Font("Courier New", Font.BOLD, 20));
+        repsBar3.setFont(new Font("Courier New", Font.BOLD, 20));
+        repsBar.add(repsBar0);
+        repsBar.add(extraSpace);
+        repsBar.add(repsBar1);
+        repsBar.add(repsBar2);
+        repsBar.add(repsBar3);
+
+        exerciseMedia.add(repsBar);
+
         ///////////////////////////////////////////////////////////////////////////////////
         elements.add(exerciseMedia, BorderLayout.CENTER);
 
@@ -404,4 +425,22 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         }
         return null;
     }
+
+    public static String[] fetchExerciseInformation() {
+        File file = new File("res/database/exercises.csv");
+        try {
+            Scanner reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String[] line = reader.nextLine().split(",");
+                if (line[0].equals(Main.currentExercise)) {
+                    return line;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            // e.printStackTrace();
+            System.out.println("Exercises file not found!");
+        }
+        return null;
+    }
+
 }
