@@ -9,6 +9,9 @@ import java.awt.geom.Line2D;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
@@ -147,7 +150,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
             System.out.println("No file");
             String s = null;
             try {
-                Process p = Runtime.getRuntime().exec("lib/python/pythonw.exe src/main.py \"" + exerciseName + "\"");
+                Process p = Runtime.getRuntime().exec("lib/python/pythonw.exe src/main.py \"" + Main.currentExercise + "\"");
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
@@ -369,6 +372,15 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
             if (!reps_string.equals("") && !time_string.equals("")) {
                 System.out.println(reps_string + " " + time_string);
+
+                try {
+                    String log = ""; // TODO: ADD STUFF
+                    Files.write(Paths.get("res/users/" + Main.currentUser + ""), log.getBytes(), StandardOpenOption.APPEND);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             } else {
                 JOptionPane.showMessageDialog(null, "Please input all fields!");
             }

@@ -71,8 +71,10 @@ public class Login extends JFrame implements ActionListener {
 
         information = new JPanel();
         information.setLayout(new BoxLayout(information, BoxLayout.PAGE_AXIS));
+        information.setBackground(new Color(255, 243, 160));
 
         JPanel placeHolder = new JPanel();
+        placeHolder.setBackground(new Color(255, 243, 160));
         placeHolder.setPreferredSize(new Dimension(placeHolder.getWidth(),this.getHeight()/3));
         placeHolder.setMaximumSize(new Dimension(placeHolder.getWidth(),this.getHeight()/3));
         information.add(placeHolder);

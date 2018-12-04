@@ -14,14 +14,16 @@ public class Main{
     public static String[] currentInformation;
     public static String date;
     public static ArrayList<String> nameList = new ArrayList<String>();
-    public static String currentExercise = "Incline Dumbbell Skullcrushers";
+    // public static String currentExercise = "Incline Dumbbell Skullcrushers";
+    public static String currentExercise = "Face pulls";
 
     public static void main(String[] args) throws IOException {
 
         init();
 
-        new Login();
         new Activity(currentExercise);
+        // new Login();
+
         // new Statistics();
         // new NewUser(nameList).setVisible(true);
         // new InfoScreen();
