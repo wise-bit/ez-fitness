@@ -40,27 +40,28 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
     private JLabel armTitle = new JLabel("Biceps");
     private JLabel arm2Title = new JLabel("Triceps");
-    private JLabel chestTitle = new JLabel("Chest & Shoulders");
+    private JLabel chestTitle = new JLabel("Chest");
+    private JLabel chest2Title = new JLabel("Shoulders");
     private JLabel legTitle = new JLabel("Legs");
     private JLabel backTitle = new JLabel("Back");
-
 
     // private Timer timer = new Timer(100, this);
 
     private JPanel arm = new JPanel();
     private JPanel chest = new JPanel();
+    private JPanel chest2 = new JPanel();
     private JPanel back = new JPanel();
     private JPanel arm2 = new JPanel();
     private JPanel leg = new JPanel();
 
-    // Box is unused
+    // Box is unused - not used
     private JPanel armBox = new JPanel();
     private JPanel chestBox = new JPanel();
     private JPanel backBox = new JPanel();
     private JPanel arm2Box = new JPanel();
     private JPanel legBox = new JPanel();
 
-    // stores exercises details
+    // stores exercises details - not used
     private String armInfo = "";
     private String chestInfo = "";
     private String backInfo = "";
@@ -75,21 +76,23 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     private ArrayList<String> tricepsList = new ArrayList<String>();
 
     // shows exercises
-    private JList<String> armText = new JList<String>();
-    private JList<String> chestText = new JList<String>();
-    private JList<String> backText = new JList<String>();
-    private JList<String> arm2Text = new JList<String>();
-    private JList<String> shouldersText = new JList<String>();
-    private JList<String> legText = new JList<String>();
+    // private JList<String> armText = new JList<String>();
+    // private JList<String> chestText = new JList<String>();
+    // private JList<String> backText = new JList<String>();
+    // private JList<String> arm2Text = new JList<String>();
+    // private JList<String> shouldersText = new JList<String>();
+    // private JList<String> legText = new JList<String>();
+
+    // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\
+    private JList<String> allText = new JList<String>();
 
     private JButton showHistory = new JButton("Show History");
 
-    public static int width = (int) dim.getWidth() - 200;
+    public static int width = (int) dim.getWidth();
 
     public static int height = (int) dim.getHeight();
 
     public static int width1 = (int) dim.getWidth();
-
 
     private int x = 0;
 
@@ -149,62 +152,70 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
 
-        panel.setBounds(0, 0, width1 - 200, height);
+        panel.setBounds(0, 0, width - (width - height) + (height / 5), height);
         panel.setBackground(Color.WHITE);
         panel.setLayout(null);
         panel.setBorder(border);
         add(panel);
 
-        panel2.setBounds(width1 - 200, 0, 390, height);
+        panel2.setBounds(width - (width - height) + (height / 5), 0, width - height - (height / 5), height);
         panel2.setBackground(Color.WHITE);
         panel2.setLayout(new BorderLayout());
         panel2.setBorder(border);
         add(panel2);
 
-
-        body.setIcon(new ImageIcon(new ImageIcon("res/FitBody.png").getImage().getScaledInstance(543, 800, 0)));
-        body.setBounds((width / 2) - 270, (height / 2) - 200, 543, 800);
+        body.setIcon(new ImageIcon(new ImageIcon("res/FitBody.jpg").getImage().getScaledInstance(height, height, 0)));
+        // body.setLayout(new BorderLayout());
+        // body.setVisible(true);
+        body.setBounds(5 + (height / 5), 5, height, height);
         panel.add(body);
+        // panel.add(body, BorderLayout.CENTER);
+        // panel.revalidate();
+        // panel.repaint();
 
         // change location to match image
 
-        arm.setBounds(((width / 2) - 270) + 60, ((height / 2) - 200) + 180, 120, 225);
-        chest.setBounds(((width / 2) - 270) + 180, ((height / 2) - 200) + 130, 180, 100);
-        back.setBounds(((width / 2) - 270) + 180, ((height / 2) - 200) + 250, 180, 100);
-        arm2.setBounds(((width / 2) - 270) + 360, ((height / 2) - 200) + 180, 120, 225);
-        leg.setBounds(((width / 2) - 270) + 180, ((height / 2) - 200) + 420, 190, 165);
+        arm.setBounds(height / 12, height / 6, 100, 225);
+        chest.setBounds(height / 8, height / 6, 225, 180);
+        chest2.setBounds(height - (height / 3) - 75, height / 6, 225, 80);
+        back.setBounds(height - (height / 3) - 75, height / 4, 225, 200);
+        arm2.setBounds(height / 3, height / 6, 100, 225);
+        leg.setBounds(height / 8, height / 2, 225, 300);
 
-//		chest.setLayout(new BorderLayout());
-//		JPanel chestRight = new JPanel();
-//		JPanel chestLeft = new JPanel();
-//		chestRight.setBorder(border);
-//		chestLeft.setBorder(border);
-//		chest.add(chestLeft, BorderLayout.WEST);
-//		chest.add(chestRight, BorderLayout.EAST);
+        // chest.setLayout(new BorderLayout());
+        // JPanel chestRight = new JPanel();
+        // JPanel chestLeft = new JPanel();
+        // chestRight.setBorder(border);
+        // chestLeft.setBorder(border);
+        // chest.add(chestLeft, BorderLayout.WEST);
+        // chest.add(chestRight, BorderLayout.EAST);
 
-        arm.setForeground(Color.RED);
-        chest.setForeground(Color.RED);
-        back.setForeground(Color.RED);
-        arm2.setForeground(Color.RED);
-        leg.setForeground(Color.RED);
+        // arm.setForeground(Color.RED);
+        // chest.setForeground(Color.RED);
+        // back.setForeground(Color.RED);
+        // arm2.setForeground(Color.RED);
+        // leg.setForeground(Color.RED);
 
         arm.setBorder(border);
         chest.setBorder(border);
+        chest2.setBorder(border);
         back.setBorder(border);
         arm2.setBorder(border);
         leg.setBorder(border);
 
         arm.addMouseListener(this);
         chest.addMouseListener(this);
+        chest2.addMouseListener(this);
         back.addMouseListener(this);
         arm2.addMouseListener(this);
         leg.addMouseListener(this);
 
-        panel.add(arm);
-        panel.add(chest);
-        panel.add(back);
-        panel.add(arm2);
-        panel.add(leg);
+        body.add(arm);
+        body.add(chest);
+        body.add(chest2);
+        body.add(back);
+        body.add(arm2);
+        body.add(leg);
 
         /*
          * armBox.setBounds(((width / 2) - 270) + 60, ((height / 2) - 200) + 180, 120,
@@ -226,17 +237,18 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         showHistory.addActionListener(this);
         add(showHistory);
 
+        allText.addMouseListener(this);
+
         // .addMouseListener(this);
 
         setVisible(true);
 
-        armText = new JList<String>(toNormalArray(bicepsList));
-        shouldersText = new JList<String>(toNormalArray(shouldersList));
-        chestText = new JList<String>(toNormalArray(chestList));
-        backText = new JList<String>(toNormalArray(backList));
-        arm2Text = new JList<String>(toNormalArray(tricepsList));
-        legText = new JList<String>(toNormalArray(legsList));
-
+        // armText = new JList<String>(toNormalArray(bicepsList));
+        // shouldersText = new JList<String>(toNormalArray(shouldersList));
+        // chestText = new JList<String>(toNormalArray(chestList));
+        // backText = new JList<String>(toNormalArray(backList));
+        // arm2Text = new JList<String>(toNormalArray(tricepsList));
+        // legText = new JList<String>(toNormalArray(legsList));
 
         System.out.println("string is " + Arrays.toString(toNormalArray(bicepsList)));
 
@@ -247,8 +259,6 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
     }
 
-
-
     public void actionPerformed(ActionEvent e) {
 
     }
@@ -257,14 +267,20 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == arm) {
 
+            allText = new JList<String>(toNormalArray(bicepsList));
+
             panel2.removeAll();
 
-            armText.setFont(new Font("Arial",Font.BOLD,20));
-            armText.setVisible(true);
-            armTitle.setFont(new Font("Arial",Font.BOLD,20));
+            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.addMouseListener(this);
+            allText.setVisible(true);
+
+            armTitle.setFont(new Font("Arial", Font.BOLD, 20));
             armTitle.setVisible(true);
+
             panel2.add(armTitle, BorderLayout.NORTH);
-            panel2.add(armText, BorderLayout.CENTER);
+            panel2.add(allText, BorderLayout.CENTER);
+
             panel2.revalidate();
             panel2.repaint();
 
@@ -273,88 +289,121 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         }
         if (e.getSource() == chest) {
 
+            allText = new JList<String>(toNormalArray(chestList));
+
             panel2.removeAll();
 
-            System.out.println("in chest");
+            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.addMouseListener(this);
+            allText.setVisible(true);
 
-            chestText.setFont(new Font("Arial",Font.BOLD,20));
-            chestText.setVisible(true);
-            shouldersText.setFont(new Font("Arial",Font.BOLD,20));
-            shouldersText.setVisible(true);
-            chestTitle.setFont(new Font("Arial",Font.BOLD,20));
+            chestTitle.setFont(new Font("Arial", Font.BOLD, 20));
             chestTitle.setVisible(true);
 
             panel2.add(chestTitle, BorderLayout.NORTH);
-            panel2.add(chestText, BorderLayout.CENTER);
-            panel2.add(shouldersText, BorderLayout.SOUTH);
+            panel2.add(allText, BorderLayout.CENTER);
 
             panel2.revalidate();
             panel2.repaint();
 
+            System.out.println("in chest");
+
+        }
+        if (e.getSource() == chest2) {
+
+            allText = new JList<String>(toNormalArray(shouldersList));
+
+            panel2.removeAll();
+
+            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.addMouseListener(this);
+            allText.setVisible(true);
+
+            chest2Title.setFont(new Font("Arial", Font.BOLD, 20));
+            chest2Title.setVisible(true);
+
+            panel2.add(chest2Title, BorderLayout.NORTH);
+            panel2.add(allText, BorderLayout.CENTER);
+
+            panel2.revalidate();
+            panel2.repaint();
+
+            System.out.println("in chest2");
 
         }
         if (e.getSource() == back) {
 
-            panel2.removeAll();
-            System.out.println("in back");
+            allText = new JList<String>(toNormalArray(backList));
 
-            backText.setFont(new Font("Arial",Font.BOLD,20));
-            backText.setVisible(true);
-            backTitle.setFont(new Font("Arial",Font.BOLD,20));
+            panel2.removeAll();
+
+            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.addMouseListener(this);
+            allText.setVisible(true);
+
+            backTitle.setFont(new Font("Arial", Font.BOLD, 20));
             backTitle.setVisible(true);
+
             panel2.add(backTitle, BorderLayout.NORTH);
-            panel2.add(backText, BorderLayout.CENTER);
+            panel2.add(allText, BorderLayout.CENTER);
+
             panel2.revalidate();
             panel2.repaint();
 
-
+            System.out.println("in back");
         }
         if (e.getSource() == arm2) {
 
-            panel2.removeAll();
-            System.out.println("in arm2");
+            allText = new JList<String>(toNormalArray(tricepsList));
 
-            arm2Text.setFont(new Font("Arial",Font.BOLD,20));
-            arm2Text.setVisible(true);
-            arm2Title.setFont(new Font("Arial",Font.BOLD,20));
+            panel2.removeAll();
+
+            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.addMouseListener(this);
+            allText.setVisible(true);
+
+            arm2Title.setFont(new Font("Arial", Font.BOLD, 20));
             arm2Title.setVisible(true);
+
             panel2.add(arm2Title, BorderLayout.NORTH);
-            panel2.add(arm2Text, BorderLayout.CENTER);
+            panel2.add(allText, BorderLayout.CENTER);
+
             panel2.revalidate();
             panel2.repaint();
+
+            System.out.println("in arm2");
 
         }
         if (e.getSource() == leg) {
 
+            allText = new JList<String>(toNormalArray(legsList));
+
             panel2.removeAll();
 
-            System.out.println("in leg");
+            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.addMouseListener(this);
+            allText.setVisible(true);
 
-            legText.setBounds( 0, 0, 200, 200);
-            legText.setFont(new Font("Arial",Font.BOLD,20));
-            legText.setVisible(true);
-            legTitle.setFont(new Font("Arial",Font.BOLD,20));
+            legTitle.setFont(new Font("Arial", Font.BOLD, 20));
             legTitle.setVisible(true);
+
             panel2.add(legTitle, BorderLayout.NORTH);
-            panel2.add(legText, BorderLayout.CENTER);
+            panel2.add(allText, BorderLayout.CENTER);
+
             panel2.revalidate();
             panel2.repaint();
 
+            System.out.println("in leg");
 
         }
+        if (e.getSource() == allText) {
 
-        if (e.getSource() == armText) {
+            // new Activity(allText.getSelectedValue().toString());
+            // Main.currentExercise = allText.getSelectedValue().toString();
+            //this.dispose();
 
-            armText.setFont(new Font("Arial",Font.BOLD,20));
-            armText.setVisible(true);
-            armTitle.setFont(new Font("Arial",Font.BOLD,20));
-            armTitle.setVisible(true);
-            arm.add(armTitle, BorderLayout.PAGE_START);
-            arm.add(armText, BorderLayout.CENTER);
-            arm.revalidate();
-            arm.repaint();
+            System.out.println("open > " + allText.getSelectedValue().toString());
 
-            System.out.println("in armText");
         }
 
     }

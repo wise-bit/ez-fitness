@@ -281,18 +281,18 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
         // }
         // }
 
-        if (e.getSource() == showHistory) {
-            try {
-                this.setVisible(false);
-                new Statistics();
-            } catch (IOException e1) { e1.printStackTrace(); }
-        }
-        if (e.getSource() == exit) {
-            try {
-                this.setVisible(false);
-                new Login();
-            } catch (IOException e1) { e1.printStackTrace(); }
-        }
+//        if (e.getSource() == showHistory) {
+//            try {
+//                this.setVisible(false);
+//                new Statistics();
+//            } catch (IOException e1) { e1.printStackTrace(); }
+//        }
+//        if (e.getSource() == exit) {
+//            try {
+//                this.setVisible(false);
+//                new Login();
+//            } catch (IOException e1) { e1.printStackTrace(); }
+//        }
 
     }
 
