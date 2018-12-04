@@ -17,13 +17,13 @@ public class Main{
 
     public static void main(String[] args) throws IOException {
 
-        init();
+        //init();
 
-        new Login();
-        new Activity("Incline Dumbbell Skullcrushers");
+        //new Login();
+        // new Activity("Incline Dumbbell Skullcrushers");
         // new Statistics();
         // new NewUser(nameList).setVisible(true);
-        // new InfoScreen();
+        new InfoScreen2();
 
 //        PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
 //        demo.pack();
