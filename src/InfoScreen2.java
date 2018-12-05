@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -295,7 +296,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         // arm2Text = new JList<String>(toNormalArray(tricepsList));
         // legText = new JList<String>(toNormalArray(legsList));
 
-        System.out.println("string is " + Arrays.toString(toNormalArray(bicepsList)));
+        // System.out.println("string is " + Arrays.toString(toNormalArray(bicepsList)));
 
         System.out.println("screen built");
 
@@ -306,35 +307,37 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
     public void actionPerformed(ActionEvent e) {
 
-//		if (e.getSource() == showHistory) {
-//
-//			try {
-//
-//				this.setVisible(false);
-//				new Statistics();
-//
-//			} catch (IOException e1) {
-//
-//				e1.printStackTrace();
-//
-//			}
-//
-//		}
-//
-//		if (e.getSource() == exit) {
-//
-//			try {
-//
-//				this.setVisible(false);
-//				new Login();
-//
-//			} catch (IOException e1) {
-//
-//				e1.printStackTrace();
-//
-//			}
-//
-//		}
+		if (e.getSource() == showHistory) {
+
+			try {
+
+				// this.setVisible(false);
+                this.dispose();
+				new Statistics();
+
+			} catch (IOException e1) {
+
+				e1.printStackTrace();
+
+			}
+
+		}
+
+		if (e.getSource() == exit) {
+
+			try {
+
+				// this.setVisible(false);
+                this.dispose();
+				new Login();
+
+			} catch (IOException e1) {
+
+				e1.printStackTrace();
+
+			}
+
+		}
 
     }
 
@@ -473,9 +476,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         }
         if (e.getSource() == allText) {
 
-            // new Activity(allText.getSelectedValue().toString());
-            // Main.currentExercise = allText.getSelectedValue().toString();
-            // this.dispose();
+
+            try {
+                new Activity(allText.getSelectedValue().toString());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            Main.currentExercise = allText.getSelectedValue().toString();
+            this.dispose();
 
             System.out.println("open > " + allText.getSelectedValue().toString());
 

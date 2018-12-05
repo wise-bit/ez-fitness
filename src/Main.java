@@ -21,11 +21,11 @@ public class Main{
         //init();
 
         new Login();
-        new Activity(currentExercise);
+        // new Activity(currentExercise);
 
         // new Statistics();
         // new NewUser(nameList).setVisible(true);
-        new InfoScreen2();
+        // new InfoScreen2();
 
 //        PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
 //        demo.pack();

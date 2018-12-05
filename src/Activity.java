@@ -1,10 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.io.*;
 import java.net.URI;
@@ -12,9 +9,13 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+
+import static java.awt.event.KeyEvent.VK_BACK_SPACE;
+import static java.awt.event.KeyEvent.VK_DELETE;
 // import java.util.concurrent.Flow;
 
 public class Activity extends JFrame implements MouseListener, ActionListener {
@@ -41,10 +42,10 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private JButton link;
 
     private JPanel inputPlace;
-    private JTextField reps = new JTextField();
-    private JTextField timeInput = new JTextField();
+    private JNumberTextField reps = new JNumberTextField();
+    private JNumberTextField weightInput = new JNumberTextField();
     public JLabel repsq=new JLabel("Reps:");
-    public JLabel timeInputq=new JLabel("Time:");
+    public JLabel weightInputq=new JLabel("Weight:");
     public JButton enter = new JButton("Enter");
 
     private boolean clockRunning = false;
@@ -230,12 +231,12 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         reps.setMaximumSize( reps.getPreferredSize() );
         inputPlace.add(reps);
 
-        inputPlace.add(timeInputq);
-        timeInput.setPreferredSize(new Dimension(220, 30));
-        timeInput.setMinimumSize(new Dimension(220, 30));
-        timeInput.setMaximumSize(new Dimension(220, 30));
-        timeInput.setMaximumSize( timeInput.getPreferredSize() );
-        inputPlace.add(timeInput);
+        inputPlace.add(weightInputq);
+        weightInput.setPreferredSize(new Dimension(220, 30));
+        weightInput.setMinimumSize(new Dimension(220, 30));
+        weightInput.setMaximumSize(new Dimension(220, 30));
+        weightInput.setMaximumSize( weightInput.getPreferredSize() );
+        inputPlace.add(weightInput);
 
         inputPlace.add(Box.createRigidArea(new Dimension(20,10)));
 
@@ -368,14 +369,38 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         if (ev.getSource() == enter) {
             String reps_string = reps.getText();
-            String time_string = timeInput.getText();
+            String weight_string = weightInput.getText();
 
-            if (!reps_string.equals("") && !time_string.equals("")) {
-                System.out.println(reps_string + " " + time_string);
+            if (!reps_string.equals("") && !weight_string.equals("")) {
+                System.out.println(reps_string + " " + weight_string);
 
                 try {
-                    String log = ""; // TODO: ADD STUFF
-                    Files.write(Paths.get("res/users/" + Main.currentUser + ""), log.getBytes(), StandardOpenOption.APPEND);
+
+                    ////////////////////////////
+
+                    String sCurrentLine;
+                    String lastLine = "";
+
+                    String filePath = "res/users/" + Main.currentUser + "/" + Main.currentExercise + ".txt";
+                    BufferedReader br = new BufferedReader(new FileReader(filePath));
+
+                    while ((sCurrentLine = br.readLine()) != null) {
+                        System.out.println(sCurrentLine);
+                        lastLine = sCurrentLine;
+                    }
+
+                    String[] lastLog = lastLine.split(",");
+
+                    if (Main.date.equals(lastLog[0])) {
+
+                    } else {
+
+                        String log = Main.date + "," + reps_string + "," + weight_string + ",";
+                        Files.write(Paths.get(filePath), log.getBytes(), StandardOpenOption.APPEND);
+
+                    }
+
+                    ////////////////////////////
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -453,6 +478,33 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
             System.out.println("Exercises file not found!");
         }
         return null;
+    }
+
+    public class JNumberTextField extends JFormattedTextField {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void processKeyEvent(KeyEvent ev) {
+
+            if (this.getText().length() > 3 && Character.isDigit(ev.getKeyChar()))
+                ev.consume();
+
+            if (Character.isDigit(ev.getKeyChar()) || ev.getKeyCode() == VK_BACK_SPACE || ev.getKeyCode() == VK_DELETE)
+                super.processKeyEvent(ev);
+
+            ev.consume();
+            return;
+
+        }
+
+        public Long getNumber() {
+            Long result = null;
+            String text = getText();
+            if (text != null && !"".equals(text)) {
+                result = Long.valueOf(text);
+            }
+            return result;
+        }
     }
 
 }
