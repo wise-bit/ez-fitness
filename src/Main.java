@@ -16,11 +16,13 @@ public class Main{
     public static ArrayList<String> nameList = new ArrayList<String>();
     public static String currentExercise = "Incline Dumbbell Skullcrushers";
 
+    public static Login x;
+
     public static void main(String[] args) throws IOException {
 
-        //init();
+        init();
 
-        new Login();
+        x = new Login();
         // new Activity(currentExercise);
 
         // new Statistics();

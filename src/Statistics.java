@@ -3,9 +3,16 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.AbstractRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.data.xy.XYZDataset;
 import org.jfree.util.Rotation;
 
 import javax.swing.*;
@@ -28,8 +35,6 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
     ChartPanel chartPanel;
     JList list;
 
-    private JButton exercise_button;
-    private JButton time_button;
     private JButton reps_button;
     private JButton weight_button;
     private JButton back;
@@ -57,11 +62,7 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         chartArea = new JPanel();
         chartArea.setLayout(new BorderLayout());
 
-        PieDataset dataSet = createExerciseDataSet();
-        JFreeChart chart = createChart(dataSet, "Part Of Body Involved"); // TODO: UPDATE
-        ChartPanel myChart = new ChartPanel(chart);
-        myChart.setMouseWheelEnabled(true);
-        chartArea.add(myChart, BorderLayout.NORTH);
+        pieChartMaker();
 
         lineChartMaker();
 
@@ -107,12 +108,6 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
 //        exercise_button.setBorderPainted(false);
 //        buttonsPanel.add(exercise_button);
 
-        time_button = new JButton("TIME");
-        time_button.addActionListener(this);
-        time_button.setBackground(Color.WHITE);
-        time_button.setBorderPainted(false);
-        buttonsPanel.add(time_button);
-
         reps_button = new JButton("REPS");
         reps_button.addActionListener(this);
         reps_button.setBackground(Color.WHITE);
@@ -149,31 +144,64 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
 
     }
 
-    public void lineChartMaker() {
-        try {
-            chartArea.remove(chartPanel);
-        } catch (Exception e) {
+    public void pieChartMaker() throws IOException {
+        PieDataset dataSet = createExerciseDataSet();
+        JFreeChart chart = createChart(dataSet, "Part Of Body Involved"); // TODO: UPDATE
+        ChartPanel myChart = new ChartPanel(chart);
+        myChart.setMouseWheelEnabled(true);
+        chartArea.add(myChart, BorderLayout.NORTH);
+    }
 
-        }
-        lineChart = ChartFactory.createLineChart("Line Graph For: " + currentExercise, "Date", currentOption , createDataset(), PlotOrientation.VERTICAL, true,true,false);
-        chartPanel = new ChartPanel( lineChart );
-        // chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
-        // setContentPane(chartPanel);
+    public void lineChartMaker() throws IOException {
+//        try {
+//            chartArea.remove(chartPanel);
+//        } catch (Exception e) { }
+//        lineChart = ChartFactory.createLineChart("Line Graph For: " + currentExercise, "Date", currentOption , createDataset(), PlotOrientation.VERTICAL, true,true,false);
+//        chartPanel = new ChartPanel( lineChart );
+//        chartArea.add(chartPanel);
+
+        final JFreeChart chart = ChartFactory.createXYLineChart(
+                "Line Graph For: " + currentExercise,
+                "Day",
+                currentOption,
+                createDataset(),
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false);
+
+        chart.setBackgroundPaint(Color.white);
+        final XYPlot plot1 = chart.getXYPlot();
+        plot1.setBackgroundPaint(Color.lightGray);
+        plot1.setDomainGridlinePaint(Color.white);
+        plot1.setRangeGridlinePaint(Color.white);
+
+        XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) plot1.getRenderer();
+        renderer.setBaseShapesVisible(true);
+        renderer.setBaseShapesFilled(true);
+        renderer.setBaseStroke(new BasicStroke(2));
+        renderer.setSeriesPaint(0, Color.BLACK);
+        ((AbstractRenderer)renderer).setAutoPopulateSeriesStroke(false);
+
+        chartPanel = new ChartPanel( chart );
         chartArea.add(chartPanel);
+
     }
 
 
     //// Helper classes
 
     public String[] generateChoices() throws IOException {
-        String[] list = new String[countLines("res/database/exercises.csv")];
+        String[] list = new String[countLines("res/database/exercises.csv")-1];
         File exerciseList = new File("res/database/exercises.csv");
         Scanner reader = new Scanner(exerciseList);
         int pos = 0;
         while (reader.hasNextLine()){
             String[] current = reader.nextLine().split(",");
-            list[pos] = current[0];
-            pos++;
+            if (!current[0].equals("Overall")) {
+                list[pos] = current[0];
+                pos++;
+            }
         }
         return list;
     }
@@ -201,24 +229,79 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
 
     //// Important classes
 
-    private PieDataset createExerciseDataSet() {
+    private PieDataset createExerciseDataSet() throws IOException {
         DefaultPieDataset result = new DefaultPieDataset();
-        result.setValue("Arm", 100);
-        result.setValue("Low Leg", 20);
-        result.setValue("High Leg", 20);
-        result.setValue("Chest", 51);
-        result.setValue("Abs", 51);
+
+        Scanner input = new Scanner(new File("res/database/exercises.csv"));
+        int legsVal = 0;
+        int backVal = 0;
+        int shouldersVal = 0;
+        int chestVal = 0;
+        int bicepsVal = 0;
+        int tricepsVal = 0;
+
+        while (input.hasNextLine()) {
+
+            String[] temp = input.nextLine().split(",");
+
+            if (temp[1].equals("legs")) {
+                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                legsVal += countLines(filePath);
+            }
+            if (temp[1].equals("back")) {
+                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                backVal += countLines(filePath);
+            }
+            if (temp[1].equals("shoulders")) {
+                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                shouldersVal += countLines(filePath);
+            }
+            if (temp[1].equals("chest")) {
+                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                chestVal += countLines(filePath);
+            }
+            if (temp[1].equals("biceps")) {
+                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                bicepsVal += countLines(filePath);
+            }
+            if (temp[1].equals("triceps")) {
+                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                tricepsVal += countLines(filePath);
+            }
+
+        }
+
+        result.setValue("Legs", legsVal);
+        result.setValue("Back", backVal);
+        result.setValue("Shoulders", shouldersVal);
+        result.setValue("Chest", chestVal);
+        result.setValue("Biceps", bicepsVal);
+        result.setValue("Triceps", tricepsVal);
+
         return result;
     }
 
-    private DefaultCategoryDataset createDataset( ) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-        dataset.addValue( 15 , "schools" , "1970" );
-        dataset.addValue( 30 , "schools" , "1980" );
-        dataset.addValue( 60 , "schools" ,  "1990" );
-        dataset.addValue( 120 , "schools" , "2000" );
-        dataset.addValue( 240 , "schools" , "2010" );
-        dataset.addValue( 300 , "schools" , "2014" );
+    // Creating dataset
+    private XYDataset createDataset( ) throws IOException {
+        XYSeries series = new XYSeries("Data");
+        XYSeriesCollection dataset = new XYSeriesCollection();
+
+        String filePath = "res/users/" + Main.currentUser + "/" + this.currentExercise + ".txt";
+        Scanner input = new Scanner(new File(filePath));
+
+        int pos = 1;
+
+        while (input.hasNextLine()) {
+            String[] current = input.nextLine().split(",");
+            if (currentOption.equals("Reps"))
+                series.add(pos, Integer.parseInt(current[1]));
+            else if (currentOption.equals("Weight"))
+                series.add(pos, Integer.parseInt(current[2]));
+            pos++;
+        }
+
+        dataset.addSeries(series);
+
         return dataset;
     }
 
@@ -244,7 +327,11 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == list) {
             currentExercise = list.getSelectedValue().toString();
-            lineChartMaker();
+            try {
+                lineChartMaker();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             chartArea.validate();
         }
     }
@@ -278,25 +365,28 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
             validate();
         }
 
-        if (e.getSource() == time_button) {
-            currentOption = "Time";
-            lineChartMaker();
-            chartArea.validate();
-        }
         if (e.getSource() == reps_button) {
             currentOption = "Reps";
-            lineChartMaker();
+            try {
+                lineChartMaker();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             chartArea.validate();
         }
         if (e.getSource() == weight_button) {
             currentOption = "Weight";
-            lineChartMaker();
+            try {
+                lineChartMaker();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             chartArea.validate();
         }
 
         if (e.getSource() == back) {
-            this.setVisible(false);
-            new InfoScreen();
+            this.dispose();
+            new InfoScreen2();
         }
 
     }

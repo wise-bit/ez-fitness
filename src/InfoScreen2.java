@@ -91,6 +91,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
     private JButton showHistory = new JButton("Show History");
     private JButton exit = new JButton("EXIT");
+    private JButton addExercise = new JButton("Add exericse");
 
     public static int width = (int) dim.getWidth();
 
@@ -281,6 +282,16 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         showHistory.addActionListener(this);
         buttons.add(showHistory, BorderLayout.CENTER);
 
+        addExercise.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        addExercise.setPreferredSize(new Dimension(220, 50));
+        addExercise.setMinimumSize(new Dimension(220, 50));
+        addExercise.setMaximumSize(new Dimension(220, 50));
+        addExercise.setBackground(Color.RED);
+        addExercise.setForeground(Color.WHITE);
+        addExercise.setBorderPainted(false);
+        addExercise.addActionListener(this);
+        buttons.add(addExercise, BorderLayout.SOUTH);
+
         panel2.add(buttons, BorderLayout.PAGE_END);
 
         allText.addMouseListener(this);
@@ -310,34 +321,33 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 		if (e.getSource() == showHistory) {
 
 			try {
-
 				// this.setVisible(false);
                 this.dispose();
 				new Statistics();
-
 			} catch (IOException e1) {
-
 				e1.printStackTrace();
-
 			}
-
 		}
 
 		if (e.getSource() == exit) {
 
 			try {
-
 				// this.setVisible(false);
                 this.dispose();
 				new Login();
-
 			} catch (IOException e1) {
-
 				e1.printStackTrace();
-
 			}
 
 		}
+
+		if (e.getSource() == addExercise) {
+            try {
+                new addExercise();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
 
     }
 
@@ -476,13 +486,12 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         }
         if (e.getSource() == allText) {
 
-
+            Main.currentExercise = allText.getSelectedValue().toString();
             try {
                 new Activity(allText.getSelectedValue().toString());
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            Main.currentExercise = allText.getSelectedValue().toString();
             this.dispose();
 
             System.out.println("open > " + allText.getSelectedValue().toString());

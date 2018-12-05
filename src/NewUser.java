@@ -225,12 +225,13 @@ public class NewUser extends JFrame implements ActionListener {
                 } catch (Exception e) {
                     System.out.print(e.getMessage());
                 }
+                Main.x.dispose();
                 this.dispose();
-//                try {
-//                    Login a = new Login();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    Login a = new Login();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         }

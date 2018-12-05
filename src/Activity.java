@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -47,6 +48,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     public JLabel repsq=new JLabel("Reps:");
     public JLabel weightInputq=new JLabel("Weight:");
     public JButton enter = new JButton("Enter");
+    public JButton exit = new JButton("Exit");
 
     private boolean clockRunning = false;
 
@@ -248,6 +250,14 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         enter.addActionListener(this);
         inputPlace.add(enter);
 
+        exit.setPreferredSize(new Dimension(100, 25));
+        exit.setMinimumSize(new Dimension(100, 25));
+        exit.setMaximumSize(new Dimension(100, 25));
+        exit.setBackground(Color.WHITE);
+        exit.setBorderPainted(false);
+        exit.addActionListener(this);
+        inputPlace.add(exit);
+
         inputPlace.setBackground(Color.ORANGE);
         elements.add(inputPlace, BorderLayout.PAGE_END);
 
@@ -382,20 +392,37 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
                     String lastLine = "";
 
                     String filePath = "res/users/" + Main.currentUser + "/" + Main.currentExercise + ".txt";
-                    BufferedReader br = new BufferedReader(new FileReader(filePath));
+                    System.out.println(filePath);
 
-                    while ((sCurrentLine = br.readLine()) != null) {
-                        System.out.println(sCurrentLine);
-                        lastLine = sCurrentLine;
+                    Scanner sc = new Scanner(new File(filePath));
+                    while(sc.hasNextLine()) {
+                        lastLine = sc.nextLine();
                     }
-
+                    System.out.println(lastLine);
+                    sc.close();
                     String[] lastLog = lastLine.split(",");
 
                     if (Main.date.equals(lastLog[0])) {
 
+                        Scanner scanner = new Scanner(new File(filePath));
+                        StringBuilder buffer = new StringBuilder();
+                        while(scanner.hasNext()) {
+                            String current = scanner.nextLine();
+                            if (current.split(",")[0].equals(Main.date))
+                                buffer.append(Main.date + "," + (Integer.parseInt(reps_string) + Integer.parseInt(current.split(",")[1])) + "," + (Integer.parseInt(weight_string) + Integer.parseInt(current.split(",")[1])) + ",");
+                            else
+                                buffer.append(current);
+                            if(scanner.hasNext())
+                                buffer.append("\n");
+                        }
+                        scanner.close();
+                        PrintWriter printer = new PrintWriter(new File(filePath));
+                        printer.print(buffer);
+                        printer.close();
+
                     } else {
 
-                        String log = Main.date + "," + reps_string + "," + weight_string + ",";
+                        String log = "\n" + Main.date + "," + reps_string + "," + weight_string + ",";
                         Files.write(Paths.get(filePath), log.getBytes(), StandardOpenOption.APPEND);
 
                     }
@@ -410,6 +437,11 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
                 JOptionPane.showMessageDialog(null, "Please input all fields!");
             }
 
+        }
+
+        if (ev.getSource() == exit) {
+            this.dispose();
+            new InfoScreen2();
         }
     }
 
