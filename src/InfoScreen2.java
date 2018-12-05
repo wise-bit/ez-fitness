@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.MouseInfo;
 import java.awt.Toolkit;
@@ -35,6 +36,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
     private JPanel panel = new JPanel();
     private JPanel panel2 = new JPanel();
+    private JPanel buttons = new JPanel();
 
     private JLabel body = new JLabel();
 
@@ -87,6 +89,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     private JList<String> allText = new JList<String>();
 
     private JButton showHistory = new JButton("Show History");
+    private JButton exit = new JButton("EXIT");
 
     public static int width = (int) dim.getWidth();
 
@@ -152,13 +155,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
 
-        panel.setBounds(0, 0, width - (width - height) + (height / 5), height);
+        panel.setBounds(0, 0, width - (width - height) + (height / 5), height - (height / 18));
         panel.setBackground(Color.WHITE);
         panel.setLayout(null);
         panel.setBorder(border);
         add(panel);
 
-        panel2.setBounds(width - (width - height) + (height / 5), 0, width - height - (height / 5), height);
+        panel2.setBounds(width - (width - height) + (height / 5), 0, width - height - (height / 5),
+                height - (height / 18));
         panel2.setBackground(Color.WHITE);
         panel2.setLayout(new BorderLayout());
         panel2.setBorder(border);
@@ -175,12 +179,12 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
         // change location to match image
 
-        arm.setBounds(height / 12, height / 6, 100, 225);
-        chest.setBounds(height / 8, height / 6, 225, 180);
-        chest2.setBounds(height - (height / 3) - 75, height / 6, 225, 80);
-        back.setBounds(height - (height / 3) - 75, height / 4, 225, 200);
-        arm2.setBounds(height / 3, height / 6, 100, 225);
-        leg.setBounds(height / 8, height / 2, 225, 300);
+        arm.setBounds(height / 12, height / 6, (height / 10), height / 5);
+        chest.setBounds((height / 12) + (height / 10), height / 6, height / 7, height / 5);
+        chest2.setBounds(height - (height / 3) - (height / 14), height / 6, height / 5, height / 10);
+        back.setBounds(height - (height / 3) - (height / 14), height / 4, height / 5, height / 5);
+        arm2.setBounds((height / 12) + (height / 10) + (height / 7), height / 6, 100, height / 5);
+        leg.setBounds(height / 7, height / 2 - (height / 12), height / 5, height / 5);
 
         // chest.setLayout(new BorderLayout());
         // JPanel chestRight = new JPanel();
@@ -210,6 +214,24 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         arm2.addMouseListener(this);
         leg.addMouseListener(this);
 
+        arm.setOpaque(false);
+        // arm.setVisible(false);
+
+        chest.setOpaque(false);
+        // chest.setVisible(false);
+
+        chest2.setOpaque(false);
+        // chest.setVisible(false);
+
+        back.setOpaque(false);
+        // back.setVisible(false);
+
+        arm2.setOpaque(false);
+        // arm2.setVisible(false);
+
+        leg.setOpaque(false);
+        // leg.setVisible(false);
+
         body.add(arm);
         body.add(chest);
         body.add(chest2);
@@ -232,10 +254,33 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         arm2Box.setBorder(border);
         legBox.setBorder(border);
 
+        buttons.setBackground(Color.WHITE);
+        buttons.setLayout(new BorderLayout());
+
+        exit.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        exit.setPreferredSize(new Dimension(220, 50));
+        exit.setMinimumSize(new Dimension(220, 50));
+        exit.setMaximumSize(new Dimension(220, 50));
+        exit.setBackground(Color.RED);
+        exit.setForeground(Color.WHITE);
+        exit.setBorderPainted(false);
+        exit.addActionListener(this);
+        buttons.add(exit, BorderLayout.NORTH);
+
+        // showHistory.setBounds((width / 10) * 1, (height / 10) * 8, width / 5, height
+        // / 11);
+
         showHistory.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
-        showHistory.setBounds((width / 10) * 1, (height / 10) * 8, width / 5, height / 11);
+        showHistory.setPreferredSize(new Dimension(220, 50));
+        showHistory.setMinimumSize(new Dimension(220, 50));
+        showHistory.setMaximumSize(new Dimension(220, 50));
+        showHistory.setBackground(Color.RED);
+        showHistory.setForeground(Color.WHITE);
+        showHistory.setBorderPainted(false);
         showHistory.addActionListener(this);
-        add(showHistory);
+        buttons.add(showHistory, BorderLayout.CENTER);
+
+        panel2.add(buttons, BorderLayout.PAGE_END);
 
         allText.addMouseListener(this);
 
@@ -260,6 +305,36 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     }
 
     public void actionPerformed(ActionEvent e) {
+
+//		if (e.getSource() == showHistory) {
+//
+//			try {
+//
+//				this.setVisible(false);
+//				new Statistics();
+//
+//			} catch (IOException e1) {
+//
+//				e1.printStackTrace();
+//
+//			}
+//
+//		}
+//
+//		if (e.getSource() == exit) {
+//
+//			try {
+//
+//				this.setVisible(false);
+//				new Login();
+//
+//			} catch (IOException e1) {
+//
+//				e1.printStackTrace();
+//
+//			}
+//
+//		}
 
     }
 
@@ -400,11 +475,13 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             // new Activity(allText.getSelectedValue().toString());
             // Main.currentExercise = allText.getSelectedValue().toString();
-            //this.dispose();
+            // this.dispose();
 
             System.out.println("open > " + allText.getSelectedValue().toString());
 
         }
+
+        panel2.add(buttons, BorderLayout.PAGE_END);
 
     }
 
