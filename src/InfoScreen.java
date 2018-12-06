@@ -93,7 +93,7 @@ public class InfoScreen extends JFrame implements ActionListener, MouseListener 
     public InfoScreen() {
 
         try {
-            Scanner input = new Scanner(new File("res/exersises.csv"));
+            Scanner input = new Scanner(new File("res/database/exercises.csv"));
             // input.useDelimiter(",");
 
             while (input.hasNextLine()) {

@@ -125,7 +125,7 @@ public class addExercise extends JFrame implements ActionListener {
                     }catch (Exception b) {
                         System.out.print(b.getMessage());
                     }
-                    FileWriter ab = new FileWriter("res/exersises.csv", true);
+                    FileWriter ab = new FileWriter("res/database/exercises.csv", true);
                     ab.append("\n");
                     ab.append(exersises.getText());
                     ab.append(",");
