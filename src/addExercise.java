@@ -51,15 +51,21 @@ public class addExercise extends JFrame implements ActionListener {
     TextField set3 = new TextField();
     JButton add1 = new JButton("Add");
     JLabel[] word = new JLabel[5];
+    JLabel tittle= new JLabel("Add your own exercise!!!");
     JButton inport=new JButton("Import GIFs");
     File sourcefile=null;
+    Font font= new Font("abc", Font.BOLD, 18);
+    File a=null;
 
     public addExercise() throws IOException {
-        setSize(500, 500);
+        setSize(400, 400);
         setTitle("Addexersises");
         setResizable(false);
         setLayout(null);
         setVisible(true);
+        tittle.setFont(font);
+        tittle.setBounds(80, 10, 300, 50);
+        add(tittle);
 
         exersises.setBounds(150, 75, 100, 20);
         exersises.setVisible(true);
@@ -94,11 +100,11 @@ public class addExercise extends JFrame implements ActionListener {
         }
         word[0].setText("Exersisce name:");
         word[1].setText("Bodypart:");
-        word[2].setText("set1");
-        word[3].setText("set2");
-        word[4].setText("set3");
+        word[2].setText("Set1:");
+        word[3].setText("Set2:");
+        word[4].setText("Set3:");
 
-        inport.setBounds(150, 250, 100, 20);
+        inport.setBounds(150, 230, 120, 20);
         inport.setVisible(true);
         inport.addActionListener(this);
         add(inport);
@@ -113,7 +119,7 @@ public class addExercise extends JFrame implements ActionListener {
         if (e.getSource() == add1) {
             if (exersises.getText().length() != 0 && bodypart.getText().length() != 0 && set1.getText().length() != 0 && set2.getText().length() != 0 && set3.getText().length() != 0) {
                 try {
-                    File a=new File("res/GIFs/"+sourcefile.getName());
+                    a=new File("res/GIFs/"+sourcefile.getName());
                     try {
                         copyFile(sourcefile, a);
                     }catch (Exception b) {
@@ -132,6 +138,7 @@ public class addExercise extends JFrame implements ActionListener {
                     ab.append(set3.getText());
                     ab.flush();
                     ab.close();
+                    a=new File("res/GIFs/"+sourcefile.getName());
                     try {
                         copyFile(sourcefile, a);
                     }catch (Exception b) {
@@ -140,8 +147,9 @@ public class addExercise extends JFrame implements ActionListener {
                 } catch (Exception b) {
                     System.out.print(b.getMessage());
                 }
-
             }
+
+
         }
         if(e.getSource()== inport){
             FileNameExtensionFilter filter= new FileNameExtensionFilter("gif","gif");

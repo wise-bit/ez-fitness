@@ -101,8 +101,8 @@ public class NewUser extends JFrame implements ActionListener {
             level[i].setBackground(Color.WHITE);
         }
         level[0].setText("Beginner");
-        level[1].setText("Medium");
-        level[2].setText("Experiesed");
+        level[1].setText("Intermediate");
+        level[2].setText("Experienced");
 
         level[0].setFont(level[0].getFont().deriveFont(9f));
         level[1].setFont(level[1].getFont().deriveFont(9f));
@@ -140,7 +140,7 @@ public class NewUser extends JFrame implements ActionListener {
             level[0].setForeground(Color.BLACK);
             level[2].setBackground(Color.WHITE);
             level[2].setForeground(Color.BLACK);
-            intensity = 50;
+            intensity = 2;
             levelpass = true;
         }
         if (arg0.getSource() == level[2]) {
@@ -150,7 +150,7 @@ public class NewUser extends JFrame implements ActionListener {
             level[1].setForeground(Color.BLACK);
             level[0].setBackground(Color.WHITE);
             level[0].setForeground(Color.BLACK);
-            intensity = 100;
+            intensity = 3;
             levelpass = true;
         }
 

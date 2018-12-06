@@ -106,40 +106,45 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     boolean inside = false;
 
     Border border = BorderFactory.createLineBorder(Color.BLACK, 5);
+    Border borderchoose= BorderFactory.createLineBorder(Color.RED, 5);
 
     public InfoScreen2() {
 
         try {
+
             Scanner input = new Scanner(new File("res/database/exercises.csv"));
-            // input.useDelimiter(",");
 
             while (input.hasNextLine()) {
 
                 String[] temp = input.nextLine().split(",");
 
-                if (temp[1].equals("legs")) {
-                    legsList.add(temp[0]);
-                    System.out.println("legs added " + temp[0]);
-                }
-                if (temp[1].equals("back")) {
-                    backList.add(temp[0]);
-                    System.out.println("back added " + temp[0]);
-                }
-                if (temp[1].equals("shoulders")) {
-                    shouldersList.add(temp[0]);
-                    System.out.println("shoulders added " + temp[0]);
-                }
-                if (temp[1].equals("chest")) {
-                    chestList.add(temp[0]);
-                    System.out.println("chest added " + temp[0]);
-                }
-                if (temp[1].equals("biceps")) {
-                    bicepsList.add(temp[0]);
-                    System.out.println("bisceps added " + temp[0]);
-                }
-                if (temp[1].equals("triceps")) {
-                    tricepsList.add(temp[0]);
-                    System.out.println("triceps added " + temp[0]);
+                if (Integer.parseInt(temp[5]) <= Integer.parseInt(Main.currentInformation[5])) {
+
+                    if (temp[1].equals("legs")) {
+                        legsList.add(temp[0]);
+                        System.out.println("legs added " + temp[0]);
+                    }
+                    if (temp[1].equals("back")) {
+                        backList.add(temp[0]);
+                        System.out.println("back added " + temp[0]);
+                    }
+                    if (temp[1].equals("shoulders")) {
+                        shouldersList.add(temp[0]);
+                        System.out.println("shoulders added " + temp[0]);
+                    }
+                    if (temp[1].equals("chest")) {
+                        chestList.add(temp[0]);
+                        System.out.println("chest added " + temp[0]);
+                    }
+                    if (temp[1].equals("biceps")) {
+                        bicepsList.add(temp[0]);
+                        System.out.println("bisceps added " + temp[0]);
+                    }
+                    if (temp[1].equals("triceps")) {
+                        tricepsList.add(temp[0]);
+                        System.out.println("triceps added " + temp[0]);
+                    }
+
                 }
 
             }
@@ -374,6 +379,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             System.out.println("in arm");
 
+            arm.setBorder(borderchoose);
+            chest.setBorder(border);
+            chest2.setBorder(border);
+            back.setBorder(border);
+            arm2.setBorder(border);
+            leg.setBorder(border);
+
+
         }
         if (e.getSource() == chest) {
 
@@ -395,6 +408,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             panel2.repaint();
 
             System.out.println("in chest");
+
+            arm.setBorder(border);
+            chest.setBorder(borderchoose);
+            chest2.setBorder(border);
+            back.setBorder(border);
+            arm2.setBorder(border);
+            leg.setBorder(border);
+
 
         }
         if (e.getSource() == chest2) {
@@ -418,6 +439,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             System.out.println("in chest2");
 
+            arm.setBorder(border);
+            chest.setBorder(border);
+            chest2.setBorder(borderchoose);
+            back.setBorder(border);
+            arm2.setBorder(border);
+            leg.setBorder(border);
+
+
         }
         if (e.getSource() == back) {
 
@@ -439,6 +468,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             panel2.repaint();
 
             System.out.println("in back");
+
+            arm.setBorder(border);
+            chest.setBorder(border);
+            chest2.setBorder(border);
+            back.setBorder(borderchoose);
+            arm2.setBorder(border);
+            leg.setBorder(border);
+
         }
         if (e.getSource() == arm2) {
 
@@ -461,6 +498,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             System.out.println("in arm2");
 
+            arm.setBorder(border);
+            chest.setBorder(border);
+            chest2.setBorder(border);
+            back.setBorder(border);
+            arm2.setBorder(borderchoose);
+            leg.setBorder(border);
+
+
         }
         if (e.getSource() == leg) {
 
@@ -482,6 +527,13 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             panel2.repaint();
 
             System.out.println("in leg");
+
+            arm.setBorder(border);
+            chest.setBorder(border);
+            chest2.setBorder(border);
+            back.setBorder(border);
+            arm2.setBorder(border);
+            leg.setBorder(borderchoose);
 
         }
         if (e.getSource() == allText) {
