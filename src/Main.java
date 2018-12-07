@@ -22,8 +22,9 @@ public class Main{
 
         init();
 
-        x = new Login();
-        // new Activity(currentExercise);
+        // x = new Login();
+        // new addMissedDate();
+        new Activity(currentExercise);
 
         // new Statistics();
         // new NewUser(nameList).setVisible(true);

@@ -31,7 +31,7 @@ import static java.lang.Character.isLetter;
 
 public class NewUser extends JFrame implements ActionListener {
     JLabel Question[] = new JLabel[6];
-    JLabel error = new JLabel("already have a same name");
+    JLabel error = new JLabel("Username already exists!");
     TextField name = new TextField();
     TextField age = new TextField();
     TextField height = new TextField();

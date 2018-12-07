@@ -54,8 +54,8 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
     int clock_x = 800;
     int clock_y = 900-5*900/6;
-    int clock_width = 500;
-    int clock_height = 540;
+    int clock_width = Main.dim.width/3;
+    int clock_height = Main.dim.height/2;
 
     public Activity(String exerciseName) throws IOException {
 
