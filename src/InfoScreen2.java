@@ -56,6 +56,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     private JPanel back = new JPanel();
     private JPanel arm2 = new JPanel();
     private JPanel leg = new JPanel();
+    private JPanel credits = new JPanel();
 
     // Box is unused - not used
     private JPanel armBox = new JPanel();
@@ -192,6 +193,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         back.setBounds(height - (height / 3) - (height / 14), height / 4, height / 5, height / 5);
         arm2.setBounds((height / 12) + (height / 10) + (height / 7), height / 6, 100, height / 5);
         leg.setBounds(height / 7, height / 2 - (height / 12), height / 5, height / 5);
+        credits.setBounds((height / 12) + (height / 9), height / 20, height / 10, height / 10);
 
         // chest.setLayout(new BorderLayout());
         // JPanel chestRight = new JPanel();
@@ -220,6 +222,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         back.addMouseListener(this);
         arm2.addMouseListener(this);
         leg.addMouseListener(this);
+        credits.addMouseListener(this);
 
         arm.setOpaque(false);
         // arm.setVisible(false);
@@ -239,12 +242,15 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         leg.setOpaque(false);
         // leg.setVisible(false);
 
+        credits.setOpaque(false);
+
         body.add(arm);
         body.add(chest);
         body.add(chest2);
         body.add(back);
         body.add(arm2);
         body.add(leg);
+        body.add(credits);
 
         /*
          * armBox.setBounds(((width / 2) - 270) + 60, ((height / 2) - 200) + 180, 120,
@@ -547,6 +553,17 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             this.dispose();
 
             System.out.println("open > " + allText.getSelectedValue().toString());
+
+        }
+
+        if (e.getSource() == credits) {
+
+
+            // this.setVisible(false);
+            //this.dispose();
+            new Credits();
+            System.out.println("open credits");
+
 
         }
 
