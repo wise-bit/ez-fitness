@@ -1,51 +1,18 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.Line2D;
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
-// import java.util.concurrent.Flow;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.event.ActionListener;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.*;
-import java.awt.font.*;
-import java.io.*;
-import javax.swing.*;
 import java.util.*;
-import javax.swing.*;
-import java.util.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.*;
-
-import javax.swing.*;
-
-import static java.lang.Character.isDigit;
 import static java.lang.Character.isLetter;
 
 
 public class addExercise extends JFrame implements ActionListener {
     TextField exersises = new TextField();
-    TextField bodypart = new TextField();
     TextField set1 = new TextField();
     TextField set2 = new TextField();
     TextField set3 = new TextField();
@@ -56,19 +23,45 @@ public class addExercise extends JFrame implements ActionListener {
     JLabel des= new JLabel("Describion about the exercise:");
     JLabel GIF1= new JLabel("GIF sucessfully chosen");
     JLabel GIF2= new JLabel("GIF faily chosen");
+    JLabel diff1= new JLabel("Difficulty:");
+    JLabel error= new JLabel("Excisises already excited");
     TextArea des1 = new TextArea();
     JButton inport=new JButton("Import GIFs");
     File sourcefile=null;
     Font font= new Font("abc", Font.BOLD, 18);
     File a=null;
+    boolean Gifin = false;
     boolean pass= false;
-    String[] bodypartname = { "Chest", "Back", "Shoulders", "Biceps", "Triceps","Legs" };
+    String[] bodypartname = { "chest", "back", "shoulders", "biceps", "triceps","legs" };
+    String[] diff = { "Easy", "Medium", "Hard"};
     JComboBox bodyList = new JComboBox(bodypartname);
+    JComboBox difflist = new JComboBox(diff);
+    String indes ="1";
+    ArrayList<String> same1=new ArrayList<String>();
+    ArrayList<String> same2=new ArrayList<String>();
+    ArrayList<String> same3=new ArrayList<String>();
+    ArrayList<String> same4=new ArrayList<String>();
+    ArrayList<String> same5=new ArrayList<String>();
+    ArrayList<String> same6=new ArrayList<String>();
+    String check1,check2;
 
 
-    public addExercise() throws IOException {
+    public addExercise(ArrayList legsList,
+                       ArrayList chestList,
+                       ArrayList backList,
+                       ArrayList shouldersList,
+                       ArrayList bicepsList,
+                       ArrayList tricepsList) throws IOException {
+        same1=legsList;
+        same2=chestList;
+        same3=backList;
+        same4=shouldersList;
+        same5=bicepsList;
+        same6=tricepsList;
+
+
         setSize(375, 500);
-        setTitle("Addexersises");
+        setTitle("Add Exersises");
         setResizable(false);
         setLayout(null);
         setVisible(true);
@@ -80,10 +73,22 @@ public class addExercise extends JFrame implements ActionListener {
         exersises.setVisible(true);
         add(exersises);
 
+        error.setBounds(150, 50, 100, 20);
+        error.setVisible(false);
+        add(error);
+
         bodyList.setBounds(150, 100, 100, 20);
         bodyList.setVisible(true);
         bodyList.addActionListener(this);
         add(bodyList);
+
+        diff1.setBounds(265, 150, 100, 20);
+        diff1.setVisible(true);
+        add(diff1);
+
+        difflist.setBounds(265, 170, 100, 20);
+        difflist.setVisible(true);
+        add(difflist);
 
         set1.setBounds(150, 125, 100, 20);
         set1.setVisible(true);
@@ -106,7 +111,7 @@ public class addExercise extends JFrame implements ActionListener {
 
         for(int i=0;i<5;i++){
             word[i] = new JLabel();
-            word[i].setBounds(50, 75 +25*i, 100, 20);
+            word[i].setBounds(50, 72+25*i, 110, 20);
             word[i].setVisible(true);
             add(word[i]);
         }
@@ -151,6 +156,7 @@ public class addExercise extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e)  {
         if (e.getSource() == add1) {
+            error.setVisible(false);
             pass=true;
             if (exersises.getText().length() == 0) {
                 exersises.setBackground(Color.RED);
@@ -177,17 +183,110 @@ public class addExercise extends JFrame implements ActionListener {
                 set3.setBackground(Color.RED);
                 pass = false;
             }
+            for(int i=0;i<same1.size();i++){
+                check1=exersises.getText();
+                check2=same1.get(i);
+                check1=check1.replace(" ","");
+                check2=check2.replace(" ","");
+                check1=check1.toLowerCase();
+                check2=check2.toLowerCase();
+                if (check1.equals(check2)){
+                    pass=false;
+                    error.setVisible(true);
+                    System.out.println(check1);
+                    System.out.println(check2);
+                }
+            }
+            for(int i=0;i<same2.size();i++){
+                check1=exersises.getText();
+                check2=same2.get(i);
+                check1=check1.replace(" ","");
+                check2=check2.replace(" ","");
+                check1=check1.toLowerCase();
+                check2=check2.toLowerCase();
+                if (check1.equals(check2)){
+                    pass=false;
+                    error.setVisible(true);
+                    System.out.println(check1);
+                    System.out.println(check2);
+                }
+            }
+            for(int i=0;i<same3.size();i++){
+                check1=exersises.getText();
+                check2=same3.get(i);
+                check1=check1.replace(" ","");
+                check2=check2.replace(" ","");
+                check1=check1.toLowerCase();
+                check2=check2.toLowerCase();
+                if (check1.equals(check2)){
+                    pass=false;
+                    error.setVisible(true);
+                    System.out.println(check1);
+                    System.out.println(check2);
+                }
+            }
+            for(int i=0;i<same4.size();i++){
+                check1=exersises.getText();
+                check2=same4.get(i);
+                check1=check1.replace(" ","");
+                check2=check2.replace(" ","");
+                check1=check1.toLowerCase();
+                check2=check2.toLowerCase();
+                if (check1.equals(check2)){
+                    pass=false;
+                    error.setVisible(true);
+                    System.out.println(check1);
+                    System.out.println(check2);
+                }
+            }
+            for(int i=0;i<same5.size();i++){
+                check1=exersises.getText();
+                check2=same5.get(i);
+                check1=check1.replace(" ","");
+                check2=check2.replace(" ","");
+                check1=check1.toLowerCase();
+                check2=check2.toLowerCase();
+                if (check1.equals(check2)){
+                    pass=false;
+                    error.setVisible(true);
+                    System.out.println(check1);
+                    System.out.println(check2);
+                }
+            }
+            for(int i=0;i<same6.size();i++){
+                check1=exersises.getText();
+                check2=same6.get(i);
+                check1=check1.replace(" ","");
+                check2=check2.replace(" ","");
+                check1=check1.toLowerCase();
+                check2=check2.toLowerCase();
+                if (check1.equals(check2)){
+                    pass=false;
+                    error.setVisible(true);
+                }
+            }
 
             if (pass==true) {
+                if(difflist.getSelectedItem().toString()=="Easy"){
+                    indes= "1";
+                }
+                if(difflist.getSelectedItem().toString()=="Medium"){
+                    indes= "2";
+                }
+                if(difflist.getSelectedItem().toString()=="Hard"){
+                    indes= "3";
+                }
                 try {
-//                    a=new File("res/GIFs/"+sourcefile.getName());
-//                    try {
-//                        copyFile(sourcefile, a);
-//                    }catch (Exception b) {
-//                        System.out.print(b.getMessage());
-//                    }
+                    if(Gifin == true){
+                        a=new File("res/GIFs/"+sourcefile.getName());
+                        try {
+                            copyFile(sourcefile, a);
+                        }catch (Exception b) {
+                            System.out.print(b.getMessage());
+                        }
+                    }
                     FileWriter ab = new FileWriter("res/database/exercises.csv", true);
-                    ab.append("\n");
+                    ab.append("\r");
                     ab.append(exersises.getText());
                     ab.append(",");
                     ab.append(bodyList.getSelectedItem().toString());
@@ -197,17 +296,18 @@ public class addExercise extends JFrame implements ActionListener {
                     ab.append(set2.getText());
                     ab.append(",");
                     ab.append(set3.getText());
+                    ab.append(",");
+                    ab.append(indes);
                     ab.flush();
                     ab.close();
-                    System.out.println("Information added!");
                     a=new File("res/GIFs/"+sourcefile.getName());
                     try {
                         copyFile(sourcefile, a);
                     }catch (Exception b) {
-                        System.out.println(b.getMessage());
+                        System.out.print(b.getMessage());
                     }
                 } catch (Exception b) {
-                    System.out.println(b.getMessage());
+                    System.out.print(b.getMessage());
                 }
                 //get the Selected Item
                 System.out.println(bodyList.getSelectedItem());
@@ -228,10 +328,12 @@ public class addExercise extends JFrame implements ActionListener {
             if (sourcefile!=null){
                 GIF1.setVisible(true);
                 GIF2.setVisible(false);
+                Gifin = true;
             }
             else{
                 GIF1.setVisible(false);
                 GIF2.setVisible(true);
+
             }
 
 

@@ -83,8 +83,6 @@ public class Main{
 
         currentUser = new User();
 
-        currentUser.promote();
-
     }
 
 }

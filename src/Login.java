@@ -181,7 +181,8 @@ public class Login extends JFrame implements ActionListener {
 
                         Main.currentUser.setUsername(username.getText());
                         fetchUserInformation();
-                        System.out.println();
+
+                        try { Main.currentUser.promote(); } catch (IOException e) { e.printStackTrace(); }
 
                         information.add(enter);
                         validate();

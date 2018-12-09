@@ -333,7 +333,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
 		if (e.getSource() == addExercise) {
             try {
-                new addExercise();
+                new addExercise(legsList, chestList, backList, shouldersList, bicepsList, tricepsList);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
