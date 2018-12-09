@@ -313,6 +313,13 @@ public class addExercise extends JFrame implements ActionListener {
                 System.out.println(bodyList.getSelectedItem());
                 //get text from text area
                 System.out.println(des1.getText());
+                try {
+                    Main.importExercises();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+                Main.info.dispose();
+                Main.info = new InfoScreen2();
                 this.dispose();
             }
 
