@@ -518,7 +518,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         @Override
         public void processKeyEvent(KeyEvent ev) {
 
-            if (this.getText().length() > 1 && Character.isDigit(ev.getKeyChar()))
+            if (this.getText().length() > 2 && Character.isDigit(ev.getKeyChar()))
                 ev.consume();
 
             if (Character.isDigit(ev.getKeyChar()) || ev.getKeyCode() == VK_BACK_SPACE || ev.getKeyCode() == VK_DELETE)

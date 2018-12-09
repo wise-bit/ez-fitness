@@ -267,7 +267,7 @@ public class NewUser extends JFrame implements ActionListener {
             PrintWriter writer = new PrintWriter(path + "/" + current[0] + ".txt", "UTF-8");
 
             // time, reps, weight
-            writer.println(Main.date + "," + 0 + "," + 0 + ",");
+            writer.print(Main.date + "," + 0 + "," + 0 + ",");
             writer.close();
 
         }

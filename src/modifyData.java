@@ -156,7 +156,7 @@ public class modifyData extends JFrame implements ActionListener {
                         String current = scanner.nextLine();
                         if (current.split(",")[0].equals(date.getSelectedItem().toString())) {
                             System.out.println(Main.date + "," + (Integer.parseInt(reps.getText()) + Integer.parseInt(current.split(",")[1])) + "," + (Integer.parseInt(weight.getText()) + Integer.parseInt(current.split(",")[1])) + ",");
-                            buffer.append(Main.date + "," + (Integer.parseInt(reps.getText()) + Integer.parseInt(current.split(",")[1])) + "," + (Integer.parseInt(weight.getText()) + Integer.parseInt(current.split(",")[1])) + ",");
+                            buffer.append(Main.date + "," + (Integer.parseInt(reps.getText())) + "," + (Integer.parseInt(weight.getText())) + ",");
                         }
                         else
                             buffer.append(current);
@@ -190,7 +190,7 @@ public class modifyData extends JFrame implements ActionListener {
         @Override
         public void processKeyEvent(KeyEvent ev) {
 
-            if (this.getText().length() > 1 && Character.isDigit(ev.getKeyChar()))
+            if (this.getText().length() > 2 && Character.isDigit(ev.getKeyChar()))
                 ev.consume();
 
             if (Character.isDigit(ev.getKeyChar()) || ev.getKeyCode() == VK_BACK_SPACE || ev.getKeyCode() == VK_DELETE)
