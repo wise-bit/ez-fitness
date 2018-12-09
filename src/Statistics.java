@@ -193,7 +193,7 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
     //// Helper classes
 
     public String[] generateChoices() throws IOException {
-        String[] list = new String[countLines("res/database/exercises.csv")];
+        String[] list = new String[Main.allExercises.size()];
         File exerciseList = new File("res/database/exercises.csv");
         Scanner reader = new Scanner(exerciseList);
         int pos = 0;

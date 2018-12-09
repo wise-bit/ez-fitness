@@ -3,9 +3,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.*;
 import static java.lang.Character.isLetter;
@@ -300,12 +298,34 @@ public class addExercise extends JFrame implements ActionListener {
                     ab.append(indes);
                     ab.flush();
                     ab.close();
+
+                    File file = new File("res/users/");
+                    String[] directories = file.list(new FilenameFilter() {
+                        @Override
+                        public boolean accept(File current, String name) {
+                            return new File(current, name).isDirectory();
+                        }
+                    });
+
+                    for (String d : directories) {
+                        PrintWriter writer = new PrintWriter("res/users/" + d + "/" + exersises.getText() + ".txt", "UTF-8");
+
+                        // time, reps, weight
+                        writer.print(Main.date + "," + 0 + "," + 0 + ",");
+                        writer.close();
+                    }
+
+                    Main.importExercises();
+
                     a=new File("res/GIFs/"+sourcefile.getName());
                     try {
                         copyFile(sourcefile, a);
                     }catch (Exception b) {
                         System.out.print(b.getMessage());
                     }
+
+
+
                 } catch (Exception b) {
                     System.out.print(b.getMessage());
                 }
@@ -313,11 +333,6 @@ public class addExercise extends JFrame implements ActionListener {
                 System.out.println(bodyList.getSelectedItem());
                 //get text from text area
                 System.out.println(des1.getText());
-                try {
-                    Main.importExercises();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
                 Main.info.dispose();
                 Main.info = new InfoScreen2();
                 this.dispose();
