@@ -1,10 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.MouseInfo;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,18 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JList;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.border.Border;
 
 public class InfoScreen2 extends JFrame implements ActionListener, MouseListener {
@@ -56,6 +40,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     private JPanel back = new JPanel();
     private JPanel arm2 = new JPanel();
     private JPanel leg = new JPanel();
+    private JPanel credits = new JPanel();
 
     // Box is unused - not used
     private JPanel armBox = new JPanel();
@@ -91,6 +76,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
     private JButton showHistory = new JButton("Show History");
     private JButton exit = new JButton("EXIT");
+    private JButton modify = new JButton("Modify Entry");
     private JButton addExercise = new JButton("Add exericse");
 
     public static int width = (int) dim.getWidth();
@@ -110,52 +96,38 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
     public InfoScreen2() {
 
-        try {
+        for (Exercise e : Main.allExercises) {
 
-            Scanner input = new Scanner(new File("res/database/exercises.csv"));
+            if (Integer.parseInt(e.getIntensity()) <= Integer.parseInt(Main.currentUser.getLevel())) {
 
-            while (input.hasNextLine()) {
-
-                String[] temp = input.nextLine().split(",");
-
-                if (Integer.parseInt(temp[5]) <= Integer.parseInt(Main.currentInformation[5])) {
-
-                    if (temp[1].equals("legs")) {
-                        legsList.add(temp[0]);
-                        System.out.println("legs added " + temp[0]);
-                    }
-                    if (temp[1].equals("back")) {
-                        backList.add(temp[0]);
-                        System.out.println("back added " + temp[0]);
-                    }
-                    if (temp[1].equals("shoulders")) {
-                        shouldersList.add(temp[0]);
-                        System.out.println("shoulders added " + temp[0]);
-                    }
-                    if (temp[1].equals("chest")) {
-                        chestList.add(temp[0]);
-                        System.out.println("chest added " + temp[0]);
-                    }
-                    if (temp[1].equals("biceps")) {
-                        bicepsList.add(temp[0]);
-                        System.out.println("bisceps added " + temp[0]);
-                    }
-                    if (temp[1].equals("triceps")) {
-                        tricepsList.add(temp[0]);
-                        System.out.println("triceps added " + temp[0]);
-                    }
-
+                if (e.getBodyPart().equals("legs")) {
+                    legsList.add(e.getName());
+                    System.out.println("legs added " + e.getName());
+                }
+                if (e.getBodyPart().equals("back")) {
+                    backList.add(e.getName());
+                    System.out.println("back added " + e.getName());
+                }
+                if (e.getBodyPart().equals("shoulders")) {
+                    shouldersList.add(e.getName());
+                    System.out.println("shoulders added " + e.getName());
+                }
+                if (e.getBodyPart().equals("chest")) {
+                    chestList.add(e.getName());
+                    System.out.println("chest added " + e.getName());
+                }
+                if (e.getBodyPart().equals("biceps")) {
+                    bicepsList.add(e.getName());
+                    System.out.println("bisceps added " + e.getName());
+                }
+                if (e.getBodyPart().equals("triceps")) {
+                    tricepsList.add(e.getName());
+                    System.out.println("triceps added " + e.getName());
                 }
 
             }
-            input.close();
 
-        } catch (FileNotFoundException e) {
-
-            System.out.println("File not found.");
         }
-
-        // timer.start();
 
         setBackground(new Color(57, 173, 189));
         setSize(width1, height);
@@ -192,6 +164,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         back.setBounds(height - (height / 3) - (height / 14), height / 4, height / 5, height / 5);
         arm2.setBounds((height / 12) + (height / 10) + (height / 7), height / 6, 100, height / 5);
         leg.setBounds(height / 7, height / 2 - (height / 12), height / 5, height / 5);
+        credits.setBounds((height / 12) + (height / 9), height / 20, height / 10, height / 10);
 
         // chest.setLayout(new BorderLayout());
         // JPanel chestRight = new JPanel();
@@ -213,6 +186,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         back.setBorder(border);
         arm2.setBorder(border);
         leg.setBorder(border);
+        credits.setBorder(border);
 
         arm.addMouseListener(this);
         chest.addMouseListener(this);
@@ -220,6 +194,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         back.addMouseListener(this);
         arm2.addMouseListener(this);
         leg.addMouseListener(this);
+        credits.addMouseListener(this);
 
         arm.setOpaque(false);
         // arm.setVisible(false);
@@ -239,12 +214,15 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         leg.setOpaque(false);
         // leg.setVisible(false);
 
+        credits.setOpaque(false);
+
         body.add(arm);
         body.add(chest);
         body.add(chest2);
         body.add(back);
         body.add(arm2);
         body.add(leg);
+        body.add(credits);
 
         /*
          * armBox.setBounds(((width / 2) - 270) + 60, ((height / 2) - 200) + 180, 120,
@@ -262,30 +240,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         legBox.setBorder(border);
 
         buttons.setBackground(Color.WHITE);
-        buttons.setLayout(new BorderLayout());
-
-        exit.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
-        exit.setPreferredSize(new Dimension(220, 50));
-        exit.setMinimumSize(new Dimension(220, 50));
-        exit.setMaximumSize(new Dimension(220, 50));
-        exit.setBackground(Color.RED);
-        exit.setForeground(Color.WHITE);
-        exit.setBorderPainted(false);
-        exit.addActionListener(this);
-        buttons.add(exit, BorderLayout.NORTH);
-
-        // showHistory.setBounds((width / 10) * 1, (height / 10) * 8, width / 5, height
-        // / 11);
-
-        showHistory.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
-        showHistory.setPreferredSize(new Dimension(220, 50));
-        showHistory.setMinimumSize(new Dimension(220, 50));
-        showHistory.setMaximumSize(new Dimension(220, 50));
-        showHistory.setBackground(Color.RED);
-        showHistory.setForeground(Color.WHITE);
-        showHistory.setBorderPainted(false);
-        showHistory.addActionListener(this);
-        buttons.add(showHistory, BorderLayout.CENTER);
+        buttons.setLayout(new GridLayout(4,1));
 
         addExercise.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
         addExercise.setPreferredSize(new Dimension(220, 50));
@@ -295,7 +250,37 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         addExercise.setForeground(Color.WHITE);
         addExercise.setBorderPainted(false);
         addExercise.addActionListener(this);
-        buttons.add(addExercise, BorderLayout.SOUTH);
+        buttons.add(addExercise);
+
+        modify.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        modify.setPreferredSize(new Dimension(220, 50));
+        modify.setMinimumSize(new Dimension(220, 50));
+        modify.setMaximumSize(new Dimension(220, 50));
+        modify.setBackground(Color.RED);
+        modify.setForeground(Color.WHITE);
+        modify.setBorderPainted(false);
+        modify.addActionListener(this);
+        buttons.add(modify);
+
+        showHistory.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        showHistory.setPreferredSize(new Dimension(220, 50));
+        showHistory.setMinimumSize(new Dimension(220, 50));
+        showHistory.setMaximumSize(new Dimension(220, 50));
+        showHistory.setBackground(Color.RED);
+        showHistory.setForeground(Color.WHITE);
+        showHistory.setBorderPainted(false);
+        showHistory.addActionListener(this);
+        buttons.add(showHistory);
+
+        exit.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        exit.setPreferredSize(new Dimension(220, 50));
+        exit.setMinimumSize(new Dimension(220, 50));
+        exit.setMaximumSize(new Dimension(220, 50));
+        exit.setBackground(Color.RED);
+        exit.setForeground(Color.WHITE);
+        exit.setBorderPainted(false);
+        exit.addActionListener(this);
+        buttons.add(exit);
 
         panel2.add(buttons, BorderLayout.PAGE_END);
 
@@ -354,6 +339,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             }
         }
 
+        if (e.getSource() == modify) {
+            try {
+                new modifyData();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+
     }
 
     @Override
@@ -364,7 +357,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             panel2.removeAll();
 
-            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.setFont(new Font("Arial", Font.PLAIN, 20));
             allText.addMouseListener(this);
             allText.setVisible(true);
 
@@ -394,7 +387,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             panel2.removeAll();
 
-            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.setFont(new Font("Arial", Font.PLAIN, 20));
             allText.addMouseListener(this);
             allText.setVisible(true);
 
@@ -424,7 +417,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             panel2.removeAll();
 
-            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.setFont(new Font("Arial", Font.PLAIN, 20));
             allText.addMouseListener(this);
             allText.setVisible(true);
 
@@ -454,7 +447,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             panel2.removeAll();
 
-            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.setFont(new Font("Arial", Font.PLAIN, 20));
             allText.addMouseListener(this);
             allText.setVisible(true);
 
@@ -483,7 +476,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             panel2.removeAll();
 
-            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.setFont(new Font("Arial", Font.PLAIN, 20));
             allText.addMouseListener(this);
             allText.setVisible(true);
 
@@ -513,7 +506,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
             panel2.removeAll();
 
-            allText.setFont(new Font("Arial", Font.BOLD, 20));
+            allText.setFont(new Font("Arial", Font.PLAIN, 20));
             allText.addMouseListener(this);
             allText.setVisible(true);
 
@@ -547,6 +540,17 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             this.dispose();
 
             System.out.println("open > " + allText.getSelectedValue().toString());
+
+        }
+
+        if (e.getSource() == credits) {
+
+
+            // this.setVisible(false);
+            //this.dispose();
+            new Credits();
+            System.out.println("open credits");
+
 
         }
 

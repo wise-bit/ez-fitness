@@ -1,25 +1,16 @@
-import javax.imageio.ImageIO;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.*;
-import java.awt.font.*;
 import java.io.*;
-import javax.swing.*;
 import java.util.*;
-import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
-import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-
 
 public class Login extends JFrame implements ActionListener {
 
@@ -188,9 +179,9 @@ public class Login extends JFrame implements ActionListener {
                         username.setBackground(Color.GREEN);
                         playerno=i;
 
-                        Main.currentUser = username.getText();
-                        Main.currentInformation = fetchUserInformation();
-                        System.out.println(Arrays.toString(Main.currentInformation));
+                        Main.currentUser.setUsername(username.getText());
+                        fetchUserInformation();
+                        System.out.println();
 
                         information.add(enter);
                         validate();
@@ -208,8 +199,9 @@ public class Login extends JFrame implements ActionListener {
             }
         }
         if (arg0.getSource() == enter) {
-            this.setVisible(false);
-            new InfoScreen2().setVisible(true);
+            Main.info = new InfoScreen2();
+            Main.info.setVisible(true);
+            this.dispose();
             // dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         }
         if (arg0.getSource() == newusers){
@@ -220,21 +212,24 @@ public class Login extends JFrame implements ActionListener {
 
     }
 
-    public static String[] fetchUserInformation() {
+    public static void fetchUserInformation() {
         File file = new File("res/database/userInfo.csv");
         try {
             Scanner reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 String[] line = reader.nextLine().split(",");
-                if (line[0].equals(Main.currentUser)) {
-                    return line;
+                if (line[0].equals(Main.currentUser.getUsername())) {
+                    Main.currentUser.setPassword(line[1]);
+                    Main.currentUser.setHeight(line[2]);
+                    Main.currentUser.setWeight(line[3]);
+                    Main.currentUser.setAge(line[4]);
+                    Main.currentUser.setLevel(line[5]);
                 }
             }
         } catch (FileNotFoundException e) {
             // e.printStackTrace();
             System.out.println("Userinfo file not found!");
         }
-        return null;
     }
 
 }

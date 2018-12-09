@@ -9,22 +9,25 @@ import java.util.Scanner;
 
 public class Main{
 
+    public static ArrayList<Exercise> allExercises;
+
     public static Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-    public static String currentUser = "";
-    public static String[] currentInformation;
+    public static User currentUser;
     public static String date;
     public static ArrayList<String> nameList = new ArrayList<String>();
     public static String currentExercise = "Incline Dumbbell Skullcrushers";
 
     public static Login x;
+    public static InfoScreen2 info;
 
     public static void main(String[] args) throws IOException {
 
         init();
 
-        // x = new Login();
+        x = new Login();
         // new addMissedDate();
-        new Activity(currentExercise);
+        // new Activity(currentExercise);
+        // new InfoScreen2();
 
         // new Statistics();
         // new NewUser(nameList).setVisible(true);
@@ -43,6 +46,8 @@ public class Main{
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         date = simpleDateFormat.format(new Date());
         updateNameList();
+        importExercises();
+        importPlayer();
     }
 
     public static void updateNameList() throws IOException {
@@ -52,6 +57,34 @@ public class Main{
             String[] current = data.nextLine().split(",");
             nameList.add(current[0]);
         }
+    }
+
+    public static void importExercises() throws IOException {
+        allExercises = new ArrayList<Exercise>();
+
+        try {
+
+            Scanner input = new Scanner(new File("res/database/exercises.csv"));
+
+            while (input.hasNextLine()) {
+                String[] temp = input.nextLine().split(",");
+                if (!temp[0].equals("Overall"))
+                    allExercises.add(new Exercise(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]));
+            }
+            input.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public static void importPlayer() throws IOException {
+
+        currentUser = new User();
+
+        currentUser.promote();
+
     }
 
 }

@@ -391,7 +391,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
                     String sCurrentLine;
                     String lastLine = "";
 
-                    String filePath = "res/users/" + Main.currentUser + "/" + Main.currentExercise + ".txt";
+                    String filePath = "res/users/" + Main.currentUser.getUsername() + "/" + Main.currentExercise + ".txt";
                     System.out.println(filePath);
 
                     Scanner sc = new Scanner(new File(filePath));

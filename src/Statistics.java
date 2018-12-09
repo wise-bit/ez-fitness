@@ -21,6 +21,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Statistics extends JFrame implements MouseListener, ActionListener {
@@ -67,7 +68,7 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         lineChartMaker();
 
         add(chartArea, BorderLayout.EAST);
-        validate(); // TODO: UPDATE
+        validate();
 
         JPanel leftPanel = new JPanel(new BorderLayout());
         JLabel question = new JLabel("Please select an optiton to show its graph:", SwingConstants.CENTER);
@@ -146,7 +147,7 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
 
     public void pieChartMaker() throws IOException {
         PieDataset dataSet = createExerciseDataSet();
-        JFreeChart chart = createChart(dataSet, "Part Of Body Involved"); // TODO: UPDATE
+        JFreeChart chart = createChart(dataSet, "Part Of Body Involved");
         ChartPanel myChart = new ChartPanel(chart);
         myChart.setMouseWheelEnabled(true);
         chartArea.add(myChart, BorderLayout.NORTH);
@@ -192,17 +193,26 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
     //// Helper classes
 
     public String[] generateChoices() throws IOException {
-        String[] list = new String[countLines("res/database/exercises.csv")-1];
+        String[] list = new String[countLines("res/database/exercises.csv")];
         File exerciseList = new File("res/database/exercises.csv");
         Scanner reader = new Scanner(exerciseList);
         int pos = 0;
-        while (reader.hasNextLine()){
-            String[] current = reader.nextLine().split(",");
-            if (!current[0].equals("Overall")) {
-                list[pos] = current[0];
+
+        for (Exercise e : Main.allExercises) {
+            if (!e.getName().equals("Overall")) {
+                list[pos] = e.getName();
                 pos++;
             }
         }
+
+//        while (reader.hasNextLine()){
+//            String[] current = reader.nextLine().split(",");
+//            if (!current[0].equals("Overall")) {
+//                list[pos] = current[0];
+//                pos++;
+//            }
+//        }
+        Arrays.sort(list);
         return list;
     }
 
@@ -245,27 +255,27 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
             String[] temp = input.nextLine().split(",");
 
             if (temp[1].equals("legs")) {
-                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                String filePath = "res/users/" + Main.currentUser.getUsername() + "/" + temp[0] + ".txt";
                 legsVal += countLines(filePath);
             }
             if (temp[1].equals("back")) {
-                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                String filePath = "res/users/" + Main.currentUser.getUsername() + "/" + temp[0] + ".txt";
                 backVal += countLines(filePath);
             }
             if (temp[1].equals("shoulders")) {
-                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                String filePath = "res/users/" + Main.currentUser.getUsername() + "/" + temp[0] + ".txt";
                 shouldersVal += countLines(filePath);
             }
             if (temp[1].equals("chest")) {
-                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                String filePath = "res/users/" + Main.currentUser.getUsername() + "/" + temp[0] + ".txt";
                 chestVal += countLines(filePath);
             }
             if (temp[1].equals("biceps")) {
-                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                String filePath = "res/users/" + Main.currentUser.getUsername() + "/" + temp[0] + ".txt";
                 bicepsVal += countLines(filePath);
             }
             if (temp[1].equals("triceps")) {
-                String filePath = "res/users/" + Main.currentUser + "/" + temp[0] + ".txt";
+                String filePath = "res/users/" + Main.currentUser.getUsername() + "/" + temp[0] + ".txt";
                 tricepsVal += countLines(filePath);
             }
 
@@ -286,7 +296,7 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         XYSeries series = new XYSeries("Data");
         XYSeriesCollection dataset = new XYSeriesCollection();
 
-        String filePath = "res/users/" + Main.currentUser + "/" + this.currentExercise + ".txt";
+        String filePath = "res/users/" + Main.currentUser.getUsername()+ "/" + this.currentExercise + ".txt";
         Scanner input = new Scanner(new File(filePath));
 
         int pos = 1;
