@@ -385,7 +385,7 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
 
         if (e.getSource() == back) {
             this.dispose();
-            new InfoScreen2();
+            Main.info = new InfoScreen2();
         }
 
     }

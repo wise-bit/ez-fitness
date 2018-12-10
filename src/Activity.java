@@ -148,7 +148,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
             System.out.println("No file");
             String s = null;
             try {
-                Process p = Runtime.getRuntime().exec("lib/python/pythonw.exe src/main.py \"" + Main.currentExercise + "\"");
+                Process p = Runtime.getRuntime().exec("python main.py \"" + Main.currentExercise + "\"");
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
