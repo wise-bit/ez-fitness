@@ -334,7 +334,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 			try {
 				// this.setVisible(false);
                 this.dispose();
-				new Login();
+				Main.x = new Login();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

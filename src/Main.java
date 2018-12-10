@@ -12,35 +12,48 @@ import java.util.Scanner;
 
 public class Main{
 
+    // Creates all variables which require global access from other classes
+
+    // Creates all exercise objects
     public static ArrayList<Exercise> allExercises;
 
+    // Makes the application scalable
     public static Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+    // Creates all of the necessary global objects
     public static User currentUser;
     public static String date;
     public static ArrayList<String> nameList = new ArrayList<String>();
     public static String currentExercise = "Incline Dumbbell Skullcrushers";
 
+    // These two screens are made from Main, and can be closed by calling name.dispose();
     public static Login x;
     public static InfoScreen2 info;
 
+    // For using res as an external folder, not in use right now
     public static String pathToRes = "";
 
     public static void main(String[] args) throws IOException {
 
-//        Scanner filePathFile = new Scanner(new File("source.txt"));
-//        String path = filePathFile.nextLine();
-//        File file = new File(path);
-//        if (!file.exists() || !path.contains("res")) {
-//            new getRes();
-//        }
+        // For use with pathToRes when required
 
+        // Scanner filePathFile = new Scanner(new File("source.txt"));
+        // String path = filePathFile.nextLine();
+        // File file = new File(path);
+        // if (!file.exists() || !path.contains("res")) {
+            // new getRes();
+        // }
+
+        // Initializes all of the global variables
         init();
 
+        // Creates a disposable login screen
         x = new Login();
 
 
     }
 
+    // Initializes all of the global variables
     public static void init() throws IOException {
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -50,6 +63,7 @@ public class Main{
         importPlayer();
     }
 
+    // Refreshes the nanme list of user information for use when new users are made
     public static void updateNameList() throws IOException {
         Scanner data = null;
         data = new Scanner(new File("res/database/userInfo.csv"));
@@ -59,6 +73,7 @@ public class Main{
         }
     }
 
+    // Imports all of the exercises from the files in the form of Exercise objects
     public static void importExercises() throws IOException {
         allExercises = new ArrayList<Exercise>();
 
@@ -79,6 +94,7 @@ public class Main{
 
     }
 
+    // Creates a blank user, which can later be assigned from the Login page
     public static void importPlayer() throws IOException {
 
         currentUser = new User();

@@ -22,6 +22,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private JLabel appTitle = new JLabel("Activity Page", SwingConstants.CENTER);
     private String codedName = "";
 
+    // Sets the default font
     private Font font = new Font("Consolas", Font.BOLD, 60); // Freestyle Script, Matura MT Script Capitals, French Script MT
     private JLabel clockface;
 
@@ -33,6 +34,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private int extraTimer = 0;
     JLabel time;
 
+    // Creates the timer buttons
     private JButton sec15;
     private JButton sec30;
     private JButton sec60;
@@ -43,6 +45,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private JPanel inputPlace;
     private JNumberTextField reps = new JNumberTextField();
     private JNumberTextField weightInput = new JNumberTextField();
+
     public JLabel repsq=new JLabel("Reps:");
     public JLabel weightInputq=new JLabel("Weight:");
     public JButton enter = new JButton("Enter");
@@ -50,6 +53,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
     private boolean clockRunning = false;
 
+    //
     int clock_width = (int) (850*Main.dim.width/1000);
     int clock_height = (int) (510*Main.dim.height/1000);
 
@@ -66,6 +70,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         setLayout(new java.awt.BorderLayout());
         setBounds(0, 0, (int) Main.dim.getWidth(), (int) Main.dim.getHeight());
+        this.setResizable(false);
 
         this.getContentPane().setBackground(new Color(255, 243, 160));
 
@@ -195,6 +200,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         JPanel repsBar = new JPanel();
         repsBar.setLayout(new BoxLayout(repsBar, BoxLayout.PAGE_AXIS));
 
+        // Puts in all of the Jabels spaced correctly
         String[] info = fetchExerciseInformation();
         JLabel repsBar0 = new JLabel("Reps count information");
         JLabel extraSpace = new JLabel("----");
@@ -231,6 +237,8 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         inputPlace.add(Box.createRigidArea(new Dimension(20,10)));
 
+
+        // Sets default sizes for the enter button, which are otherwise resized to be extremely small
         enter.setPreferredSize(new Dimension(100, 25));
         enter.setMinimumSize(new Dimension(100, 25));
         enter.setMaximumSize(new Dimension(100, 25));
@@ -239,6 +247,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         enter.addActionListener(this);
         inputPlace.add(enter);
 
+        // Sets default sizes for the exit button, which are otherwise resized to be extremely small
         exit.setPreferredSize(new Dimension(100, 25));
         exit.setMinimumSize(new Dimension(100, 25));
         exit.setMaximumSize(new Dimension(100, 25));
@@ -250,12 +259,15 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         inputPlace.setBackground(Color.ORANGE);
         elements.add(inputPlace, BorderLayout.PAGE_END);
 
+        // When used on a smaller screen, when the information is not visible completely, this makes the whole panel scrollable
         JScrollPane scrollableElements = new JScrollPane(elements, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+        // Adds the scrollable pane
         add(scrollableElements, BorderLayout.CENTER);
 
 
         ///////////////////////////////////////////////////////////////////////////////////
+        // Inputs the image of the clock
         clockface = new JLabel(new ImageIcon("res/clockface.jpg"));
         // clockface.setBounds(clock_x, clock_y, clock_width, clock_height);
         clockface.addMouseListener(this);
@@ -268,7 +280,9 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
 
         ///////////////////////////////////////////////////////////////////////////////////
+        // Creates a new panel for the buttons
         JPanel buttonsPanel = new JPanel();
+        // Sets gaps around the buttons to make the layout look more usable
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
 
         sec15 = new JButton("15 seconds");

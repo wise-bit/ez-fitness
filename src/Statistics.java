@@ -48,7 +48,7 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         this.setTitle("Statistics and History");
         // setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("EZFitness/res/background.jpg")))));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // this.setResizable(false);
+        this.setResizable(false);
 
         Border titleBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
 

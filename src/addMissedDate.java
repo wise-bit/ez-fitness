@@ -94,6 +94,7 @@ public class addMissedDate extends JFrame implements ActionListener {
 
         form.add(exercise);
 
+        // A flowlayout makes the placement of objects much easier and flexible
         JPanel questions = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         questions.add(new JLabel("Reps: "));
         questions.add(reps);
@@ -130,6 +131,7 @@ public class addMissedDate extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    // Checks if a string is a proper number or not
     public Boolean checkint (String b){
         for (int i = 0; i < b.length(); i++) {
             if (isLetter(b.charAt(i)))
@@ -150,6 +152,8 @@ public class addMissedDate extends JFrame implements ActionListener {
 
         return years;
     }
+
+    // Generates the arraylist for the days JComboBox depending on the year and the month, only allowing possible dates of the calendar
 
     public String[] daysGenerator (){
 
@@ -175,6 +179,8 @@ public class addMissedDate extends JFrame implements ActionListener {
         return daysTemp;
     }
 
+    // Checks if a month has 31 days or not
+
     public boolean bigmonth(int month) {
         int[] arr = {1, 3, 5, 7, 8, 10, 12};
         for (int n : arr) {
@@ -184,6 +190,8 @@ public class addMissedDate extends JFrame implements ActionListener {
         }
         return false;
     }
+
+    // Checks if the selected year is a leap year
 
     public boolean isLeapyear() {
         if (year%4 == 0) {
@@ -196,6 +204,8 @@ public class addMissedDate extends JFrame implements ActionListener {
         }
         return false;
     }
+
+    // Resets the days JComboBox
 
     public void resetDaysBox() {
 
@@ -210,6 +220,8 @@ public class addMissedDate extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        // All three fo them makes sure that the user cannot enter an invalid date
+
         if (e.getSource() == yearBox) {
             year = Integer.parseInt(yearBox.getSelectedItem().toString());
             resetDaysBox();
@@ -221,6 +233,9 @@ public class addMissedDate extends JFrame implements ActionListener {
         if (e.getSource() == dayBox) {
             day = dayBox.getSelectedIndex() + 1;
         }
+
+
+        // The logic inside this checks if the input box is blank, and adds the new entry places appropriately in the right location
 
         if (e.getSource() == add) {
 
@@ -308,6 +323,7 @@ public class addMissedDate extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Please input all fields!");
             }
 
+            // Disposes of screens not being used, while refreshing the info screen at the same time
             Main.info.dispose();
             Main.info = new InfoScreen2();
             this.dispose();
@@ -316,6 +332,8 @@ public class addMissedDate extends JFrame implements ActionListener {
 
     }
 
+
+    // A very specifically designed JTextField which prevents the program from crashing from bad input
     public class JNumberTextField extends JFormattedTextField {
         private static final long serialVersionUID = 1L;
 
