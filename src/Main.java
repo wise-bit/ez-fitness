@@ -1,6 +1,9 @@
+/**
+ * Author: Satrajit
+ */
+
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,24 +23,21 @@ public class Main{
     public static Login x;
     public static InfoScreen2 info;
 
+    public static String pathToRes = "";
+
     public static void main(String[] args) throws IOException {
+
+//        Scanner filePathFile = new Scanner(new File("source.txt"));
+//        String path = filePathFile.nextLine();
+//        File file = new File(path);
+//        if (!file.exists() || !path.contains("res")) {
+//            new getRes();
+//        }
 
         init();
 
         x = new Login();
-        // new addMissedDate();
-        // new Activity(currentExercise);
-        // new InfoScreen2();
 
-        // new Statistics();
-        // new NewUser(nameList).setVisible(true);
-        // new InfoScreen2();
-
-//        PieChart demo = new PieChart("Comparison", "Which operating system are you using?");
-//        demo.pack();
-//        demo.setVisible(true);
-
-        // Incline Dumbbell Skullcrushers
 
     }
 

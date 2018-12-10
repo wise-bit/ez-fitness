@@ -1,100 +1,132 @@
+/**
+ * Author: Satrajit
+ */
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 
+import static java.awt.event.KeyEvent.VK_BACK_SPACE;
+import static java.awt.event.KeyEvent.VK_DELETE;
 import static java.lang.Character.isLetter;
 
 public class addMissedDate extends JFrame implements ActionListener {
-    JLabel Question[] = new JLabel[6];
     JLabel error = new JLabel("Entry already exists!");
 
     String[] monthsArray = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
-    JComboBox yearBox = new JComboBox(yearsGenerator());
-    JComboBox monthBox = new JComboBox(monthsArray);
-    JComboBox dayBox = new JComboBox(daysGenerator());
+    JComboBox exercise;
+    JComboBox yearBox;
+    JComboBox monthBox;
+    JComboBox dayBox;
 
+    boolean done = false;
 
-    TextField reps = new TextField();
-    TextField weight = new TextField();
-
-    JButton returns = new JButton("Return");
-    JButton enter = new JButton("enter");
-    boolean levelpass = false;
-    boolean pass = true;
+    JNumberTextField reps = new JNumberTextField();
+    JNumberTextField weight = new JNumberTextField();
 
     private int year = new Date().getYear() + 1900;
     private int month = new Date().getMonth();
-    private int day = new Date().getDay();
+    private int day = new Date().getDate();
+
+    JButton add = new JButton("Add!");
 
 
     public addMissedDate() {
-        setSize(650, 450);
-        setTitle("Add Missed Date");
+        String[] byDefault = {"1"};
 
         setLayout(new BorderLayout());
         getContentPane().setBackground(new Color(255, 243, 160));
-        setSize(650, 450);
-        setTitle("Modify data");
+        setSize(550, 450);
+        setTitle("Add new entry");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        yearBox.setBounds(50, 75, 100, 20);
-        yearBox.setVisible(true);
-        yearBox.addActionListener(this);
-        yearBox.setSelectedIndex(9);
-        add(yearBox);
+        String[] exercisesForCombo = new String[Main.allExercises.size()];
 
-        monthBox.setBounds(175, 75, 100, 20);
-        monthBox.setVisible(true);
-        monthBox.addActionListener(this);
-        monthBox.setSelectedIndex(new Date().getMonth());
-        add(monthBox);
-
-        dayBox.setBounds(300, 75, 100, 20);
-        dayBox.setVisible(true);
-        dayBox.setSelectedIndex(new Date().getDay()+1);
-        dayBox.addActionListener(this);
-        add(dayBox);
-
-        // Adds days to the day JComboBox
-
-        
-        reps.setBounds(50, 175, 100, 20);
-        reps.setVisible(true);
-        reps.addActionListener(this);
-        add(reps);
-
-        weight.setBounds(50, 225, 100, 20);
-        weight.setVisible(true);
-        weight.addActionListener(this);
-        add(weight);
-
-        for (int i = 0; i < 3; i++) {
-            Question[i] = new JLabel();
-            Question[i].setBounds(50, 50 + 50 * i, 100, 20);
-            add(Question[i]);
+        int index = 0;
+        for (Exercise e : Main.allExercises) {
+            exercisesForCombo[index] = e.getName();
+            index++;
         }
+        Arrays.sort(exercisesForCombo);
 
-        Question[0].setText("Date:");
-        Question[1].setText("Reps:");
-        Question[2].setText("Weight:");
+        yearBox = new JComboBox(yearsGenerator());
+        monthBox = new JComboBox(monthsArray);
+        dayBox = new JComboBox(byDefault);
+        exercise = new JComboBox(exercisesForCombo);
 
-        enter.setBounds(200, 350, 80, 50);
-        enter.addActionListener(this);
-        enter.setBackground(Color.RED);
-        enter.setForeground(Color.WHITE);
-        add(enter);
+        yearBox.addActionListener(this);
+        monthBox.addActionListener(this);
+        dayBox.addActionListener(this);
+        exercise.addActionListener(this);
 
-        returns.setBounds(50, 350, 80, 50);
-        returns.addActionListener(this);
-        returns.setBackground(Color.WHITE);
-        returns.setForeground(Color.BLACK);
-        add(returns);
+        yearBox.setVisible(true);
+        monthBox.setVisible(true);
+        dayBox.setVisible(true);
+        exercise.setVisible(true);
 
+        JPanel everything = new JPanel(new GridLayout(3,1));
+        everything.setBackground(new Color(255, 243, 160));
+
+        JLabel intro = new JLabel("Enter new entry!", SwingConstants.CENTER);
+        intro.setFont(new Font(intro.getName(), Font.PLAIN, 24));
+        intro.setVisible(true);
+        everything.add(intro);
+
+        JPanel form = new JPanel();
+        form.setLayout(new BoxLayout(form, BoxLayout.PAGE_AXIS));
+
+        JPanel comboBoxes = new JPanel(new FlowLayout());
+        comboBoxes.add(yearBox);
+        comboBoxes.add(monthBox);
+        comboBoxes.add(dayBox);
+        comboBoxes.setBackground(new Color(255, 220, 76));
+
+        form.add(comboBoxes);
+
+        form.add(exercise);
+
+        JPanel questions = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        questions.add(new JLabel("Reps: "));
+        questions.add(reps);
+        reps.setColumns(7);
+        reps.setVisible(true);
+        questions.add(new JLabel("Weight (kg): "));
+        questions.add(weight);
+        weight.setColumns(7);
+        weight.setVisible(true);
+        questions.setBackground(new Color(255, 220, 76));
+
+        form.setBackground(new Color(255, 220, 76));
+        form.add(questions);
+
+        everything.add(form);
+
+        add.setBackground(Color.WHITE);
+        add.addActionListener(this);
+        everything.add(add);
+
+        add(everything);
+
+        yearBox.setSelectedIndex(9);
+        int monthIndex = 0;
+        for (int i = 0; i < 12; i++) {
+            if (monthsArray[i].equals(month));
+                monthIndex = i;
+        }
+        monthBox.setSelectedIndex(monthIndex);
+        day = new Date().getDate();
+        dayBox.setSelectedIndex(day);
+
+        setResizable(false);
         setVisible(true);
     }
 
@@ -168,11 +200,10 @@ public class addMissedDate extends JFrame implements ActionListener {
     public void resetDaysBox() {
 
         day = 1;
-        dayBox.setSelectedIndex(0);
-        // dayBox.setMo
         dayBox.addActionListener(this);
-        add(dayBox);
-        // dayBox.
+        DefaultComboBoxModel model = new DefaultComboBoxModel( daysGenerator() );
+        dayBox.setModel(model);
+        dayBox.setSelectedIndex(0);
 
     }
 
@@ -181,18 +212,134 @@ public class addMissedDate extends JFrame implements ActionListener {
 
         if (e.getSource() == yearBox) {
             year = Integer.parseInt(yearBox.getSelectedItem().toString());
-            //resetDaysBox();
+            resetDaysBox();
         }
         if (e.getSource() == monthBox) {
             month = monthBox.getSelectedIndex() + 1;
-            //resetDaysBox();
+            resetDaysBox();
         }
         if (e.getSource() == dayBox) {
-            System.out.println(Integer.parseInt(dayBox.getSelectedItem().toString()));
             day = dayBox.getSelectedIndex() + 1;
         }
 
-        System.out.printf(String.format("%d-%d-%d\n", year, month, day));
+        if (e.getSource() == add) {
+
+            if (!reps.getText().equals("") && !weight.getText().equals("")) {
+
+                System.out.printf(String.format("%d-%d-%d\n", year, month, day));
+                String date = String.format("%d-%d-%d", year, month, day);
+
+                try {
+
+                    String filePath = "res/users/" + Main.currentUser.getUsername() + "/" + exercise.getSelectedItem().toString() + ".txt";
+                    System.out.println(filePath);
+
+                    Scanner scanner = new Scanner(new File(filePath));
+                    Scanner scanner2 = new Scanner(new File(filePath));
+
+                    StringBuilder buffer = new StringBuilder();
+                    while(scanner.hasNextLine()) {
+
+                        String current = scanner.nextLine();
+
+                        if (scanner2.hasNextLine()) {
+
+                            String current2 = scanner2.nextLine();
+                            String yearFromFile = current2.split(",")[0].split("-")[0];
+                            String monthFromFile = current2.split(",")[0].split("-")[1];
+                            String dateFromFile = current2.split(",")[0].split("-")[2];
+
+                            System.out.println(Integer.parseInt(yearBox.getSelectedItem().toString()) + " : " + Integer.parseInt(yearFromFile));
+
+                            if (current.split(",")[0].equals(date) && !done) {
+
+                                JOptionPane.showMessageDialog(null, "Entry already exists! Please modify if required.");
+                                buffer.append(current);
+                                done = true;
+
+                            } else if (Integer.parseInt(yearBox.getSelectedItem().toString()) <= Integer.parseInt(yearFromFile) && !done) {
+
+                                if (Integer.parseInt(yearBox.getSelectedItem().toString()) < Integer.parseInt(yearFromFile) && !done) {
+
+                                    buffer.append(date + "," + (Integer.parseInt(reps.getText())) + "," + (Integer.parseInt(weight.getText())) + ",\n");
+                                    done = true;
+
+                                } else if (month <= Integer.parseInt(monthFromFile) && !done) {
+
+                                    if (month < Integer.parseInt(monthFromFile) && !done) {
+
+                                        buffer.append(date + "," + (Integer.parseInt(reps.getText())) + "," + (Integer.parseInt(weight.getText())) + ",\n");
+                                        done = true;
+
+                                    } else if (Integer.parseInt(dayBox.getSelectedItem().toString()) < Integer.parseInt(dateFromFile) && !done) {
+
+                                        buffer.append(date + "," + (Integer.parseInt(reps.getText())) + "," + (Integer.parseInt(weight.getText())) + ",\n");
+                                        done = true;
+
+                                    }
+
+                                }
+
+                                buffer.append(current);
+
+                            } else
+                                buffer.append(current);
+
+                        } else {
+                            buffer.append(current);
+                        }
+
+
+                        if(scanner.hasNextLine())
+                            buffer.append("\n");
+
+                    }
+                    scanner.close();
+                    scanner2.close();
+                    PrintWriter printer = new PrintWriter(new File(filePath));
+                    printer.print(buffer);
+                    printer.close();
+
+                } catch (IOException error) {
+                    error.printStackTrace();
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Please input all fields!");
+            }
+
+            Main.info.dispose();
+            Main.info = new InfoScreen2();
+            this.dispose();
+
+        }
 
     }
+
+    public class JNumberTextField extends JFormattedTextField {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void processKeyEvent(KeyEvent ev) {
+
+            if (this.getText().length() > 2 && Character.isDigit(ev.getKeyChar()))
+                ev.consume();
+
+            if (Character.isDigit(ev.getKeyChar()) || ev.getKeyCode() == VK_BACK_SPACE || ev.getKeyCode() == VK_DELETE)
+                super.processKeyEvent(ev);
+
+            ev.consume();
+            return;
+        }
+
+        public Long getNumber() {
+            Long result = null;
+            String text = getText();
+            if (text != null && !"".equals(text)) {
+                result = Long.valueOf(text);
+            }
+            return result;
+        }
+    }
+
 }

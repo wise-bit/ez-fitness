@@ -1,3 +1,8 @@
+/**
+ * Author: Daniel
+ * Sub-author: Satrajit
+ */
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -78,6 +83,8 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     private JButton exit = new JButton("EXIT");
     private JButton modify = new JButton("Modify Entry");
     private JButton addExercise = new JButton("Add exericse");
+    private JButton missedDate = new JButton("Add missed date log");
+    private JButton showInfo = new JButton("Initial Profile");
 
     public static int width = (int) dim.getWidth();
 
@@ -148,13 +155,8 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         add(panel2);
 
         body.setIcon(new ImageIcon(new ImageIcon("res/FitBody.jpg").getImage().getScaledInstance(height, height, 0)));
-        // body.setLayout(new BorderLayout());
-        // body.setVisible(true);
         body.setBounds(5 + (height / 5), 5, height, height);
         panel.add(body);
-        // panel.add(body, BorderLayout.CENTER);
-        // panel.revalidate();
-        // panel.repaint();
 
         // change location to match image
 
@@ -166,27 +168,13 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         leg.setBounds(height / 7, height / 2 - (height / 12), height / 5, height / 5);
         credits.setBounds((height / 12) + (height / 9), height / 20, height / 10, height / 10);
 
-        // chest.setLayout(new BorderLayout());
-        // JPanel chestRight = new JPanel();
-        // JPanel chestLeft = new JPanel();
-        // chestRight.setBorder(border);
-        // chestLeft.setBorder(border);
-        // chest.add(chestLeft, BorderLayout.WEST);
-        // chest.add(chestRight, BorderLayout.EAST);
-
-        // arm.setForeground(Color.RED);
-        // chest.setForeground(Color.RED);
-        // back.setForeground(Color.RED);
-        // arm2.setForeground(Color.RED);
-        // leg.setForeground(Color.RED);
-
         arm.setBorder(border);
         chest.setBorder(border);
         chest2.setBorder(border);
         back.setBorder(border);
         arm2.setBorder(border);
         leg.setBorder(border);
-        credits.setBorder(border);
+        // credits.setBorder(border);
 
         arm.addMouseListener(this);
         chest.addMouseListener(this);
@@ -240,22 +228,34 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         legBox.setBorder(border);
 
         buttons.setBackground(Color.WHITE);
-        buttons.setLayout(new GridLayout(4,1));
+        buttons.setLayout(new GridLayout(6,1));
+
+        showInfo.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        showInfo.setPreferredSize(new Dimension(220, 40));
+        showInfo.setMinimumSize(new Dimension(220, 40));
+        showInfo.setMaximumSize(new Dimension(220, 40));
+        showInfo.setBackground(Color.RED);
+        showInfo.setForeground(Color.WHITE);
+        showInfo.setBorderPainted(false);
+        showInfo.addActionListener(this);
+        buttons.add(showInfo);
 
         addExercise.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
-        addExercise.setPreferredSize(new Dimension(220, 50));
-        addExercise.setMinimumSize(new Dimension(220, 50));
-        addExercise.setMaximumSize(new Dimension(220, 50));
+        addExercise.setPreferredSize(new Dimension(220, 40));
+        addExercise.setMinimumSize(new Dimension(220, 40));
+        addExercise.setMaximumSize(new Dimension(220, 40));
         addExercise.setBackground(Color.RED);
         addExercise.setForeground(Color.WHITE);
         addExercise.setBorderPainted(false);
         addExercise.addActionListener(this);
         buttons.add(addExercise);
 
+
+
         modify.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
-        modify.setPreferredSize(new Dimension(220, 50));
-        modify.setMinimumSize(new Dimension(220, 50));
-        modify.setMaximumSize(new Dimension(220, 50));
+        modify.setPreferredSize(new Dimension(220, 40));
+        modify.setMinimumSize(new Dimension(220, 40));
+        modify.setMaximumSize(new Dimension(220, 40));
         modify.setBackground(Color.RED);
         modify.setForeground(Color.WHITE);
         modify.setBorderPainted(false);
@@ -263,26 +263,36 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         buttons.add(modify);
 
         showHistory.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
-        showHistory.setPreferredSize(new Dimension(220, 50));
-        showHistory.setMinimumSize(new Dimension(220, 50));
-        showHistory.setMaximumSize(new Dimension(220, 50));
+        showHistory.setPreferredSize(new Dimension(220, 40));
+        showHistory.setMinimumSize(new Dimension(220, 40));
+        showHistory.setMaximumSize(new Dimension(220, 40));
         showHistory.setBackground(Color.RED);
         showHistory.setForeground(Color.WHITE);
         showHistory.setBorderPainted(false);
         showHistory.addActionListener(this);
         buttons.add(showHistory);
 
+        missedDate.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        missedDate.setPreferredSize(new Dimension(220, 40));
+        missedDate.setMinimumSize(new Dimension(220, 40));
+        missedDate.setMaximumSize(new Dimension(220, 40));
+        missedDate.setBackground(Color.RED);
+        missedDate.setForeground(Color.WHITE);
+        missedDate.setBorderPainted(false);
+        missedDate.addActionListener(this);
+        buttons.add(missedDate);
+
         exit.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
-        exit.setPreferredSize(new Dimension(220, 50));
-        exit.setMinimumSize(new Dimension(220, 50));
-        exit.setMaximumSize(new Dimension(220, 50));
+        exit.setPreferredSize(new Dimension(220, 40));
+        exit.setMinimumSize(new Dimension(220, 40));
+        exit.setMaximumSize(new Dimension(220, 40));
         exit.setBackground(Color.RED);
         exit.setForeground(Color.WHITE);
         exit.setBorderPainted(false);
         exit.addActionListener(this);
         buttons.add(exit);
 
-        panel2.add(buttons, BorderLayout.PAGE_END);
+        panel2.add(buttons, BorderLayout.SOUTH);
 
         allText.addMouseListener(this);
 
@@ -345,6 +355,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+        }
+
+        if (e.getSource() == missedDate) {
+                new addMissedDate();
+        }
+
+        if (e.getSource() == showInfo) {
+            new startInfo();
         }
 
     }

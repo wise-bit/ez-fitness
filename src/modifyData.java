@@ -1,10 +1,13 @@
+/**
+ * Author: Satrajit
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -33,9 +36,8 @@ public class modifyData extends JFrame implements ActionListener {
         getContentPane().setBackground(new Color(255, 243, 160));
         setSize(550, 450);
         setTitle("Modify data");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        String[] exercisesForCombo = new String[Statistics.countLines("res/database/exercises.csv")];
+        String[] exercisesForCombo = new String[Main.allExercises.size()];
 
         int index = 0;
         for (Exercise e : Main.allExercises) {
@@ -155,8 +157,7 @@ public class modifyData extends JFrame implements ActionListener {
                     while(scanner.hasNext()) {
                         String current = scanner.nextLine();
                         if (current.split(",")[0].equals(date.getSelectedItem().toString())) {
-                            System.out.println(Main.date + "," + (Integer.parseInt(reps.getText()) + Integer.parseInt(current.split(",")[1])) + "," + (Integer.parseInt(weight.getText()) + Integer.parseInt(current.split(",")[1])) + ",");
-                            buffer.append(Main.date + "," + (Integer.parseInt(reps.getText())) + "," + (Integer.parseInt(weight.getText())) + ",");
+                            buffer.append(date.getSelectedItem().toString() + "," + (Integer.parseInt(reps.getText())) + "," + (Integer.parseInt(weight.getText())) + ",");
                         }
                         else
                             buffer.append(current);
@@ -198,7 +199,6 @@ public class modifyData extends JFrame implements ActionListener {
 
             ev.consume();
             return;
-
         }
 
         public Long getNumber() {

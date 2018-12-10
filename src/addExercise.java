@@ -1,3 +1,8 @@
+/**
+ * Author: Tom
+ * Author: Satrajit
+ */
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -317,6 +322,13 @@ public class addExercise extends JFrame implements ActionListener {
 
                     Main.importExercises();
 
+                    if (!des1.getText().equals("")) {
+                        PrintWriter writer = new PrintWriter("res/descriptions/" + exersises.getText() + ".txt", "UTF-8");
+                        writer.print(des1.getText());
+                        writer.print("\n");
+                        writer.close();
+                    }
+
                     a=new File("res/GIFs/"+sourcefile.getName());
                     try {
                         copyFile(sourcefile, a);
@@ -357,8 +369,6 @@ public class addExercise extends JFrame implements ActionListener {
                 GIF2.setVisible(true);
 
             }
-
-
 
         }
     }

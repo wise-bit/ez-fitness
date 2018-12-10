@@ -1,3 +1,7 @@
+/**
+ * Author: Satrajit
+ */
+
 public class Exercise {
 
     private String name = "";

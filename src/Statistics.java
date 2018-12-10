@@ -1,3 +1,7 @@
+/**
+ * Author: Satrajit
+ */
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -6,13 +10,11 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.AbstractRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import org.jfree.data.xy.XYZDataset;
 import org.jfree.util.Rotation;
 
 import javax.swing.*;
@@ -20,7 +22,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -47,6 +48,7 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         this.setTitle("Statistics and History");
         // setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("EZFitness/res/background.jpg")))));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // this.setResizable(false);
 
         Border titleBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
 
@@ -154,12 +156,6 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
     }
 
     public void lineChartMaker() throws IOException {
-//        try {
-//            chartArea.remove(chartPanel);
-//        } catch (Exception e) { }
-//        lineChart = ChartFactory.createLineChart("Line Graph For: " + currentExercise, "Date", currentOption , createDataset(), PlotOrientation.VERTICAL, true,true,false);
-//        chartPanel = new ChartPanel( lineChart );
-//        chartArea.add(chartPanel);
 
         final JFreeChart chart = ChartFactory.createXYLineChart(
                 "Line Graph For: " + currentExercise,
@@ -205,13 +201,6 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
             }
         }
 
-//        while (reader.hasNextLine()){
-//            String[] current = reader.nextLine().split(",");
-//            if (!current[0].equals("Overall")) {
-//                list[pos] = current[0];
-//                pos++;
-//            }
-//        }
         Arrays.sort(list);
         return list;
     }

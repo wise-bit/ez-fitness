@@ -1,3 +1,7 @@
+/**
+ * Author: Satrajit
+ */
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -5,19 +9,13 @@ import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.io.*;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Scanner;
 
 import static java.awt.event.KeyEvent.VK_BACK_SPACE;
 import static java.awt.event.KeyEvent.VK_DELETE;
-// import java.util.concurrent.Flow;
 
 public class Activity extends JFrame implements MouseListener, ActionListener {
 
@@ -52,10 +50,8 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
     private boolean clockRunning = false;
 
-    int clock_x = 800;
-    int clock_y = 900-5*900/6;
-    int clock_width = Main.dim.width/3;
-    int clock_height = Main.dim.height/2;
+    int clock_width = (int) (850*Main.dim.width/1000);
+    int clock_height = (int) (510*Main.dim.height/1000);
 
     public Activity(String exerciseName) throws IOException {
 
@@ -84,7 +80,6 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         appTitle.setForeground(Color.WHITE);
         appTitle.setBackground(Color.BLACK);
         appTitle.setFont(font);
-        // appTitle.setSize(this.getWidth()-20,(int) (900/10));
         appTitle.setBorder(titleBorder);
         appTitle.setOpaque(true);
         add(appTitle, BorderLayout.PAGE_START);
@@ -224,20 +219,14 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         inputPlace = new JPanel();
         // inputPlace.setLayout(new BoxLayout(inputPlace, BoxLayout.PAGE_AXIS));
-        inputPlace.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
+        inputPlace.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 5));
 
         inputPlace.add(repsq);
-        reps.setPreferredSize(new Dimension(220, 30));
-        reps.setMinimumSize(new Dimension(220, 30));
-        reps.setMaximumSize(new Dimension(220, 30));
-        reps.setMaximumSize( reps.getPreferredSize() );
+        reps.setColumns(5);
         inputPlace.add(reps);
 
         inputPlace.add(weightInputq);
-        weightInput.setPreferredSize(new Dimension(220, 30));
-        weightInput.setMinimumSize(new Dimension(220, 30));
-        weightInput.setMaximumSize(new Dimension(220, 30));
-        weightInput.setMaximumSize( weightInput.getPreferredSize() );
+        weightInput.setColumns(5);
         inputPlace.add(weightInput);
 
         inputPlace.add(Box.createRigidArea(new Dimension(20,10)));
@@ -261,8 +250,9 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         inputPlace.setBackground(Color.ORANGE);
         elements.add(inputPlace, BorderLayout.PAGE_END);
 
+        JScrollPane scrollableElements = new JScrollPane(elements, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        add(elements, BorderLayout.CENTER);
+        add(scrollableElements, BorderLayout.CENTER);
 
 
         ///////////////////////////////////////////////////////////////////////////////////
@@ -329,17 +319,16 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         g2.setStroke(new BasicStroke(4));
 
         g.setColor(Color.RED);
-        int secondHand_x = clockface.getX() + clock_width/2 + 10;
-        int secondHand_y = clockface.getY() + clock_height/2 + 145;
+        int secondHand_x = clock_width;
+        int secondHand_y = clock_height;
         long later_x = (long) (secondHand_x + 200 * Math.sin(((System.currentTimeMillis() - start - restingTime)*Math.PI/30000)));
         long later_y = (long) (secondHand_y - 200 * Math.cos(((System.currentTimeMillis() - start - restingTime)*Math.PI/30000)));
         Line2D lin = new Line2D.Float(secondHand_x, secondHand_y, later_x, later_y);
         g2.draw(lin);
 
         g.setColor(Color.BLUE);
-        int hourHand_x = clockface.getX() + clock_width/2 + 10;
-        System.out.println(clockface.getY());
-        int hourHand_y = clockface.getY() + clock_height/2 + 145;
+        int hourHand_x = clock_width;
+        int hourHand_y = clock_height;
         long later_x2 = (long) (secondHand_x + 150 * Math.sin(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
         long later_y2 = (long) (secondHand_y - 150 * Math.cos(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
         Line2D lin2 = new Line2D.Float(hourHand_x, hourHand_y, later_x2, later_y2);
