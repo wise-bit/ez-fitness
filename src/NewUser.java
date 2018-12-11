@@ -161,7 +161,7 @@ public class NewUser extends JFrame implements ActionListener {
 
         if (arg0.getSource() == start) {
             pass = true;
-            if (name.getText().length() == 0) {
+            if (name.getText().length() == 0 && name.getText().indexOf(",") == -1) {
                 name.setBackground(Color.RED);
                 pass = false;
             } else {

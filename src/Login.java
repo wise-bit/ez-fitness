@@ -187,7 +187,7 @@ public class Login extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent arg0) {
         if (arg0.getSource() == login) {
             for (int i=0;i<namelist.size();i++) {
-                if (username.getText().equals(namelist.get(i))) {
+                if (username.getText().equals(namelist.get(i)) && username.getText().indexOf(",") == -1) {
                     if (String.valueOf(pw.getPassword()).equals(pwlist.get(i))) {
                         pw.setBackground(Color.GREEN);
                         username.setBackground(Color.GREEN);
