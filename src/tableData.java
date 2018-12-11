@@ -14,6 +14,11 @@ public class tableData extends JFrame implements ActionListener {
     JTable dataTable;
     String[] columnNames = { "Exercise", "Reps", "Weight" };
 
+    /**
+     *
+     * @throws IOException
+     */
+
     public tableData() throws IOException {
 
         setLayout(new BorderLayout());

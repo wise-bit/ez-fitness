@@ -1,9 +1,49 @@
 /**
  *
- * The main class of the project
+ * The main class of the project, which is to be run in order to run the full program.
  * @author Satrajit
  * @version 2.0
- * 
+ *
+ *
+ * @param This program is intended to be an aid to helping people during their workout.There are several
+ *             important features in this program, some requested by the clients, while some made sense
+ *             for the program to have in order for it to be complete.
+ *
+ *             This application focuses primarily on
+ *
+ *             The main features include:
+ *
+ *             (i)  A feature for users to have separate account protected by passwords to ensure that
+ *             their data is secure from the eyes of other users. This includes sensitive information
+ *             like their weight, height, and how much they have worked out.
+ *
+ *             (ii) A feature for users to select a body part, and displaying a list of exercises of
+ *             that body part to choose one from, which leads to the Activity page with that chosen
+ *             exercise.
+ *
+ *             (iii) A feature in the form of an Activity page which shows information regarding the
+ *             chosen activity, like the description, a video showing how to do it, and the recommended number
+ *             of reps and sets for that exercise.
+ *
+ *             (iv) A feature to show which how much each user has used this, and how much they have worked
+ *             out over past, showing the data in a table and chart format, but focused mainly on the charts.
+ *
+ *             (v) A feature to modify old entries.
+ *
+ *             (vi) A feature to add entries for past dates.
+ *
+ *             (vii) A feature to add more exercises, their videos and their descriptions.
+ *
+ *             (viii) A feature to view the source of all the data for the graphs so the user can get specific information.
+ *
+ *
+ *             The way the application is designed, it can be used to keep track of anything the user desires, like:
+ *
+ *             (i) Cardio, by creating a new Exercise with an appropriate name
+ *
+ *             (ii) Other forms of workout which can be manipulated with the creation of new users and new exercises.
+ *
+ *             The app is made as visual as possible to make it approachable to even the technologically challenged.
  * 
  */
 
@@ -39,15 +79,6 @@ public class Main{
     public static String pathToRes = "";
 
     public static void main(String[] args) throws IOException {
-
-        // For use with pathToRes when required
-
-        // Scanner filePathFile = new Scanner(new File("source.txt"));
-        // String path = filePathFile.nextLine();
-        // File file = new File(path);
-        // if (!file.exists() || !path.contains("res")) {
-            // new getRes();
-        // }
 
         // Initializes all of the global variables
         init();
@@ -85,8 +116,11 @@ public class Main{
 
             Scanner input = new Scanner(new File("res/database/exercises.csv"));
 
+            // Goes through each of the lines to add the exercises as separate objects
             while (input.hasNextLine()) {
                 String[] temp = input.nextLine().split(",");
+                // Ignores if the entry states Overall, which was kept initially as an added feature
+                // to be manipulated in the future if required
                 if (!temp[0].equals("Overall"))
                     allExercises.add(new Exercise(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5]));
             }
@@ -100,9 +134,7 @@ public class Main{
 
     // Creates a blank user, which can later be assigned from the Login page
     public static void importPlayer() throws IOException {
-
         currentUser = new User();
-
     }
 
 }

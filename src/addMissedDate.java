@@ -21,15 +21,19 @@ import static java.lang.Character.isLetter;
 public class addMissedDate extends JFrame implements ActionListener {
     JLabel error = new JLabel("Entry already exists!");
 
+    // Sets up all of the names of the months
     String[] monthsArray = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
+    // Declares all of the required JComboBoxes
     JComboBox exercise;
     JComboBox yearBox;
     JComboBox monthBox;
     JComboBox dayBox;
 
+    // Checks if changes were done or not, to ensure too many changes were not made by accident
     boolean done = false;
 
+    // Sets up the JNumberTextFields, explained in the end, where the method is created
     JNumberTextField reps = new JNumberTextField();
     JNumberTextField weight = new JNumberTextField();
 
@@ -39,6 +43,9 @@ public class addMissedDate extends JFrame implements ActionListener {
 
     JButton add = new JButton("Add!");
 
+    /**
+     * Constructor method for adding any missed date
+     */
 
     public addMissedDate() {
         String[] byDefault = {"1"};

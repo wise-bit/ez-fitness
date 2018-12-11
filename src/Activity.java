@@ -49,25 +49,38 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private JButton sec60;
     private JButton reset;
 
+    // A variable which alters to check if the timer was pressed or not
+    // It is toggled
     private boolean timerPressed = false;
 
+    // used for generating a button if the video is not available, explained further later
     private JButton link;
 
+    // Initializes other variables required for the frame
     private JPanel inputPlace;
     private JNumberTextField reps = new JNumberTextField();
     private JNumberTextField weightInput = new JNumberTextField();
 
+    // The important JLabels are declared here
     public JLabel repsq=new JLabel("Reps:");
     public JLabel weightInputq=new JLabel("Weight:");
     public JButton enter = new JButton("Enter");
     public JButton exit = new JButton("Exit");
 
+    // Toggled based on whether the clock is running or not
     private boolean clockRunning = false;
 
-    //
+    // Established the placement of the hands of the trigonometric clock
     int clock_width = (int) (850*Main.dim.width/1000);
     int clock_height = (int) (510*Main.dim.height/1000);
 
+    // Constructor method
+
+    /**
+     *
+     * @param exerciseName
+     * @throws IOException
+     */
     public Activity(String exerciseName) throws IOException {
 
         codedName = String.join("-", exerciseName.toLowerCase().split(" "));
@@ -86,27 +99,25 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         this.getContentPane().setBackground(new Color(255, 243, 160));
 
         this.setTitle("EZFitness Pro");
-        // setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("EZFitness/res/background.jpg")))));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Border border = BorderFactory.createLineBorder(Color.BLACK, 5);
         Border titleBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
 
-        ///////////////////////////////////////////////////////////////////////////////////
+        // Sets up the appTitle by declaring the characteristics it must have in order to have a nice appeal
         appTitle.setForeground(Color.WHITE);
         appTitle.setBackground(Color.BLACK);
         appTitle.setFont(font);
         appTitle.setBorder(titleBorder);
         appTitle.setOpaque(true);
         add(appTitle, BorderLayout.PAGE_START);
-        // appTitle.setVisible(true);
-        ///////////////////////////////////////////////////////////////////////////////////
 
+        // Sets up a new JPanel to integrate it with the Layout being used without anything overlapping
         JPanel elements = new JPanel();
         elements.setLayout(new BorderLayout());
 
-        ///////////////////////////////////////////////////////////////////////////////////
-
+        // A JPanel for the description to limit the size of the JTextArea, which is otherwise unbound without setBounds,
+        // which is not scalable
         JPanel description_parts = new JPanel();
         description_parts.setLayout(new BoxLayout(description_parts, BoxLayout.PAGE_AXIS));
 
@@ -114,10 +125,10 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         description.setFont(new Font("Arial",Font.BOLD,18));
         description_parts.add(description);
 
+        // Creates the text area which is ironically called edit, which is not editable
         JTextArea edit = new JTextArea(10, 100);
         edit.setLineWrap(true);
         edit.setWrapStyleWord(true);
-        // edit.setSize(new Dimension(200, edit.getHeight()));
         BufferedReader in = null;
         try {
             in = new BufferedReader(new FileReader(new File("res/descriptions/" + exerciseName + ".txt")));
@@ -136,6 +147,8 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         }
         edit.setEditable(false);
         edit.setFont(edit.getFont().deriveFont(18f));
+
+        // Scroll Pane created to let the user scroll over the description when it is too long
         JScrollPane desc = new JScrollPane(edit);
         desc.setPreferredSize(new Dimension(640, 200));
         desc.setMinimumSize(new Dimension(640, 200));
