@@ -1,5 +1,5 @@
 /**
- * Author: Satrajit
+ * @author Satrajit
  */
 
 import java.awt.*;
@@ -47,7 +47,6 @@ public class addMissedDate extends JFrame implements ActionListener {
         getContentPane().setBackground(new Color(255, 243, 160));
         setSize(550, 450);
         setTitle("Add new entry");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         String[] exercisesForCombo = new String[Main.allExercises.size()];
 

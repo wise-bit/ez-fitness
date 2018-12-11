@@ -23,7 +23,7 @@ public class startInfo extends JFrame {
 
         add(new JLabel("Username: " + Main.currentUser.getUsername(), SwingConstants.CENTER)); //3
         add(new JLabel("Age: " + Main.currentUser.getAge(), SwingConstants.CENTER)); //4
-        add(new JLabel("Height: " + Main.currentUser.getHeight() + " m", SwingConstants.CENTER)); //5
+        add(new JLabel("Height: " + Main.currentUser.getHeight() + " cm", SwingConstants.CENTER)); //5
         add(new JLabel("Weight: " + Main.currentUser.getWeight() + " kg", SwingConstants.CENTER)); //6
         add(new JLabel("", SwingConstants.CENTER)); //7
         add(new JLabel("Current level: " + Main.currentUser.getLevel(), SwingConstants.CENTER)); //8

@@ -2,6 +2,10 @@
  * Author: Satrajit
  */
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -39,6 +43,8 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private JButton sec30;
     private JButton sec60;
     private JButton reset;
+
+    private boolean timerPressed = false;
 
     private JButton link;
 
@@ -154,12 +160,16 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
             String s = null;
             try {
                 Process p = Runtime.getRuntime().exec("python main.py \"" + Main.currentExercise + "\"");
+//                Process p = Runtime.getRuntime().exec("py main.py \"" + Main.currentExercise + "\"");
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
                 String x = "";
                 while ((s = stdInput.readLine()) != null) {
                     x = s;
+                }
+                if (x.equals("")){
+                    x = "Sorry, no link found!";
                 }
                 System.out.println(x);
 
@@ -356,27 +366,43 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         if (ev.getSource() == timer && clockRunning) {
             if (extraTimer > 0)
                 extraTimer--;
+            else if (timerPressed == true){
+                try {
+                    tone(1000,100);
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                }
+                timerPressed = false;
+            }
             time.setText(String.format("%02d", extraTimer/60) + ":" + String.format("%02d", extraTimer%60));
             repaint(); // this will call at every 1 second
         }
         if (ev.getSource() == sec15) {
             extraTimer += 15;
+            timerPressed = true;
         }
         if (ev.getSource() == sec30) {
             extraTimer += 30;
+            timerPressed = true;
         }
         if (ev.getSource() == sec60) {
             extraTimer += 60;
+            timerPressed = true;
         }
         if (ev.getSource() == reset) {
             extraTimer = 0;
+            timerPressed = false;
         }
 
         if (ev.getSource() == link) {
-            try {
-                Desktop.getDesktop().browse(new URI(link.getText()));
-            } catch (Exception e) {
-                e.printStackTrace();
+
+            if (!link.getText().equals("Sorry, no link found!")) {
+
+                try {
+                    Desktop.getDesktop().browse(new URI(link.getText()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -444,7 +470,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         if (ev.getSource() == exit) {
             this.dispose();
-            new InfoScreen2();
+            Main.info = new InfoScreen2();
         }
     }
 
@@ -541,5 +567,26 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
             return result;
         }
     }
+
+    public static float SAMPLE_RATE = 8000f;
+    public static void tone(int hz, int msecs) throws LineUnavailableException {
+        tone(hz, msecs, 1.0);
+    }
+    public static void tone(int hz, int msecs, double vol) throws LineUnavailableException {
+        byte[] buf = new byte[1];
+        AudioFormat af = new AudioFormat( SAMPLE_RATE, 8, 1, true,false);
+        SourceDataLine sdl = AudioSystem.getSourceDataLine(af);
+        sdl.open(af);
+        sdl.start();
+        for (int i=0; i < msecs*8; i++) {
+            double angle = i / (SAMPLE_RATE / hz) * 2.0 * Math.PI;
+            buf[0] = (byte)(Math.sin(angle) * 127.0 * vol);
+            sdl.write(buf,0,1);
+        }
+        sdl.drain();
+        sdl.stop();
+        sdl.close();
+    }
+
 
 }

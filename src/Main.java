@@ -1,5 +1,8 @@
 /**
- * Author: Satrajit
+ *
+ * The main class of the project
+ * @author Satrajit
+ * @version 2.0
  */
 
 import java.awt.*;
@@ -49,7 +52,6 @@ public class Main{
 
         // Creates a disposable login screen
         x = new Login();
-
 
     }
 

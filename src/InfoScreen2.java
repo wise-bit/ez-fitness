@@ -85,6 +85,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     private JButton addExercise = new JButton("Add exericse");
     private JButton missedDate = new JButton("Add missed date log");
     private JButton showInfo = new JButton("Initial Profile");
+    private JButton tableStuff = new JButton("See What The Numbers Say");
 
     public static int width = (int) dim.getWidth();
 
@@ -228,7 +229,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         legBox.setBorder(border);
 
         buttons.setBackground(Color.WHITE);
-        buttons.setLayout(new GridLayout(6,1));
+        buttons.setLayout(new GridLayout(7,1));
 
         showInfo.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
         showInfo.setPreferredSize(new Dimension(220, 40));
@@ -239,6 +240,16 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         showInfo.setBorderPainted(false);
         showInfo.addActionListener(this);
         buttons.add(showInfo);
+        
+        tableStuff.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
+        tableStuff.setPreferredSize(new Dimension(220, 40));
+        tableStuff.setMinimumSize(new Dimension(220, 40));
+        tableStuff.setMaximumSize(new Dimension(220, 40));
+        tableStuff.setBackground(Color.RED);
+        tableStuff.setForeground(Color.WHITE);
+        tableStuff.setBorderPainted(false);
+        tableStuff.addActionListener(this);
+        buttons.add(tableStuff);
 
         addExercise.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
         addExercise.setPreferredSize(new Dimension(220, 40));
@@ -363,6 +374,14 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
         if (e.getSource() == showInfo) {
             new startInfo();
+        }
+
+        if (e.getSource() == tableStuff) {
+            try {
+                new tableData();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
 
     }
