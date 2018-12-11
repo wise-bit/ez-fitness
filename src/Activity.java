@@ -1,6 +1,3 @@
-/**
- * Author: Satrajit
- */
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -20,6 +17,14 @@ import java.util.Scanner;
 
 import static java.awt.event.KeyEvent.VK_BACK_SPACE;
 import static java.awt.event.KeyEvent.VK_DELETE;
+
+/**
+ * 
+ * This class is the main one for showing a specific activity in the application
+ * 
+ * @author Satrajit
+ *
+ */
 
 public class Activity extends JFrame implements MouseListener, ActionListener {
 

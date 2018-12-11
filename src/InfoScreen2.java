@@ -1,6 +1,6 @@
 /**
- * Author: Daniel
- * Sub-author: Satrajit
+ * @author Daniel
+ * @author Satrajit
  */
 
 import java.awt.*;
@@ -82,8 +82,8 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     private JButton showHistory = new JButton("Show History");
     private JButton exit = new JButton("EXIT");
     private JButton modify = new JButton("Modify Entry");
-    private JButton addExercise = new JButton("Add exericse");
-    private JButton missedDate = new JButton("Add missed date log");
+    private JButton addExercise = new JButton("Add Exericse");
+    private JButton missedDate = new JButton("Add Missed Date Log");
     private JButton showInfo = new JButton("Initial Profile");
     private JButton tableStuff = new JButton("See What The Numbers Say");
 

@@ -1,5 +1,9 @@
 /**
- * Author: Satrajit
+ * 
+ * This page contains important graphs, showing the history of data in the past
+ * 
+ * @author Satrajit
+ * 
  */
 
 import org.jfree.chart.ChartFactory;
@@ -46,17 +50,15 @@ public class Statistics extends JFrame implements MouseListener, ActionListener 
         this.getContentPane().setBackground(new Color(255, 243, 160));
         setLayout(new BorderLayout());
         this.setTitle("Statistics and History");
-        // setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("EZFitness/res/background.jpg")))));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
 
         Border titleBorder = BorderFactory.createLineBorder(Color.DARK_GRAY, 2);
 
-        //////////////////////////////////////////////////////
+        // Sets the title settings of the Statistics Page
         appTitle.setForeground(Color.WHITE);
         appTitle.setBackground(Color.BLACK);
         appTitle.setFont(font);
-        // appTitle.setSize(this.getWidth()-20,(int) (900/10));
         appTitle.setBorder(titleBorder);
         appTitle.setOpaque(true);
         add(appTitle, BorderLayout.PAGE_START);

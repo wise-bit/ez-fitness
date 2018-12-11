@@ -6,8 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.awt.Color;
-import java.awt.Font;
 import java.io.*;
 import java.util.*;
 import javax.swing.border.Border;
@@ -18,8 +16,11 @@ import java.awt.event.ActionListener;
 public class Login extends JFrame implements ActionListener {
 
     private JLabel appTitle = new JLabel("EZFitness Pro", SwingConstants.CENTER);
+    private JLabel appSubTitle = new JLabel("Where you take care of your body, we take care of the numbers", SwingConstants.CENTER);
     private Font font = new Font("Sylfaen", Font.BOLD, 48); // Freestyle Script, Matura MT Script Capitals, French Script MT
 
+    // Sets up all of the global variables required for the login screen, therefore ensuring 
+    
     private JTextField username = new JTextField();
     private JPasswordField pw = new JPasswordField();
     private JButton login = new JButton("Login");
@@ -50,7 +51,17 @@ public class Login extends JFrame implements ActionListener {
         appTitle.setForeground(Color.WHITE);
         appTitle.setFont(font);
         appTitle.setPreferredSize(new Dimension((int) (Main.dim.getWidth()*1.0/4), (int) (Main.dim.getWidth()*1.0/20)));
-        add(appTitle, BorderLayout.PAGE_START);
+        
+        appSubTitle.setForeground(Color.BLACK);
+        appSubTitle.setFont(new Font("Sylfaen", Font.BOLD, 24));
+        
+        JPanel titles = new JPanel();
+        titles.setLayout(new GridLayout(2, 1));
+        titles.add(appTitle);
+        titles.add(appSubTitle);
+        add(titles, BorderLayout.PAGE_START);
+        
+        
         appTitle.setBorder( new MatteBorder(0, 0, 5, 0, Color.black));
         appTitle.setOpaque(true);
         appTitle.setBackground(new Color(225, 185, 0));

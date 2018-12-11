@@ -1,6 +1,3 @@
-/**
- * Author: Daniel
- */
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,6 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.border.Border;
+
+/**
+ * @author Daniel
+ */
 
 public class Credits extends JFrame implements ActionListener {
 
