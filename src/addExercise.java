@@ -161,7 +161,7 @@ public class addExercise extends JFrame implements ActionListener {
         if (e.getSource() == add1) {
             error.setVisible(false);
             pass=true;
-            if (exersises.getText().length() == 0) {
+            if (exersises.getText().length() == 0 || exersises.getText().contains(",")) {
                 exersises.setBackground(Color.RED);
                 pass = false;
             } else {

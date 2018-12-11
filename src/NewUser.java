@@ -161,7 +161,7 @@ public class NewUser extends JFrame implements ActionListener {
 
         if (arg0.getSource() == start) {
             pass = true;
-            if (name.getText().length() == 0 && name.getText().indexOf(",") == -1) {
+            if (name.getText().length() == 0 || name.getText().contains(",")) {
                 name.setBackground(Color.RED);
                 pass = false;
             } else {
@@ -185,7 +185,7 @@ public class NewUser extends JFrame implements ActionListener {
                 weight.setBackground(Color.RED);
                 pass = false;
             }
-            if(pw.getPassword().length == 0){
+            if(pw.getPassword().length == 0 || pw.getPassword().toString().contains(",")) {
                 pass=false;
                 pw.setBackground(Color.RED);
             }
