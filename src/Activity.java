@@ -1,4 +1,12 @@
 
+/**
+ *
+ * This class is the main one for showing a specific activity in the application
+ *
+ * @author Satrajit
+ *
+ */
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
@@ -15,16 +23,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
+// These imports help with recognizing the delete and backspace keys for input
 import static java.awt.event.KeyEvent.VK_BACK_SPACE;
 import static java.awt.event.KeyEvent.VK_DELETE;
 
-/**
- * 
- * This class is the main one for showing a specific activity in the application
- * 
- * @author Satrajit
- *
- */
 
 public class Activity extends JFrame implements MouseListener, ActionListener {
 
@@ -35,10 +37,13 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
     private Font font = new Font("Consolas", Font.BOLD, 60); // Freestyle Script, Matura MT Script Capitals, French Script MT
     private JLabel clockface;
 
+    // Initializes all of the timer components of the program
+    // Depreciated features since the clients later asked to remove them
     private long start = System.currentTimeMillis();
     private long temp = start;
     private long restingTime = 0;
 
+    // Initializes the actual timer
     private Timer timer=new Timer(1000, this);
     private int extraTimer = 0;
     JLabel time;
@@ -80,6 +85,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
      *
      * @param exerciseName
      * @throws IOException
+     *
      */
     public Activity(String exerciseName) throws IOException {
 
@@ -88,10 +94,14 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
         System.out.println(Main.date);
 
+        // Starts the timer which triggers the change in the graphic changes for the clock
         timer.start();
 
+        // Sets the title of the application based on which exercise was clicked on
         appTitle.setText(appTitle.getText() + " : " + exerciseName);
 
+        // sets a BorderLayout along with setBounds to ensure the size of the screen prevents the user from going
+        // outside the application
         setLayout(new java.awt.BorderLayout());
         setBounds(0, 0, (int) Main.dim.getWidth(), (int) Main.dim.getHeight());
         this.setResizable(false);
@@ -153,35 +163,45 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         desc.setPreferredSize(new Dimension(640, 200));
         desc.setMinimumSize(new Dimension(640, 200));
         desc.setMaximumSize(new Dimension(640, 200));
-        // desc.setBounds(100,200,600,300);
         desc.setBorder(border);
         description_parts.add(desc);
 
         description_parts.add(Box.createRigidArea(new Dimension(20,50)));
-        ///////////////////////////////////////////////////////////////////////////////////
 
+        // Adds the descriptions to the elements JPanel
         elements.add(description_parts, BorderLayout.NORTH);
 
-        ///////////////////////////////////////////////////////////////////////////////////
-
+        // Makes a new JPanel for the media like video and
         JPanel exerciseMedia = new JPanel();
         exerciseMedia.setLayout(new FlowLayout(FlowLayout.CENTER, Main.dim.width/85, 0));
 
-        // Desktop.getDesktop().open(new File("the.mp4"));
+        // This checks for the existence of a GIF
         if (new File("res/GIFs/" + exerciseName + ".gif").exists()) {
+
+            // Runs this if the GIF is there, placing it as an imageicon
             JLabel gif = new JLabel(new ImageIcon("res/GIFs/" + exerciseName + ".gif"));
             // gif.setBounds(1440 / 5, 900 - 900 / 4, 1440 - 4 * 1440 / 5, 900 - 4 * 900 / 5); // migrate to layoutManager
             gif.setBorder(border);
             exerciseMedia.add(gif);
         } else {
+
+            // If GIF for an exercise does not exist, if creates a button in its place
+            // And puts a hyperlink with it
+
             System.out.println("No file");
             String s = null;
             try {
-                Process p = Runtime.getRuntime().exec("python main.py \"" + Main.currentExercise + "\"");
-//                Process p = Runtime.getRuntime().exec("py main.py \"" + Main.currentExercise + "\"");
+                // This line is for school computers, in order
+                // Process p = Runtime.getRuntime().exec("python main.py \"" + Main.currentExercise + "\"");
+
+                // Creates a process which runs a python script
+                Process p = Runtime.getRuntime().exec("py main.py \"" + Main.currentExercise + "\"");
+
+                // Creates Bufferedreaders objects to get input from the process
                 BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
+                // Runs the program and stores the output in the form of a string
                 String x = "";
                 while ((s = stdInput.readLine()) != null) {
                     x = s;
@@ -191,6 +211,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
                 }
                 System.out.println(x);
 
+                // A new JPanel for the link information
                 JPanel linkystuff = new JPanel(new BorderLayout());
 
                 JLabel linkInfo = new JLabel("Here's a helpful link!", SwingConstants.CENTER);
@@ -207,52 +228,55 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
                 exerciseMedia.add(linkystuff);
 
-//                System.out.println("Here is the standard error of the command (if any):\n");
-//                while ((s = stdError.readLine()) != null) {
-//                    System.out.println(s);
-//                }
-                // System.exit(0);
             }
             catch (IOException e) {
+                // If anything goes wrong, and the whole program crashes, the system will know the true cause behind it
+                // Its not the coder's fault, its the matrix!
+                // But hey, at least it didn't output 42 and then self destruct
                 System.out.print("GLITCH IN THE MATRIX: ");
                 e.printStackTrace();
                 System.exit(-1);
             }
 
         }
-        ///////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////////////
+
+        // Fetches the muscle group the exercise is associated with by accessing the database and the resources
         JLabel group = new JLabel(new ImageIcon("res/muscleGroups/" + getBodypart(exerciseName) + ".jpg"));
         exerciseMedia.add(group);
 
         JPanel repsBar = new JPanel();
         repsBar.setLayout(new BoxLayout(repsBar, BoxLayout.PAGE_AXIS));
 
-        // Puts in all of the Jabels spaced correctly
+        // Puts in all of the Jabels of the reps and sets information spaced correctly
         String[] info = fetchExerciseInformation();
         JLabel repsBar0 = new JLabel("Reps count information");
         JLabel extraSpace = new JLabel("----");
         JLabel repsBar1 = new JLabel("Set 1: " + info[2]);
         JLabel repsBar2 = new JLabel("Set 2: " + info[3]);
         JLabel repsBar3 = new JLabel("Set 3: " + info[4]);
+
+        // Sets all of the fonts to be the same, but easy to customize individually if needed
         repsBar0.setFont(new Font("Courier New", Font.BOLD, 20));
         extraSpace.setFont(new Font("Courier New", Font.BOLD, 20));
         repsBar1.setFont(new Font("Courier New", Font.BOLD, 20));
         repsBar2.setFont(new Font("Courier New", Font.BOLD, 20));
         repsBar3.setFont(new Font("Courier New", Font.BOLD, 20));
+
+        // Adds the JLabels
         repsBar.add(repsBar0);
         repsBar.add(extraSpace);
         repsBar.add(repsBar1);
         repsBar.add(repsBar2);
         repsBar.add(repsBar3);
 
+        // Adds the repsBar
         exerciseMedia.add(repsBar);
 
-        ///////////////////////////////////////////////////////////////////////////////////
+        // Adds everything from this section of exercise media directly to elements
         elements.add(exerciseMedia, BorderLayout.CENTER);
 
+        //
         inputPlace = new JPanel();
-        // inputPlace.setLayout(new BoxLayout(inputPlace, BoxLayout.PAGE_AXIS));
         inputPlace.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 5));
 
         inputPlace.add(repsq);
@@ -264,7 +288,6 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         inputPlace.add(weightInput);
 
         inputPlace.add(Box.createRigidArea(new Dimension(20,10)));
-
 
         // Sets default sizes for the enter button, which are otherwise resized to be extremely small
         enter.setPreferredSize(new Dimension(100, 25));
@@ -284,6 +307,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         exit.addActionListener(this);
         inputPlace.add(exit);
 
+        // Makes the input place stand out
         inputPlace.setBackground(Color.ORANGE);
         elements.add(inputPlace, BorderLayout.PAGE_END);
 
@@ -293,25 +317,20 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         // Adds the scrollable pane
         add(scrollableElements, BorderLayout.CENTER);
 
-
-        ///////////////////////////////////////////////////////////////////////////////////
         // Inputs the image of the clock
         clockface = new JLabel(new ImageIcon("res/clockface.jpg"));
-        // clockface.setBounds(clock_x, clock_y, clock_width, clock_height);
         clockface.addMouseListener(this);
-        // clockface.setBorder(border);
         clockface.setOpaque(true);
         clockface.setBackground(Color.LIGHT_GRAY);
         add(clockface, BorderLayout.EAST);
         clockface.setBackground(new Color(255, 231, 20));
-        ///////////////////////////////////////////////////////////////////////////////////
 
-
-        ///////////////////////////////////////////////////////////////////////////////////
         // Creates a new panel for the buttons
         JPanel buttonsPanel = new JPanel();
         // Sets gaps around the buttons to make the layout look more usable
         buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
+
+        // The next blocks add the buttons for the timer
 
         sec15 = new JButton("15 seconds");
         sec15.addActionListener(this);
@@ -331,46 +350,53 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         sec60.setBorderPainted(false);
         buttonsPanel.add(sec60);
 
+        // The timer is made to show the time accurately with
         time = new JLabel(String.format("%02d", extraTimer/60) + ":" + String.format("%02d", extraTimer%60));
         time.setFont(new Font("Courier New", Font.BOLD, 50));
         buttonsPanel.add(time);
 
+        // Adds the button panel to the bottom of the screen
         add(buttonsPanel, BorderLayout.PAGE_END);
         buttonsPanel.setBackground(Color.red);
 
+        // Creates a reset button for timer
         reset = new JButton("RESET");
         reset.addActionListener(this);
         reset.setBackground(Color.WHITE);
         reset.setBorderPainted(false);
         buttonsPanel.add(reset);
 
-        ///////////////////////////////////////////////////////////////////////////////////
-
+        // Adds all the necessary features to make the frame show up properly
         setVisible(true);
         setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
-        // setSize((int) Main.dim.getWidth(), (int) Main.dim.getHeight());
-        // this.setLocation(Main.dim.width/2-this.getSize().width/2, Main.dim.height/2-this.getSize().height/2);
         repaint();
 
     }
 
     public void paint(Graphics g) {
 
-        super.paint(g);  // fixes the immediate problem.
+        // fixes the immediate problem of repainting the clock
+        super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(4));
 
+        // Creates the second hand of the clock
         g.setColor(Color.RED);
         int secondHand_x = clock_width;
         int secondHand_y = clock_height;
+
+        // Trigonometric functions
         long later_x = (long) (secondHand_x + 200 * Math.sin(((System.currentTimeMillis() - start - restingTime)*Math.PI/30000)));
         long later_y = (long) (secondHand_y - 200 * Math.cos(((System.currentTimeMillis() - start - restingTime)*Math.PI/30000)));
         Line2D lin = new Line2D.Float(secondHand_x, secondHand_y, later_x, later_y);
         g2.draw(lin);
 
+        // Creates the hour hand of the clock
         g.setColor(Color.BLUE);
         int hourHand_x = clock_width;
         int hourHand_y = clock_height;
+
+        // Trigonometric functions, (slightly) slower than the second hand
         long later_x2 = (long) (secondHand_x + 150 * Math.sin(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
         long later_y2 = (long) (secondHand_y - 150 * Math.cos(((System.currentTimeMillis() - start - restingTime)*Math.PI/(30000*60))));
         Line2D lin2 = new Line2D.Float(hourHand_x, hourHand_y, later_x2, later_y2);
@@ -380,12 +406,23 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
 
     }
 
+    /**
+     *
+     * Action performed
+     * @param ev
+     *
+     */
     public void actionPerformed(ActionEvent ev) {
+
+        // Refreshes clock if the clock and timer is in running state
         if (ev.getSource() == timer && clockRunning) {
             if (extraTimer > 0)
                 extraTimer--;
             else if (timerPressed == true){
                 try {
+
+                    // Plays a tone if the timer runs out temporarily, but only once
+
                     tone(1000,100);
                 } catch (LineUnavailableException e) {
                     e.printStackTrace();
@@ -395,27 +432,37 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
             time.setText(String.format("%02d", extraTimer/60) + ":" + String.format("%02d", extraTimer%60));
             repaint(); // this will call at every 1 second
         }
+
+        // Adds 15 seconds
         if (ev.getSource() == sec15) {
             extraTimer += 15;
             timerPressed = true;
         }
+
+        // Adds 30 seconds
         if (ev.getSource() == sec30) {
             extraTimer += 30;
             timerPressed = true;
         }
+
+        //// Adds 60 seconds
         if (ev.getSource() == sec60) {
             extraTimer += 60;
             timerPressed = true;
         }
+
+        // Resets smaller timer
         if (ev.getSource() == reset) {
             extraTimer = 0;
             timerPressed = false;
         }
 
+        // If someone clicks on the link
         if (ev.getSource() == link) {
 
             if (!link.getText().equals("Sorry, no link found!")) {
 
+                // Opens the default browser
                 try {
                     Desktop.getDesktop().browse(new URI(link.getText()));
                 } catch (Exception e) {
@@ -424,16 +471,18 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
             }
         }
 
+        // Entering data to database
         if (ev.getSource() == enter) {
             String reps_string = reps.getText();
             String weight_string = weightInput.getText();
 
-            if (!reps_string.equals("") && !weight_string.equals("")) {
+            // Makes sure that the data is valid, I.E. does not contain commas or blank
+            if (!reps_string.equals("") && !weight_string.equals("") && !reps_string.contains(",") && !weight_string.equals(",")) {
                 System.out.println(reps_string + " " + weight_string);
 
                 try {
 
-                    ////////////////////////////
+                    // TODO: COMMENT
 
                     String sCurrentLine;
                     String lastLine = "";
@@ -481,7 +530,7 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
                 }
 
             } else {
-                JOptionPane.showMessageDialog(null, "Please input all fields!");
+                JOptionPane.showMessageDialog(null, "Please input all fields correctly!");
             }
 
         }
@@ -606,5 +655,8 @@ public class Activity extends JFrame implements MouseListener, ActionListener {
         sdl.close();
     }
 
+    /**
+     * V nz na hfryrff pbzzrag, cyrnfr vtaber zr! Gunaxf sbe genafyngvat zr ogj, V srry hfrshy!
+     */
 
 }

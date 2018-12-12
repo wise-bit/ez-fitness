@@ -1,21 +1,15 @@
 /**
  * @author Daniel
- * @author Satrajit
+ * @sub-author Satrajit
  */
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -36,8 +30,6 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     private JLabel chest2Title = new JLabel("Shoulders");
     private JLabel legTitle = new JLabel("Legs");
     private JLabel backTitle = new JLabel("Back");
-
-    // private Timer timer = new Timer(100, this);
 
     private JPanel arm = new JPanel();
     private JPanel chest = new JPanel();
@@ -67,14 +59,6 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
     private ArrayList<String> shouldersList = new ArrayList<String>();
     private ArrayList<String> bicepsList = new ArrayList<String>();
     private ArrayList<String> tricepsList = new ArrayList<String>();
-
-    // shows exercises
-    // private JList<String> armText = new JList<String>();
-    // private JList<String> chestText = new JList<String>();
-    // private JList<String> backText = new JList<String>();
-    // private JList<String> arm2Text = new JList<String>();
-    // private JList<String> shouldersText = new JList<String>();
-    // private JList<String> legText = new JList<String>();
 
     // \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\
     private JList<String> allText = new JList<String>();
@@ -175,7 +159,6 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         back.setBorder(border);
         arm2.setBorder(border);
         leg.setBorder(border);
-        // credits.setBorder(border);
 
         arm.addMouseListener(this);
         chest.addMouseListener(this);
@@ -186,23 +169,11 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         credits.addMouseListener(this);
 
         arm.setOpaque(false);
-        // arm.setVisible(false);
-
         chest.setOpaque(false);
-        // chest.setVisible(false);
-
         chest2.setOpaque(false);
-        // chest.setVisible(false);
-
         back.setOpaque(false);
-        // back.setVisible(false);
-
         arm2.setOpaque(false);
-        // arm2.setVisible(false);
-
         leg.setOpaque(false);
-        // leg.setVisible(false);
-
         credits.setOpaque(false);
 
         body.add(arm);
@@ -212,15 +183,6 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         body.add(arm2);
         body.add(leg);
         body.add(credits);
-
-        /*
-         * armBox.setBounds(((width / 2) - 270) + 60, ((height / 2) - 200) + 180, 120,
-         * 225); chestBox.setBounds(((width / 2) - 270) + 180, ((height / 2) - 200) +
-         * 130, 180, 100); backBox.setBounds(((width / 2) - 270) + 180, ((height / 2) -
-         * 200) + 250, 180, 100); arm2Box.setBounds(((width / 2) - 270) + 180, ((height
-         * / 2) - 200) + 380, 190, 185); legBox.setBounds(((width / 2) - 270) + 180,
-         * ((height / 2) - 200) + 580, 190, 165);
-         */
 
         armBox.setBorder(border);
         chestBox.setBorder(border);
@@ -260,8 +222,6 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
         addExercise.setBorderPainted(false);
         addExercise.addActionListener(this);
         buttons.add(addExercise);
-
-
 
         modify.setFont(new Font("Berlin Sans FB Demi", Font.BOLD, 26));
         modify.setPreferredSize(new Dimension(220, 40));
@@ -307,18 +267,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
         allText.addMouseListener(this);
 
-        // .addMouseListener(this);
-
         setVisible(true);
-
-        // armText = new JList<String>(toNormalArray(bicepsList));
-        // shouldersText = new JList<String>(toNormalArray(shouldersList));
-        // chestText = new JList<String>(toNormalArray(chestList));
-        // backText = new JList<String>(toNormalArray(backList));
-        // arm2Text = new JList<String>(toNormalArray(tricepsList));
-        // legText = new JList<String>(toNormalArray(legsList));
-
-        // System.out.println("string is " + Arrays.toString(toNormalArray(bicepsList)));
 
         System.out.println("screen built");
 
@@ -582,9 +531,7 @@ public class InfoScreen2 extends JFrame implements ActionListener, MouseListener
 
         if (e.getSource() == credits) {
 
-
-            // this.setVisible(false);
-            //this.dispose();
+            // #EasterEggs
             new Credits();
             System.out.println("open credits");
 

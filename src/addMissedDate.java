@@ -1,5 +1,15 @@
 /**
+ *
  * @author Satrajit
+ *
+ * This feature allows for the user to add information regarding a day which they may have forgotten
+ * to use the application.
+ *
+ * The date selection is designed in such a way that it only allows actual real dates which are
+ * possible, and even accounts for leap years.
+ *
+ * The entry is placed appropriately in the database to ensure data is in order.
+ *
  */
 
 import java.awt.*;
@@ -13,11 +23,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-
+// These imports are important for the new JNumericTextField used for this module
 import static java.awt.event.KeyEvent.VK_BACK_SPACE;
 import static java.awt.event.KeyEvent.VK_DELETE;
 import static java.lang.Character.isLetter;
 
+/**
+ *
+ * Class declaration
+ *
+ * @extends JFrame
+ * @implements ActionListener
+ *
+ */
 public class addMissedDate extends JFrame implements ActionListener {
     JLabel error = new JLabel("Entry already exists!");
 
@@ -46,10 +64,10 @@ public class addMissedDate extends JFrame implements ActionListener {
     /**
      * Constructor method for adding any missed date
      */
-
     public addMissedDate() {
         String[] byDefault = {"1"};
 
+        // Sets up a borderLayout for the class
         setLayout(new BorderLayout());
         getContentPane().setBackground(new Color(255, 243, 160));
         setSize(550, 450);
@@ -62,42 +80,53 @@ public class addMissedDate extends JFrame implements ActionListener {
             exercisesForCombo[index] = e.getName();
             index++;
         }
+        // Sorts the array which is to be used for the JComboBox to make sure that the users can
+        // easily find their exercises alphabetically
         Arrays.sort(exercisesForCombo);
 
+        // Makes four combo boxes, three for the date components, and one for choosing the exericse
         yearBox = new JComboBox(yearsGenerator());
         monthBox = new JComboBox(monthsArray);
         dayBox = new JComboBox(byDefault);
         exercise = new JComboBox(exercisesForCombo);
 
+        // Adds actionlisteners to all of them, to ensure the page is updated properly
         yearBox.addActionListener(this);
         monthBox.addActionListener(this);
         dayBox.addActionListener(this);
         exercise.addActionListener(this);
 
+        // The boxes are all visible
         yearBox.setVisible(true);
         monthBox.setVisible(true);
         dayBox.setVisible(true);
         exercise.setVisible(true);
 
+        // A new JPanel for everything, which allows better customization of the layout of the components
         JPanel everything = new JPanel(new GridLayout(3,1));
         everything.setBackground(new Color(255, 243, 160));
 
+        // This puts in the intro JLabel asking for a new entry
         JLabel intro = new JLabel("Enter new entry!", SwingConstants.CENTER);
         intro.setFont(new Font(intro.getName(), Font.PLAIN, 24));
         intro.setVisible(true);
         everything.add(intro);
 
+        // Sets up a new JPanel in the form of a boxlayout form
         JPanel form = new JPanel();
         form.setLayout(new BoxLayout(form, BoxLayout.PAGE_AXIS));
 
+        // A new JPanel inside the BoxLayout with a FlowLayout to make the comboboxes organized horizontally
         JPanel comboBoxes = new JPanel(new FlowLayout());
         comboBoxes.add(yearBox);
         comboBoxes.add(monthBox);
         comboBoxes.add(dayBox);
         comboBoxes.setBackground(new Color(255, 220, 76));
 
+        // Adds the date comboboxes at once
         form.add(comboBoxes);
 
+        // Adds the exercise combobox separately to put it below the others
         form.add(exercise);
 
         // A flowlayout makes the placement of objects much easier and flexible

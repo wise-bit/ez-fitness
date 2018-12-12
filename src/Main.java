@@ -34,7 +34,8 @@
  *
  *             (vii) A feature to add more exercises, their videos and their descriptions.
  *
- *             (viii) A feature to view the source of all the data for the graphs so the user can get specific information.
+ *             (viii) A feature to view the source of all the data for the graphs so the user can get specific
+ *             information.
  *
  *
  *             The way the application is designed, it can be used to keep track of anything the user desires, like:
@@ -44,6 +45,8 @@
  *             (ii) Other forms of workout which can be manipulated with the creation of new users and new exercises.
  *
  *             The app is made as visual as possible to make it approachable to even the technologically challenged.
+ *
+ *             - wiseBit (Satrajit)
  * 
  */
 
@@ -136,5 +139,9 @@ public class Main{
     public static void importPlayer() throws IOException {
         currentUser = new User();
     }
+
+    /**
+     * VGhpcyBpcyBhbiBlYXN0ZXIgZWdnLi4uIG9yIGlzIGl0Pw==
+     */
 
 }
