@@ -15,3 +15,6 @@ An application to aid gym exercises
 * Automatic promotion to higher levels
 * Graphing functionalities to show your trends in exercising through history
 
+## Screenshots of the functional application
+
+![Screenshots of the functional application](https://raw.githubusercontent.com/wise-bit/ez-fitness/master/Screenshots.png)
